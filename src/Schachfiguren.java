@@ -6,6 +6,7 @@ public class Schachfiguren {
         private Color color;
         private int Xcord;
         private int Ycord;
+        private boolean enPassant = false;
 
         public Schachfigur(Pieces name, Color color, int x, int y) {
             this.piece = name;
@@ -62,7 +63,6 @@ public class Schachfiguren {
                             if (oldX != newX) {
                                 if (schachbrett[newY][newX] != null) {
                                     return true;
-
                                 }
                                 return false;
                             }
@@ -85,7 +85,6 @@ public class Schachfiguren {
                                 return false;
                             }
                             return true;
-
                     }
 
                 case Rook:
@@ -265,6 +264,18 @@ public class Schachfiguren {
                     default: System.out.println("Ungueltige Eingabe.");
                 }
             }
+        }
+
+        public boolean CheckEnPassant(int oldX, int oldY, int newX, int newY, Schachfigur[][] schachbrett){
+            // Überprüfen auf en passant
+            if (oldY == 1 && newY == 3 && schachbrett[3][newX] != null && schachbrett[3][newX].piece == piece.Pawn && schachbrett[3][newX].color == Color.White) {
+                enPassant = true;
+                return true;
+            } else if (oldY == 6 && newY == 4 && schachbrett[4][newX] != null && schachbrett[4][newX].piece == piece.Pawn && schachbrett[4][newX].color == Color.Black) {
+                enPassant = true;
+                return true;
+            }
+            return false;
         }
     }
 }
