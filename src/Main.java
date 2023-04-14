@@ -62,16 +62,32 @@ public class Main {
         }
     }
     public static void printSchachbrett(Schachfiguren.Schachfigur[][] schachbrett) {
+        System.out.println();
+        System.out.printf("  ");
+        System.out.printf("____________________________________________________________________________________________________________________________");
+        System.out.println();
         for (int row = 7; row >= 0; row--) {
+            System.out.printf("%-5s",String.valueOf(row) +" | ");
             for (int col = 0; col < 8; col++) {
                 if (schachbrett[row][col] != null) {
                     System.out.printf("%-15s", schachbrett[row][col].toString());
                 } else {
                     System.out.printf("%-15s", "----------");
                 }
+                if(col == 7){
+                    System.out.printf("|");
+                }
             }
             System.out.println();
         }
+        System.out.printf("  |");
+            System.out.printf("__________________________________________________________________________________________________________________________|");
+        System.out.println();
+        for(int i = 0; i <= 7; i++){
+            System.out.printf("%-15s","          " + String.valueOf(i));
+        }
+
+        System.out.println();
     }
 }
 
