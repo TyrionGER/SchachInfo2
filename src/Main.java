@@ -29,6 +29,7 @@ public class Main {
                     if(Schach[y][x].isvalidmove(x, y, newX, newY, Schach)) {
                         Schach[y][x].move(x, y, newX, newY, Schach);
                         Schach[newY][newX] = Schach[y][x];
+                        Schach[y][x].Promote(newY, newX, Schach);
                         Schach[y][x] = null;
                         whatmove++;
                     }
@@ -47,6 +48,7 @@ public class Main {
                     if(Schach[y][x].isvalidmove(x,y,newX,newY,Schach) == true) {
                         Schach[y][x].move(x, y, newX, newY, Schach);
                         Schach[newY][newX] = Schach[y][x];
+                        Schach[y][x].Promote(newY, newX, Schach);
                         Schach[y][x] = null;
                         whatmove++;
                     }

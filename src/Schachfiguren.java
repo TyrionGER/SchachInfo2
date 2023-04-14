@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Schachfiguren {
     public class Schachfigur {
         private Pieces piece;
@@ -228,9 +230,6 @@ public class Schachfiguren {
         }
 
         public boolean move(int oldX, int oldY, int newX, int newY, Schachfigur[][] schachbrett) {
-            if (newX < 0 || newX > 7 || newY < 0 || newY > 7) {
-                return false;
-            }
             switch (piece) {
                 case King, Pawn, Rook, Queen, Bishop, Knight:
                     if (isvalidmove(oldX, oldY, newX, newY, schachbrett)) {
@@ -241,6 +240,31 @@ public class Schachfiguren {
                     return false;
             }
             return false;
+        }
+        public void Promote(int newY, int newX, Schachfigur[][] schachbrett){
+            if(piece == Pieces.Pawn && ((schachbrett[newY][newX] == schachbrett[7][newX]) || (schachbrett[newY][newX] == schachbrett[0][newX]))){
+                System.out.println("Welche Figur wollen sie ?");
+                System.out.println("Rook = 1, Queen = 2, Bishop = 3, Knight = 4");
+
+                Scanner scan = new Scanner(System.in);
+                int zahl = scan.nextInt();
+
+                switch (zahl){
+                    case 1:
+                        schachbrett[newY][newX] = new Schachfigur(Pieces.Rook, getColor(),newY,newX);
+                        break;
+                    case 2:
+                        schachbrett[newY][newX] = new Schachfigur(Pieces.Queen, getColor(),newY,newX);
+                        break;
+                    case 3:
+                        schachbrett[newY][newX] = new Schachfigur(Pieces.Bishop, getColor(),newY,newX);
+                        break;
+                    case 4:
+                        schachbrett[newY][newX] = new Schachfigur(Pieces.Knight, getColor(),newY,newX);
+                        break;
+                    default: System.out.println("Ungueltige Eingabe.");
+                }
+            }
         }
     }
 }
