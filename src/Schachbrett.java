@@ -3,7 +3,7 @@ public class Schachbrett {
         Schachfiguren schachfiguren = new Schachfiguren();
         Schachfiguren.Schachfigur[][] schachbrett = new Schachfiguren.Schachfigur[8][8];
         //          Y   X
-      /* for(int i=0; i<8; i++) {
+      for(int i=0; i<8; i++) {
             schachbrett[1][i] = schachfiguren.new Schachfigur(Pieces.Pawn, Color.White, i, 1);
         }
         schachbrett[0][0] = schachfiguren.new Schachfigur(Pieces.Rook, Color.White,0,0);
@@ -27,9 +27,9 @@ public class Schachbrett {
         schachbrett[7][5] = schachfiguren.new Schachfigur(Pieces.Bishop, Color.Black,5,7);
         schachbrett[7][6] = schachfiguren.new Schachfigur(Pieces.Knight, Color.Black,6,7);
         schachbrett[7][7] = schachfiguren.new Schachfigur(Pieces.Rook, Color.Black,7,7);
-*/
-        schachbrett[1][0] = schachfiguren.new Schachfigur(Pieces.Pawn, Color.White, 1, 0);
-        schachbrett[3][1] = schachfiguren.new Schachfigur(Pieces.Pawn, Color.Black, 3, 1);
+
+
+
         return schachbrett;
     }
 }

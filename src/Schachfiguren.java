@@ -7,6 +7,13 @@ public class Schachfiguren {
         private int Xcord;
         private int Ycord;
         private boolean enPassant = false;
+        private static boolean enPassantpossiblelastroundwhite = false;
+        private static boolean enPassantpossiblelastroundblack = false;
+        private static int enPassantpawnwhiteX = -1;
+        private static int enPassantpawnwhiteY = -1;
+        private static int enPassantpawnblackX = -1;
+        private static int enPassantpawnblackY = -1;
+
 
         public Schachfigur(Pieces name, Color color, int x, int y) {
             this.piece = name;
@@ -21,6 +28,10 @@ public class Schachfiguren {
 
         public Color getColor() {
             return this.color;
+        }
+
+        public Pieces getPiece() {
+            return this.piece;
         }
 
         public boolean isvalidmove(int oldX, int oldY, int newX, int newY, Schachfigur[][] schachbrett) {
@@ -64,6 +75,13 @@ public class Schachfiguren {
                                 if (schachbrett[newY][newX] != null) {
                                     return true;
                                 }
+                                //enPassant test
+                                if (newX == enPassantpawnblackX && newY == enPassantpawnblackY && enPassantpossiblelastroundblack) {
+                                    //Muss geändert werden wenn Isvalidmove zum anzeigen der Züge verwendet werden soll
+                                    enPassant = true;
+                                    return true;
+                                }
+
                                 return false;
                             }
                             return true;
@@ -81,6 +99,12 @@ public class Schachfiguren {
                                 if (schachbrett[newY][newX] != null) {
                                     return true;
 
+                                }
+                                //enPassant test
+                                if (newX == enPassantpawnwhiteX && newY == enPassantpawnwhiteY && enPassantpossiblelastroundwhite) {
+                                    //Muss geändert werden wenn Isvalidmove zum anzeigen der Züge verwendet werden soll
+                                    enPassant = true;
+                                    return true;
                                 }
                                 return false;
                             }
@@ -228,54 +252,101 @@ public class Schachfiguren {
             return false;
         }
 
+        private void doEnPassant(int oldX, int oldY, int newX, int newY, Schachfigur[][] schachbrett) {
+            schachbrett[oldY][newX] = null;
+
+        }
+
         public boolean move(int oldX, int oldY, int newX, int newY, Schachfigur[][] schachbrett) {
             switch (piece) {
-                case King, Pawn, Rook, Queen, Bishop, Knight:
+                case King, Rook, Queen, Bishop, Knight:
                     if (isvalidmove(oldX, oldY, newX, newY, schachbrett)) {
                         Xcord = newX;
                         Ycord = newY;
                         return true;
                     }
+                case Pawn:
+                    if (isvalidmove(oldX, oldY, newX, newY, schachbrett)) {
+                        if (Math.abs(oldY - newY) >= 2) {
+                            if (Math.abs(oldY - newY) == 2 && oldY == 1) {
+                                switch(color){
+                                    case White:
+                                        enPassantpossiblelastroundwhite = true;
+                                        enPassantpawnwhiteY = newY - 1;
+                                        enPassantpawnwhiteX = newX;
+                                    case Black:
+                                        enPassantpossiblelastroundblack = true;
+                                        enPassantpawnblackY = newY + 1;
+                                        enPassantpawnblackX = newX;
+
+                                }
+                            }
+                        }
+                        if(enPassant == true){
+                            switch(color) {
+                                case White:
+                                    schachbrett[enPassantpawnblackY + 1][enPassantpawnblackX] = null;
+
+                                case Black:
+                                    schachbrett[enPassantpawnwhiteY + 1][enPassantpawnwhiteX] = null;
+                            }
+                        }
+                        Xcord = newX;
+                        Ycord = newY;
+                        enPassant = false;
+
+                        return true;
+                    }
+
                     return false;
             }
             return false;
         }
-        public void Promote(int newY, int newX, Schachfigur[][] schachbrett){
-            if(piece == Pieces.Pawn && ((schachbrett[newY][newX] == schachbrett[7][newX]) || (schachbrett[newY][newX] == schachbrett[0][newX]))){
+
+        public void Promote(int newY, int newX, Schachfigur[][] schachbrett) {
+            if (piece == Pieces.Pawn && ((schachbrett[newY][newX] == schachbrett[7][newX]) || (schachbrett[newY][newX] == schachbrett[0][newX]))) {
                 System.out.println("Welche Figur wollen sie ?");
                 System.out.println("Rook = 1, Queen = 2, Bishop = 3, Knight = 4");
 
                 Scanner scan = new Scanner(System.in);
                 int zahl = scan.nextInt();
 
-                switch (zahl){
+                switch (zahl) {
                     case 1:
-                        schachbrett[newY][newX] = new Schachfigur(Pieces.Rook, getColor(),newY,newX);
+                        schachbrett[newY][newX] = new Schachfigur(Pieces.Rook, getColor(), newY, newX);
                         break;
                     case 2:
-                        schachbrett[newY][newX] = new Schachfigur(Pieces.Queen, getColor(),newY,newX);
+                        schachbrett[newY][newX] = new Schachfigur(Pieces.Queen, getColor(), newY, newX);
                         break;
                     case 3:
-                        schachbrett[newY][newX] = new Schachfigur(Pieces.Bishop, getColor(),newY,newX);
+                        schachbrett[newY][newX] = new Schachfigur(Pieces.Bishop, getColor(), newY, newX);
                         break;
                     case 4:
-                        schachbrett[newY][newX] = new Schachfigur(Pieces.Knight, getColor(),newY,newX);
+                        schachbrett[newY][newX] = new Schachfigur(Pieces.Knight, getColor(), newY, newX);
                         break;
-                    default: System.out.println("Ungueltige Eingabe.");
+                    default:
+                        System.out.println("Ungueltige Eingabe.");
                 }
             }
         }
 
-        public boolean CheckEnPassant(int oldX, int oldY, int newX, int newY, Schachfigur[][] schachbrett){
-            // Überprüfen auf en passant
-            if (oldY == 1 && newY == 3 && schachbrett[3][newX] != null && schachbrett[3][newX].piece == piece.Pawn && schachbrett[3][newX].color == Color.White) {
-                enPassant = true;
-                return true;
-            } else if (oldY == 6 && newY == 4 && schachbrett[4][newX] != null && schachbrett[4][newX].piece == piece.Pawn && schachbrett[4][newX].color == Color.Black) {
-                enPassant = true;
-                return true;
+        public boolean checkEnPassant(int oldX, int oldY, int newX, int newY, Schachfigur[][] schachbrett) {
+            // Überprüfen, ob sich auf der alten und neuen Position unseres Bauern ein gegnerischer Bauer befindet
+            if (schachbrett[oldY][newX] == null || schachbrett[newY][newX] != null) {
+                return false;
             }
-            return false;
+
+            Schachfigur enemyPawn = schachbrett[oldY][newX];
+            if (enemyPawn.getPiece() != Pieces.Pawn || enemyPawn.getColor() == color) {
+                return false;
+            }
+
+            // Überprüfen, ob der gegnerische Bauer in der vorherigen Runde einen Doppelschritt gemacht hat
+            if (enemyPawn.enPassant == false) {
+                return false;
+            }
+
+            return true;
         }
     }
 }
