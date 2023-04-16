@@ -286,7 +286,7 @@ public class Schachfiguren {
                                 }
                             }
                         }
-                        if(enPassant == true){
+                        if(enPassant){
                             switch(color) {
                                 case White:
                                     schachbrett[enPassantpawnblackY - 1][enPassantpawnblackX] = null;
