@@ -7,20 +7,32 @@ import Chess.Board.Figures.*;
 public class Main {
     private static int whatmove = 1;
     private static int i = 1;
-    private static int x = -1,y = -1,newX = -1, newY = -1;
+    private static int x, y, newX, newY;
+
     public static void main(String[] args) {
-        Schachbrett Schachspiel = new Schachbrett();
-        Schachfiguren.Schachfigur[][] Schach = Schachspiel.initializeSchachbrett();
+        Schachbrett.initializeBoard();
+        Scanner scan = new Scanner(System.in);
 
-        while(i == 1){
-            Scanner scan = new Scanner(System.in);
-
-            printSchachbrett(Schach);
-
+        while (i == 1) {
+            printSchachbrett(Schachbrett.board);
             System.out.println("Bitte Start X Feld angeben: ");
             x = scan.nextInt();
             System.out.println("Bitte Start Y Feld angeben: ");
             y = scan.nextInt();
+
+            if (x < 0 || x > 7 || y < 0 || y > 7){
+                //todo insert helpful message here
+                continue;
+            }
+            if (Schachbrett.board[y][x] == null) {
+                System.out.println("______Leeres Startfeld ausgewählt, neue Eingabe______");
+                continue;
+            }
+            if (Schachbrett.board[y][x].getColor() == getCurrentColor()) {
+                System.out.println("______Falsche Farbe oder Eingabe, Weiß war am Zug, neue Eingabe_______");
+                continue;
+            }
+
             System.out.println("Bitte Ziel X Feld angeben: ");
             newX = scan.nextInt();
             System.out.println("Bitte Ziel Y Feld angeben: ");
@@ -42,10 +54,16 @@ public class Main {
             }
         }
     }
-    public static void printSchachbrett(Schachfiguren.Schachfigur[][] schachbrett) {
+
+    public static Figure.Color getCurrentColor(){
+        return (whatmove % 2 == 1 ? Figure.Color.White : Figure.Color.Black);
+    }
+
+
+    public static void printSchachbrett(Figure[][] schachbrett) {
         System.out.println();
-        System.out.printf("  ");
-        System.out.printf("____________________________________________________________________________________________________________________________");
+        System.out.print("  ");
+        System.out.print("____________________________________________________________________________________________________________________________");
         System.out.println();
         for (int row = 7; row >= 0; row--) {
             System.out.printf("%-5s", String.valueOf(row) + " | ");
@@ -55,14 +73,14 @@ public class Main {
                 } else {
                     System.out.printf("%-15s", "----------");
                 }
-                if(col == 7){
-                    System.out.printf("|");
+                if (col == 7) {
+                    System.out.print("|");
                 }
             }
             System.out.println();
         }
-        System.out.printf("  |");
-            System.out.printf("__________________________________________________________________________________________________________________________|");
+        System.out.print("  |");
+        System.out.print("__________________________________________________________________________________________________________________________|");
         System.out.println();
         for (int i = 0; i <= 7; i++) {
             System.out.printf("%-15s", "          " + String.valueOf(i));
