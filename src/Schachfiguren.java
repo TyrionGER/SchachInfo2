@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Schachfiguren {
     public class Schachfigur {
         private Pieces piece;
-        private Color color;
+        private final Color color;
         private int Xcord;
         private int Ycord;
         private boolean enPassant = false;
@@ -58,10 +58,11 @@ public class Schachfiguren {
                             //test ob nach vorne bewegt wird
                             if (oldY >= newY) {
                                 return false;
-                            } else if (schachbrett[newY][newX] != null) {
+                            }
+                            //Test ob Bauer nach vorne geht und das Feld frei ist
+                            if(oldX == newX && schachbrett[newX][newY] != null){
                                 return false;
                             }
-                            //test ob feld auf das bewegt wird frei ist
 
                             //test ob Bauer mehr als einen Schritt macht und 2 nach vorne darf
                             if (Math.abs(oldY - newY) >= 2) {
@@ -90,8 +91,16 @@ public class Schachfiguren {
                             if (oldY <= newY) {
                                 return false;
                             }
+                            //Test ob Bauer nach vorne geht und das Feld frei ist
+                            if(oldX == newX && schachbrett[newX][newY] != null){
+                                return false;
+                            }
+
                             //test ob Bauer mehr als einen Schritt macht und 2 nach vorne darf
-                            if (Math.abs(oldY - newY) >= 2 && oldY != 6) {
+                            if (Math.abs(oldY - newY) >= 2) {
+                                if (Math.abs(oldY - newY) == 2 && oldY == 6) {
+                                    return true;
+                                }
                                 return false;
                             }
                             //test ob Bauer diagonal schlagen darf
@@ -252,11 +261,6 @@ public class Schachfiguren {
             return false;
         }
 
-        private void doEnPassant(int oldX, int oldY, int newX, int newY, Schachfigur[][] schachbrett) {
-            schachbrett[oldY][newX] = null;
-
-        }
-
         public boolean move(int oldX, int oldY, int newX, int newY, Schachfigur[][] schachbrett) {
             switch (piece) {
                 case King, Rook, Queen, Bishop, Knight:
@@ -268,7 +272,7 @@ public class Schachfiguren {
                 case Pawn:
                     if (isvalidmove(oldX, oldY, newX, newY, schachbrett)) {
                         if (Math.abs(oldY - newY) >= 2) {
-                            if (Math.abs(oldY - newY) == 2 && oldY == 1) {
+                            if (Math.abs(oldY - newY) == 2 && (oldY == 1 || oldY == 6)) {
                                 switch(color){
                                     case White:
                                         enPassantpossiblelastroundwhite = true;
@@ -285,7 +289,7 @@ public class Schachfiguren {
                         if(enPassant == true){
                             switch(color) {
                                 case White:
-                                    schachbrett[enPassantpawnblackY + 1][enPassantpawnblackX] = null;
+                                    schachbrett[enPassantpawnblackY - 1][enPassantpawnblackX] = null;
 
                                 case Black:
                                     schachbrett[enPassantpawnwhiteY + 1][enPassantpawnwhiteX] = null;
@@ -328,25 +332,6 @@ public class Schachfiguren {
                         System.out.println("Ungueltige Eingabe.");
                 }
             }
-        }
-
-        public boolean checkEnPassant(int oldX, int oldY, int newX, int newY, Schachfigur[][] schachbrett) {
-            // Überprüfen, ob sich auf der alten und neuen Position unseres Bauern ein gegnerischer Bauer befindet
-            if (schachbrett[oldY][newX] == null || schachbrett[newY][newX] != null) {
-                return false;
-            }
-
-            Schachfigur enemyPawn = schachbrett[oldY][newX];
-            if (enemyPawn.getPiece() != Pieces.Pawn || enemyPawn.getColor() == color) {
-                return false;
-            }
-
-            // Überprüfen, ob der gegnerische Bauer in der vorherigen Runde einen Doppelschritt gemacht hat
-            if (enemyPawn.enPassant == false) {
-                return false;
-            }
-
-            return true;
         }
     }
 }
