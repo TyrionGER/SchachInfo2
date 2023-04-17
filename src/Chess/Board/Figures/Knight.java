@@ -12,9 +12,11 @@ public class Knight extends Figure{
         int deltaX = Math.abs(newX - Xcord);
         int deltaY = Math.abs(newY - Ycord);
         if ((deltaX == 2 && deltaY == 1) || (deltaX == 1 && deltaY == 2)) {
-            //Test ob Zielfeld frei ist
-            if (Schachbrett.board[newX][newY] != null) {
-                return false;
+
+            //Check whether Piece is Moving onto an empty square
+            if (Schachbrett.board[newY][newX] != null) {
+                //return whether Square with piece is own color if yes return false
+                return Schachbrett.board[newY][newX].color != this.color;
             }
             return true;
         }

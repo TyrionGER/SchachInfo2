@@ -46,7 +46,7 @@ public class Schachbrett {
         board[7][5] = new Bishop(Figure.Color.Black,5,7);
         board[7][6] = new Knight(Figure.Color.Black,6,7);
         board[7][7] = new Rook(Figure.Color.Black,7,7);
-        for (int i = 0; i < 8; i++){
+       for (int i = 0; i < 8; i++){
             whitePieces.add(board[0][i]);
             whitePieces.add(board[1][i]);
             blackPieces.add(board[6][i]);

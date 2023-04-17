@@ -27,6 +27,11 @@ public class Bishop extends Figure{
                 y += yDir;
             }
         }
+        //Check whether Piece is Moving onto an empty square
+        if (Schachbrett.board[newY][newX] != null) {
+            //return whether Square with piece is own color if yes return false
+            return Schachbrett.board[newY][newX].color != this.color;
+        }
         return true;
     }
 

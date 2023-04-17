@@ -14,11 +14,12 @@ public class King extends Figure{
         if (Math.abs(Xcord - newX) > 1 || Math.abs(Ycord - newY) > 1) {
             return false;
         }
-        //test ob Zielfeld frei ist
+        //Check whether Piece is Moving onto an empty square
         if (Schachbrett.board[newY][newX] != null) {
-
-            return false;
+            //return whether Square with piece is own color if yes return false
+            return Schachbrett.board[newY][newX].color != this.color;
         }
+        //todo is king in check after move
         return true;
     }
 

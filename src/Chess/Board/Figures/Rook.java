@@ -10,19 +10,19 @@ public class Rook extends Figure{
 
     @Override
     public boolean isValidMove(int newX, int newY) {
-        //test ob Wagerecht oder senkrecht
+        //check if movement is straight
         if (Xcord != newX && Ycord != newY) {
             return false;
         }
-        //Test ob zwischen Start und endposition Figuren sind
+        //Check for Pieces blocking the movement
         if (Xcord == newX || Ycord == newY) {
-            if (Xcord < newX) { //Bewegung von links nach rechts
+            if (Xcord < newX) { //Movement from left to right
                 for (int i = Xcord + 1; i < newX; i++) {
                     if (Schachbrett.board[newY][i] != null) {
                         return false;
                     }
                 }
-            } else if (Xcord > newX) { //Bewegung von rechts nach links
+            } else if (Xcord > newX) { //Movement from right to left
                 for (int i = Xcord - 1; i > newX; i--) {
                     if (Schachbrett.board[newY][i] != null) {
                         return false;
@@ -30,14 +30,14 @@ public class Rook extends Figure{
                 }
 
             }
-            if (Ycord < newY) { //bewegung von unten nach oben
+            if (Ycord < newY) { //movement from bottom to top
                 for (int i = Ycord + 1; i < newY; i++) {
                     if (Schachbrett.board[i][newX] != null) {
                         return false;
                     }
 
                 }
-            } else if (Ycord > newY) {//bewegung von oben nach unten
+            } else if (Ycord > newY) {//movement from top to bottom
                 for (int i = Ycord - 1; i > newY; i--) {
                     if (Schachbrett.board[i][newX] != null) {
                         return false;
@@ -47,6 +47,11 @@ public class Rook extends Figure{
             }
 
 
+        }
+        //Check whether Piece is Moving onto an empty square
+        if (Schachbrett.board[newY][newX] != null) {
+            //return whether Square with piece is own color if yes return false
+            return Schachbrett.board[newY][newX].color != this.color;
         }
         return true;
     }
