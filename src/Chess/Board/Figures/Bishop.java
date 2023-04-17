@@ -30,4 +30,9 @@ public class Bishop extends Figure{
         return true;
     }
 
+    @Override
+    public String getPiece() {
+        return "Bishop";
+    }
+
 }

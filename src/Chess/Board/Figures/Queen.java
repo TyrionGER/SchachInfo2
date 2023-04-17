@@ -70,4 +70,9 @@ public class Queen extends Figure{
         return true;
 
     }
+
+    @Override
+    public String getPiece() {
+        return "Queen";
+    }
 }

@@ -26,6 +26,7 @@ public class Pawn extends Figure{
         }
         //Allow move from baseline
         if (Math.abs(Ycord - targetY) == 2 && Ycord == (color == Color.White ? 1 : 6) && Xcord == targetX) {
+            isPresentable = true;
             return true;
         }
         //Check for wrong move distance
@@ -82,6 +83,11 @@ public class Pawn extends Figure{
             return true;
         }
         return false;
+    }
+
+    @Override
+    public String getPiece() {
+        return "Pawn";
     }
 
     @Override

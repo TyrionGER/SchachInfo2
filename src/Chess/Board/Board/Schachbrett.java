@@ -2,6 +2,7 @@ package Chess.Board.Board;
 
 import Chess.Board.Figures.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Schachbrett {
@@ -12,11 +13,12 @@ public class Schachbrett {
     public static Pawn whitePassantPawn;
     public static Pawn blackPassantPawn;
 
-    public static List<Figure> whitePieces;
-    public static List<Figure> blackPieces;
+    public static List<Figure> whitePieces = new ArrayList<>();
+    public static List<Figure> blackPieces = new ArrayList<>();
 
     public static void initializeBoard(){
         board = new Figure[8][8];
+
 
         for(int i=0; i<8; i++) {
             board[1][i] = new Pawn(Figure.Color.White, i, 1);
@@ -24,6 +26,7 @@ public class Schachbrett {
             board[6][i] = new Pawn(Figure.Color.Black, i, 6);
             blackPieces.add(board[6][i]);
         }
+
 
         board[0][0] = new Rook(Figure.Color.White,0,0);
         board[0][1] = new Knight(Figure.Color.White,1,0);
@@ -53,13 +56,19 @@ public class Schachbrett {
 
     public static void resetEnPassant(Figure.Color color){
         if (color == Figure.Color.Black){
-            whitePassantPawn.isPresentable = false;
-            whitePassantPawn = null;
+            if(whitePassantPawn != null){
+                whitePassantPawn.isPresentable = false;
+                whitePassantPawn = null;
+
+            }
             enPassantForBlack = false;
         }
         if (color == Figure.Color.White){
-            blackPassantPawn.isPresentable = false;
-            blackPassantPawn = null;
+            if(blackPassantPawn != null){
+                blackPassantPawn.isPresentable = false;
+                blackPassantPawn = null;
+
+            }
             enPassantForWhite = false;
         }
     }

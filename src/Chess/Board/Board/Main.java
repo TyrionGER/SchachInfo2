@@ -14,22 +14,22 @@ public class Main {
         Scanner scan = new Scanner(System.in);
 
         while (i == 1) {
-            printSchachbrett(Schachbrett.board);
+            printSchachbrett();
             System.out.println("Bitte Start X Feld angeben: ");
             x = scan.nextInt();
             System.out.println("Bitte Start Y Feld angeben: ");
             y = scan.nextInt();
 
             if (x < 0 || x > 7 || y < 0 || y > 7){
-                //todo insert helpful message here
+                System.out.println("x oder y zu hoch oder zu niedrig");
                 continue;
             }
             if (Schachbrett.board[y][x] == null) {
                 System.out.println("______Leeres Startfeld ausgewählt, neue Eingabe______");
                 continue;
             }
-            if (Schachbrett.board[y][x].getColor() == getCurrentColor()) {
-                System.out.println("______Falsche Farbe oder Eingabe, Weiß war am Zug, neue Eingabe_______");
+            if (Schachbrett.board[y][x].getColor() != getCurrentColor()) {
+                System.out.println("______Falsche Farbe "+ getCurrentColor()+ " war am Zug, neue Eingabe_______");
                 continue;
             }
 
@@ -46,7 +46,9 @@ public class Main {
 
             var currentPiece = Schachbrett.board[y][x];
             if (currentPiece.move(newX, newY)) {
-                currentPiece.Promote(newY, newX);
+                if((currentPiece instanceof Pawn) && (newY == (currentPiece.getColor() == Figure.Color.White ? 7 : 0))) {
+                    currentPiece.Promote(newX, newY);
+                }
                 Schachbrett.resetEnPassant(getCurrentColor());
                 whatmove++;
             } else {
@@ -60,7 +62,7 @@ public class Main {
     }
 
 
-    public static void printSchachbrett(Figure[][] schachbrett) {
+    public static void printSchachbrett() {
         System.out.println();
         System.out.print("  ");
         System.out.print("____________________________________________________________________________________________________________________________");
@@ -68,8 +70,8 @@ public class Main {
         for (int row = 7; row >= 0; row--) {
             System.out.printf("%-5s", String.valueOf(row) + " | ");
             for (int col = 0; col < 8; col++) {
-                if (schachbrett[row][col] != null) {
-                    System.out.printf("%-15s", schachbrett[row][col].toString());
+                if (Schachbrett.board[row][col] != null) {
+                    System.out.printf("%-15s", Schachbrett.board[row][col].toString());
                 } else {
                     System.out.printf("%-15s", "----------");
                 }

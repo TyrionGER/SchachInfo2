@@ -51,4 +51,9 @@ public class Rook extends Figure{
         return true;
     }
 
+    @Override
+    public String getPiece() {
+        return "Rook";
+    }
+
 }

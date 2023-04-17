@@ -21,4 +21,9 @@ public class Knight extends Figure{
         return false;
     }
 
+    @Override
+    public String getPiece() {
+        return "Knight";
+    }
+
 }

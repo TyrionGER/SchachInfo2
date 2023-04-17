@@ -35,9 +35,10 @@ public abstract class Figure {
             Schachbrett.board[Ycord][Xcord] = null;
             Xcord = newX;
             Ycord = newY;
-            if (!(this instanceof Pawn tp && tp.wasEnpassant)){
-                if (Schachbrett.board[Ycord][Xcord] != null){
-                    Schachbrett.board[Ycord][Xcord].capture();
+            if (this instanceof Pawn tp && tp.wasEnpassant){
+                if (Schachbrett.board[Ycord - (color == Color.White ? 1 : -1)][Xcord] != null){
+                    Schachbrett.board[Ycord - (color == Color.White ? 1 : -1)][Xcord].capture();
+                    Schachbrett.board[Ycord - (color == Color.White ? 1 : -1)][Xcord] = null;
                 }
             }
             Schachbrett.board[Ycord][Xcord] = this;
@@ -45,8 +46,9 @@ public abstract class Figure {
         }
         return false;
     }
+    //todo Pieces can still move upon their own color
 
-    public boolean Promote(int newY, int newX) {
+    public boolean Promote(int newX, int newY) {
         return false;
     }
 
@@ -66,9 +68,13 @@ public abstract class Figure {
         return this.color;
     }
 
-    public Type getPiece(){
-        return Type.King;
-    } //todo make this abstract and use subclasses for this
+    public abstract String getPiece();
+
+    @Override
+    public String toString(){
+        return this.color + this.getPiece();
+
+    }
 
     //endregion
 }
