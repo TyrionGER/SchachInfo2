@@ -76,5 +76,17 @@ public abstract class Figure {
 
     }
 
+    public boolean isValidMoveGetter(int X, int Y){
+        return isValidMove(X, Y);
+
+    }
+
+    public int getXcord(){
+        return Xcord;
+    }
+    public int getYcord(){
+        return Ycord;
+    }
+
     //endregion
 }

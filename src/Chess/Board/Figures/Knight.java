@@ -11,6 +11,7 @@ public class Knight extends Figure{
     public boolean isValidMove(int newX, int newY) {
         int deltaX = Math.abs(newX - Xcord);
         int deltaY = Math.abs(newY - Ycord);
+        //check whether piece is moving in the right pattern
         if ((deltaX == 2 && deltaY == 1) || (deltaX == 1 && deltaY == 2)) {
 
             //Check whether Piece is Moving onto an empty square

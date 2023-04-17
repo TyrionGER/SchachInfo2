@@ -44,19 +44,28 @@ public class Main {
                 continue;
             }
 
+
             var currentPiece = Schachbrett.board[y][x];
             if (currentPiece.move(newX, newY)) {
                 if((currentPiece instanceof Pawn) && (newY == (currentPiece.getColor() == Figure.Color.White ? 7 : 0))) {
                     currentPiece.Promote(newX, newY);
                 }
                 Schachbrett.resetEnPassant(getCurrentColor());
+                //Check if King is in Check
+                for(Figure Piece : (getCurrentColor() == Figure.Color.White ? Schachbrett.blackPieces : Schachbrett.whitePieces)){
+                    if(Piece instanceof King){
+                        if(Schachbrett.isAttacked((getCurrentColor() == Figure.Color.White ? Figure.Color.Black : Figure.Color.White), Piece.getXcord(), Piece.getYcord())){
+                            System.out.println(getCurrentColor() + "König ist im Schach");
+                        }
+                    }
+                }
                 whatmove++;
             } else {
                 System.out.println("______Zug nicht erlaubt_______");
             }
         }
     }
-
+//todo Check if King can get out of Check / has possible moves and prohibit moves that set own King check --> Wincond, Castle
     public static Figure.Color getCurrentColor(){
         return (whatmove % 2 == 1 ? Figure.Color.White : Figure.Color.Black);
     }

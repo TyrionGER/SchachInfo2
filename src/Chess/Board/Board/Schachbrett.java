@@ -104,4 +104,14 @@ public class Schachbrett {
            whitePieces.add(fig);
         }
     }
+    public static boolean isAttacked(Figure.Color color, int checkX, int checkY){
+
+        for(Figure Piece : (color == Figure.Color.White ? blackPieces : whitePieces)){
+            if(Piece.isValidMoveGetter(checkX, checkY)){
+                return true;
+            }
+        }
+        return false;
+
+    }
 }
