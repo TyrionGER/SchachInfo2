@@ -131,15 +131,17 @@ public class Schachbrettmirror {
     }
     public static boolean isInCheckAfterMove(Figure.Color color, int x, int y, int newX, int newY){
 
-        board[y][x].movemirror(newX, newY);
-        int kingX = -1, kingY = -1;
-        for (Figure Piece : (color == Figure.Color.White ? Schachbrettmirror.whitePieces : Schachbrettmirror.blackPieces)) {
-            if (Piece instanceof King) {
-                kingX = Piece.getXcord();
-                kingY = Piece.getYcord();
+        if(board[y][x].movemirror(newX, newY)){
+            int kingX = -1, kingY = -1;
+            for (Figure Piece : (color == Figure.Color.White ? Schachbrettmirror.whitePieces : Schachbrettmirror.blackPieces)) {
+                if (Piece instanceof King) {
+                    kingX = Piece.getXcord();
+                    kingY = Piece.getYcord();
+                }
             }
+            return isAttacked(color, kingX, kingY); //true when King is in Check
         }
-        return isAttacked(color, kingX, kingY); //true when King is in Check
+        return false;
     }
     public static void clearMirror(){
         board = null;
