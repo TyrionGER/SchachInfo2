@@ -53,8 +53,6 @@ public class Schachbrettmirror extends Schachbrett {
                 if (board[y][x] != null && board[y][x].getColor() == Figure.Color.Black){
                     blackPieces.add(board[y][x]);
                 }
-
-
             }
         }
         enPassantForBlack = Schachbrett.enPassantForBlack;
@@ -69,47 +67,7 @@ public class Schachbrettmirror extends Schachbrett {
 
     }
 
-    public static void resetEnPassant(Figure.Color color){
-        if (color == Figure.Color.Black){
-            if(whitePassantPawn != null){
-                whitePassantPawn.isPresentable = false;
-                whitePassantPawn = null;
 
-            }
-            enPassantForBlack = false;
-        }
-        if (color == Figure.Color.White){
-            if(blackPassantPawn != null){
-                blackPassantPawn.isPresentable = false;
-                blackPassantPawn = null;
-
-            }
-            enPassantForWhite = false;
-        }
-    }
-
-    public static boolean getEnPassant(Figure.Color color){
-        if (color == Figure.Color.Black){
-            return enPassantForBlack;
-        }
-        if (color == Figure.Color.White){
-            return enPassantForWhite;
-        }
-        throw new RuntimeException("This should really never happen!");
-    }
-
-    public static void setEnPassant(Figure.Color color, Pawn target){
-        if (color == Figure.Color.Black){
-            blackPassantPawn = target;
-            target.isPresentable = true;
-            enPassantForWhite = true;
-        }
-        if (color == Figure.Color.White){
-            whitePassantPawn = target;
-            target.isPresentable = true;
-            enPassantForBlack = true;
-        }
-    }
 
     public static void addPiece(Figure fig, Figure.Color color){
         if (color == Figure.Color.Black){
@@ -119,6 +77,7 @@ public class Schachbrettmirror extends Schachbrett {
             whitePieces.add(fig);
         }
     }
+
     public static boolean isAttacked(Figure.Color color, int checkX, int checkY){
 
         for(Figure Piece : (color == Figure.Color.White ? blackPieces : whitePieces)){
@@ -143,6 +102,45 @@ public class Schachbrettmirror extends Schachbrett {
         }
         return false;
     }
+
+
+    public static boolean isMatt(Figure.Color color, int x, int y){
+
+        for(int dx=-1; dx<=1; dx++) {
+            for(int dy=-1; dy<=1; dy++) {
+                if(dx == 0 && dy == 0) {
+                    continue; // King didnt move
+                }
+                int newX = x + dx;
+                int newY = y + dy;
+                if(isInCheckAfterMove(color, x, y, newX, newY)) {
+                    resetMirror();
+                    continue; // King is in check --> next iteration
+                }
+                resetMirror();
+                // there is a valid move where your king isnt in check
+                return true;
+            }
+
+        }
+        //go through all pieces and check all squares if they could Protect the King
+        //todo evtl Logik finden um nur diagonalen, geraden oder felder auf denen ein Springer stehen könnte der den König angreift zu testen
+        for (Figure Piece : (color == Figure.Color.White ? Schachbrettmirror.whitePieces : Schachbrettmirror.blackPieces)){
+            for(int f = 0; f < 8; f++){
+                for(int g = 0; g < 8; g++){
+                    if(!isInCheckAfterMove(Piece.getColor(), Piece.getXcord(), Piece.getYcord(), g, f)){
+                        resetMirror();
+                        // there is a valid move to protect your King
+                        return true;
+                    }
+                    resetMirror();
+                }
+            }
+        }
+        // there is no valid move to protect your King
+        return false;
+    }
+
     public static void clearMirror(){
         board = null;
         enPassantForWhite = false;
