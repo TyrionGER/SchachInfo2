@@ -9,7 +9,7 @@ public class Main {
     private static int i = 1;
     private static int x, y, newX, newY;
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
         Schachbrett.initializeBoard();
         Scanner scan = new Scanner(System.in);
 
@@ -20,7 +20,7 @@ public class Main {
             System.out.println("Bitte Start Y Feld angeben: ");
             y = scan.nextInt();
 
-            if (x < 0 || x > 7 || y < 0 || y > 7){
+            if (x < 0 || x > 7 || y < 0 || y > 7) {
                 System.out.println("x oder y zu hoch oder zu niedrig");
                 continue;
             }
@@ -29,7 +29,7 @@ public class Main {
                 continue;
             }
             if (Schachbrett.board[y][x].getColor() != getCurrentColor()) {
-                System.out.println("______Falsche Farbe "+ getCurrentColor()+ " war am Zug, neue Eingabe_______");
+                System.out.println("______Falsche Farbe " + getCurrentColor() + " war am Zug, neue Eingabe_______");
                 continue;
             }
 
@@ -39,29 +39,36 @@ public class Main {
             newY = scan.nextInt();
 
 
-            if (newX < 0 || newX > 7 || newY < 0 || newY > 7){
+            if (newX < 0 || newX > 7 || newY < 0 || newY > 7) {
                 //todo insert helpful message here
                 continue;
             }
-
-
             var currentPiece = Schachbrett.board[y][x];
-            if (currentPiece.move(newX, newY)) {
-                if((currentPiece instanceof Pawn) && (newY == (currentPiece.getColor() == Figure.Color.White ? 7 : 0))) {
-                    currentPiece.Promote(newX, newY);
-                }
-                Schachbrett.resetEnPassant(getCurrentColor());
-                //Check if King is in Check
-                for(Figure Piece : (getCurrentColor() == Figure.Color.White ? Schachbrett.blackPieces : Schachbrett.whitePieces)){
-                    if(Piece instanceof King){
-                        if(Schachbrett.isAttacked((getCurrentColor() == Figure.Color.White ? Figure.Color.Black : Figure.Color.White), Piece.getXcord(), Piece.getYcord())){
-                            System.out.println(getCurrentColor() + "König ist im Schach");
+            Schachbrettmirror.initializeMirror();
+
+            if (Schachbrettmirror.isInCheckAfterMove(getCurrentColor(), x, y, newX, newY)) {
+                    System.out.println("Ungültiger Zug, eigener König wäre im Schach");
+                    Schachbrettmirror.clearMirror();
+            } else {
+                if (currentPiece.move(newX, newY)) {
+                    if ((currentPiece instanceof Pawn) && (newY == (currentPiece.getColor() == Figure.Color.White ? 7 : 0))) {
+                        currentPiece.Promote(newX, newY);
+                    }
+                    Schachbrett.resetEnPassant(getCurrentColor());
+                    //Check if King is in Check
+                    for (Figure Piece : (getCurrentColor() == Figure.Color.White ? Schachbrett.blackPieces : Schachbrett.whitePieces)) {
+                        if (Piece instanceof King) {
+                            if (Schachbrett.isAttacked((getCurrentColor() == Figure.Color.White ? Figure.Color.Black : Figure.Color.White), Piece.getXcord(), Piece.getYcord())) {
+                                System.out.println((getCurrentColor() == Figure.Color.White ? Figure.Color.Black : Figure.Color.White) + " König ist im Schach");
+                            }
                         }
                     }
+                    whatmove++;
+                } else {
+                    System.out.println("______Zug nicht erlaubt_______");
                 }
-                whatmove++;
-            } else {
-                System.out.println("______Zug nicht erlaubt_______");
+                Schachbrettmirror.clearMirror();
+
             }
         }
     }
