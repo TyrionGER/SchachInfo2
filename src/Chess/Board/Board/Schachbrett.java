@@ -24,7 +24,6 @@ public class Schachbrett {
             board[1][i] = new Pawn(Figure.Color.White, i, 1);
 
             board[6][i] = new Pawn(Figure.Color.Black, i, 6);
-            blackPieces.add(board[6][i]);
         }
 
 

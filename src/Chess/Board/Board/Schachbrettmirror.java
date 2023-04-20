@@ -5,7 +5,7 @@ import Chess.Board.Figures.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Schachbrettmirror {
+public class Schachbrettmirror extends Schachbrett {
     public static Figure[][] board;
     public static boolean enPassantForWhite = false;
     public static boolean enPassantForBlack = false;
@@ -151,5 +151,8 @@ public class Schachbrettmirror {
         blackPassantPawn = null;
         whitePieces.clear();
         blackPieces.clear();
+    }
+    public static void resetMirror(){
+
     }
 }

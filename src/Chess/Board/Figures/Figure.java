@@ -52,7 +52,7 @@ public abstract class Figure {
         }
         return false;
     }
-    //todo Pieces can still move upon their own color
+
     public boolean movemirror(int newX, int newY) {
         if (isValidMove(newX, newY)) {
             Schachbrettmirror.board[Ycord][Xcord] = null;
