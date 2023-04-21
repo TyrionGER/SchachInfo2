@@ -82,7 +82,7 @@ public abstract class Figure {  //Basisklasse Aller Figuren
             Schachbrett.blackPieces.remove(this);
         }
     }
-    public void capturemirror() { //gleiche funktion wie capture nur für mirror
+    public void capturemirror() { //gleiche funktion wie capture nur für mirror.
         if (color == Color.White) {
             Schachbrettmirror.whitePieces.remove(this);
         }

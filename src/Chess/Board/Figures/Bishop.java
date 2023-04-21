@@ -41,7 +41,7 @@ public class Bishop extends Figure{ //Bishop erbt von der Basisklasse Figure
         return "Bishop";
     }
 
-    public static class BishopMirror extends Bishop{ //Genau gleich wie Bishop nur für Mirror
+    public static class BishopMirror extends Bishop{ //Genau gleich wie Bishop nur für Mirror.
 
         public BishopMirror(Color color, int x, int y) {
             super(color, x, y);

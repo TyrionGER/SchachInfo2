@@ -26,7 +26,7 @@ public class Main extends GameloopController{
             case 3:
                 int reset = 0;
                 System.out.println("Hier sind Alle Achievements:");
-                System.out.println("1). Achivement XY [" + "]"); // if (ach_eins)  string_eins_set = X else " "
+                System.out.println("1). Achivement XY [" + "]"); // if (ach_eins)  string_eins_set = X else " ".
                 System.out.println("2). Achivement XY [" + "]");
                 System.out.println("3). Achivement XY [" + "]");
                /*System.out.println("99). Achivements zuruecksetzen "); OPTIONAL

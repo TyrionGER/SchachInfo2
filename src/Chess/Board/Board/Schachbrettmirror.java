@@ -97,7 +97,7 @@ public class Schachbrettmirror extends Schachbrett {
                     kingY = Piece.getYcord();
                 }
             }
-            return isAttacked(color, kingX, kingY); //true when King is in Check
+            return isAttacked(color, kingX, kingY); //true when King is in Check.
         }
         return false;
     }
