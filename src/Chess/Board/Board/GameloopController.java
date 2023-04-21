@@ -79,7 +79,9 @@ public class GameloopController {
                     switch (eingabe){
                         case 1:
                             //Schachfeld neu initialisieren
-                            //konsole evtl clearen damit es schön aussieht
+                            //die folgenden 2 zeilen sorgen dafür das die Konsole gecleared wird
+                            System.out.print("\033[H\033[2J");
+                            System.out.flush();
                         case 2:
                             //Beende die Applikation
                         default:
