@@ -126,9 +126,9 @@ public class Schachbrettmirror extends Schachbrett {
         //go through all pieces and check all squares if they could Protect the King
         //todo evtl Logik finden um nur diagonalen, geraden oder felder auf denen ein Springer stehen könnte der den König angreift zu testen
         for (Figure Piece : (color == Figure.Color.White ? Schachbrettmirror.whitePieces : Schachbrettmirror.blackPieces)){
-            for(int f = 0; f < 8; f++){
-                for(int g = 0; g < 8; g++){
-                    if(!isInCheckAfterMove(Piece.getColor(), Piece.getXcord(), Piece.getYcord(), g, f)){
+            for(int j = 0; j < 8; j++){
+                for(int k = 0; k < 8; k++){
+                    if(!isInCheckAfterMove(Piece.getColor(), Piece.getXcord(), Piece.getYcord(), j, k)){
                         resetMirror();
                         // there is a valid move to protect your King
                         return true;
@@ -137,10 +137,52 @@ public class Schachbrettmirror extends Schachbrett {
                 }
             }
         }
-        // there is no valid move to protect your King
+        //there is no valid move to protect your King
+
         return false;
     }
 
+    //Entwurf Patt und Matt
+    public static boolean Patt(){
+        boolean validerMove;
+        if(!isInCheckAfterMove()){
+            for (Figure Piece : (color == Figure.Color.White ? Schachbrettmirror.whitePieces : Schachbrettmirror.blackPieces)){
+                for(int j = 0; j <= 7; j++){ //y wert
+                    for(int k = 0; k <= 7; k++){ //x wert
+                        if(!isValidMove(j,k)){
+                            validerMove = false;
+                        }
+                        else{
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean istMatt(){
+        if(isInCheckAfterMove()){
+            getPos();
+            for (Figure Piece : (color == Figure.Color.White ? Schachbrettmirror.whitePieces : Schachbrettmirror.blackPieces)) {
+                if(isattacked(getPosY, getPosX)){
+                    return false;
+                }
+                if(Piece instanceof King){
+                    for(int j = 0; j <= 7; j++){ //y
+                        for(int k = 0; k <= 7; k++){ //x
+                            if(isValidMove(j,k)){
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+            return true; //Schach matt
+    }
     public static void clearMirror(){
         board = null;
         enPassantForWhite = false;
