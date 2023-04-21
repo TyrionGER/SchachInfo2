@@ -69,7 +69,7 @@ public class GameloopController {
                 }
                 Schachbrettmirror.clearMirror();
 
-                //todo Matt ausführen
+                //todo Matt ausführen.
                 if(istMatt){
                     int eingabe = 0;
                     System.out.println("Glueckwunsch " + getCurrentColor() + " hat die Partie Gewonnen!");
