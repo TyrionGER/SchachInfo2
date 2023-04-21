@@ -69,6 +69,23 @@ public class GameloopController {
                 }
                 Schachbrettmirror.clearMirror();
 
+                //todo Matt ausführen
+                if(istMatt){
+                    int eingabe = 0;
+                    System.out.println("Glueckwunsch " + getCurrentColor() + " hat die Partie Gewonnen!");
+                    System.out.println("Menue:");
+                    System.out.println("1). Revanche");
+                    System.out.println("2). Applikation Beenden");
+                    switch (eingabe){
+                        case 1:
+                            //Schachfeld neu initialisieren
+                            //konsole evtl clearen damit es schön aussieht
+                        case 2:
+                            //Beende die Applikation
+                        default:
+                            System.out.println("Unguelige Eingabe");
+                    }
+                }
             }
         }
     }
@@ -103,7 +120,6 @@ public class GameloopController {
         for (int i = 0; i <= 7; i++) {
             System.out.printf("%-15s", "          " + String.valueOf(i));
         }
-
         System.out.println();
     }
 }

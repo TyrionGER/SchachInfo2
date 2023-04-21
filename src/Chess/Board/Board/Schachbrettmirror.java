@@ -163,6 +163,7 @@ public class Schachbrettmirror extends Schachbrett {
         return false;
     }
 
+    //todo die funktion istMatt und Patt fertig coden
     public static boolean istMatt(){
         if(isInCheckAfterMove()){
             getPos();
