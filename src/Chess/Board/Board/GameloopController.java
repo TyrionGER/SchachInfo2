@@ -38,7 +38,6 @@ public class GameloopController {
             System.out.println("Bitte Ziel Y Feld angeben: ");
             newY = scan.nextInt();
 
-
             if (newX < 0 || newX > 7 || newY < 0 || newY > 7) {
                 System.out.println("x oder y zu hoch oder zu niedrig");
                 continue;

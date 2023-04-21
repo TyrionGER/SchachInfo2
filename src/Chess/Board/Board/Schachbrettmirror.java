@@ -68,7 +68,6 @@ public class Schachbrettmirror extends Schachbrett {
     }
 
 
-
     public static void addPiece(Figure fig, Figure.Color color){
         if (color == Figure.Color.Black){
             blackPieces.add(fig);
@@ -144,13 +143,12 @@ public class Schachbrettmirror extends Schachbrett {
 
     //Entwurf Patt und Matt
     public static boolean Patt(){
-        boolean validerMove;
+
         if(!isInCheckAfterMove()){
             for (Figure Piece : (color == Figure.Color.White ? Schachbrettmirror.whitePieces : Schachbrettmirror.blackPieces)){
                 for(int j = 0; j <= 7; j++){ //y wert
                     for(int k = 0; k <= 7; k++){ //x wert
                         if(!isValidMove(j,k)){
-                            validerMove = false;
                         }
                         else{
                             return false;
@@ -163,27 +161,6 @@ public class Schachbrettmirror extends Schachbrett {
         return false;
     }
 
-    //todo die funktion istMatt und Patt fertig coden
-    public static boolean istMatt(){
-        if(isInCheckAfterMove()){
-            getPos();
-            for (Figure Piece : (color == Figure.Color.White ? Schachbrettmirror.whitePieces : Schachbrettmirror.blackPieces)) {
-                if(isattacked(getPosY, getPosX)){
-                    return false;
-                }
-                if(Piece instanceof King){
-                    for(int j = 0; j <= 7; j++){ //y
-                        for(int k = 0; k <= 7; k++){ //x
-                            if(isValidMove(j,k)){
-                                return false;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-            return true; //Schach matt
-    }
     public static void clearMirror(){
         board = null;
         enPassantForWhite = false;
