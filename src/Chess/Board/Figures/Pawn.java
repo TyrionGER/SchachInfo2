@@ -95,7 +95,7 @@ public class Pawn extends Figure{
     }
 
     @Override
-    public boolean move(int newX, int newY) {
+    public boolean move(int newX, int newY) { // Wenn Pawn.move wird zuerst dieses Override, dann durch super.move die Basis move funktion ausgeführt, und wenn die true returned wird noch getestet ob der Zug 2 Felder weit geht, wenn ja wird enpassantmöglich für den nächsten Zug auf true gesetzt
         int moveDist = Math.abs((newY - Ycord));
         if (wasEnpassant){
             if (Schachbrett.board[Ycord - (color == Color.White ? 1 : -1)][Xcord] != null){

@@ -103,6 +103,7 @@ public class Schachbrett {
     }
 
     public static void resetEnPassant(Figure.Color color){
+        //Wenn eine Farbe am Zug ist und nicht Enpassant genutzt wird, wird Enpassant für die andere zurückgesetzt
         if (color == Figure.Color.Black){
             if(whitePassantPawn != null){
                 whitePassantPawn.isPresentable = false;
@@ -152,7 +153,7 @@ public class Schachbrett {
            whitePieces.add(fig);
         }
     }
-    public static boolean isAttacked(Figure.Color color, int checkX, int checkY){
+    public static boolean isAttacked(Figure.Color color, int checkX, int checkY){ //Test ob das Feld checkX,checkY angegriffen wird
 
         for(Figure Piece : (color == Figure.Color.White ? blackPieces : whitePieces)){
             if(Piece != null && Piece.isValidMoveGetter(checkX, checkY)){

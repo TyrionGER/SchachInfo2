@@ -54,19 +54,20 @@ public class GameloopController {
                     if ((currentPiece instanceof Pawn) && (newY == (currentPiece.getColor() == Figure.Color.White ? 7 : 0))) {
                         currentPiece.Promote(newX, newY);
                     }
+                    //Da enPassant nur genau nach dem Doppelzug möglich ist wird hier für die andere Farbe Enpassant zurückgesetzt
                     Schachbrett.resetEnPassant(getCurrentColor());
-                    //Check if King is in Check
-                    for (Figure Piece : (getCurrentColor() == Figure.Color.White ? Schachbrett.blackPieces : Schachbrett.whitePieces)) {
+                    //Test ob gegnerischer König im Schach, Matt, Patt
+                    for (Figure Piece : (getCurrentColor() == Figure.Color.White ? Schachbrett.blackPieces : Schachbrett.whitePieces)) { //Hier wird durch die Listen der Figuren der jeweiligen Farbe durchiteriert
                         if (Piece instanceof King) {
-                            if (Schachbrett.isAttacked((getCurrentColor() == Figure.Color.White ? Figure.Color.Black : Figure.Color.White), Piece.getXcord(), Piece.getYcord())) {
+                            if (Schachbrett.isAttacked((getCurrentColor() == Figure.Color.White ? Figure.Color.Black : Figure.Color.White), Piece.getXcord(), Piece.getYcord())) { //test ob das Feld auf dem der gegnerische König steht angegriffen wird
                                 System.out.println((getCurrentColor() == Figure.Color.White ? Figure.Color.Black : Figure.Color.White) + " König ist im Schach");
-                                if(Schachbrettmirror.isMatt(getCurrentColor(),Piece.getXcord(), Piece.getYcord() )) {
+                                if(Schachbrettmirror.isMatt(getCurrentColor(),Piece.getXcord(), Piece.getYcord() )) { //Test ob es einen Legalen zug gibt nachdem der Gegnerische König nichtmehr im Schach ist
                                     System.out.println((getCurrentColor() == Figure.Color.White ? Figure.Color.Black : Figure.Color.White) + " König ist Matt, " + getCurrentColor() + " hat gewonnen!");
                                     printSchachbrett();
                                     i = 0;
                                 }
                             }
-                            if(Schachbrettmirror.Patt(getCurrentColor() == Figure.Color.White ? Figure.Color.Black : Figure.Color.White, Piece.getXcord(), Piece.getYcord())){
+                            if(Schachbrettmirror.Patt(getCurrentColor() == Figure.Color.White ? Figure.Color.Black : Figure.Color.White, Piece.getXcord(), Piece.getYcord())){// Patt wenn der gegnerische Spieler keinen legalen zug mehr hat aber nicht im Schach ist
                                 System.out.println("Patt, kein legaler Zug möglich!");
                                 i = 0;
                             }

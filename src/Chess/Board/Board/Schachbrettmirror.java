@@ -90,6 +90,7 @@ public class Schachbrettmirror extends Schachbrett {
 
     }
     public static boolean isInCheckAfterMove(Figure.Color color, int x, int y, int newX, int newY){
+        //Test ob der König der durchgegebenen Farbe im Schach steht nachdem der Zug gemacht wurde
 
         if(board[y][x].movemirror(newX, newY)){
             int kingX = -1, kingY = -1;
@@ -134,7 +135,7 @@ public class Schachbrettmirror extends Schachbrett {
         clearMirror();
         initializeMirror();
 
-        for (Figure Piece : (color == Figure.Color.Black ? Schachbrett.whitePieces : Schachbrett.blackPieces)) {
+        for (Figure Piece : (color == Figure.Color.Black ? Schachbrett.whitePieces : Schachbrett.blackPieces)) { //Test ob die eine Figur der angegriffenen Farbe ein Feld auf dem Schachbrett hat auf das es Springen kann sodass der eigene König nicht mehr im Schach steht
             for (int j = 0; j < 8; j++) {
                 for (int k = 0; k < 8; k++) {
                     clearMirror();
@@ -152,10 +153,10 @@ public class Schachbrettmirror extends Schachbrett {
         return true; //returns true when mate
     }
 
-    //Entwurf Patt und Matt
+
     public static boolean Patt(Figure.Color color, int x, int y){
 
-            for (Figure Piece : (color == Figure.Color.White ? Schachbrett.whitePieces : Schachbrett.blackPieces)){
+            for (Figure Piece : (color == Figure.Color.White ? Schachbrett.whitePieces : Schachbrett.blackPieces)){ // test ob eine Figur der eingegebenen Farbe irgendeinen legalen Zug hat
                 for(int j = 0; j <= 7; j++){ //y wert
                     for(int k = 0; k <= 7; k++){ //x wert
                         clearMirror();
@@ -179,7 +180,5 @@ public class Schachbrettmirror extends Schachbrett {
         whitePieces.clear();
         blackPieces.clear();
     }
-    public static void resetMirror(){
 
-    }
 }

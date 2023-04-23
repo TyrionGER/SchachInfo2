@@ -3,17 +3,14 @@ package Chess.Board.Figures;
 import Chess.Board.Board.*;
 
 public abstract class Figure {  //Basisklasse Aller Figuren
-    public enum Called{ //Enum Called ist dafür zuständig um zu Unterscheiden von welchem Brett aus eine Figur gerufen wird
-        FromBoard,
-        FromMirror
-    }
+
 
     public enum Color { //Farbe wird initialisiert
         White,
         Black
     }
 
-    public enum Type { //Figuren werden initialisiert
+    public enum Type { //Figuren Typ aktuell ungenutzt
         Bishop,
         King,
         Knight,
