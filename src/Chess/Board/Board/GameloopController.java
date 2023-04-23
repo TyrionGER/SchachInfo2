@@ -47,7 +47,7 @@ public class GameloopController {
             Schachbrettmirror.initializeMirror();
 
             if (Schachbrettmirror.isInCheckAfterMove(getCurrentColor(), x, y, newX, newY)) {
-                System.out.println("Ungültiger Zug, König wäre im Schach");
+                System.out.println("Ungültiger Zug oder illegaler Zug");
                 Schachbrettmirror.clearMirror();
             } else {
                 if (currentPiece.move(newX, newY)) {
@@ -67,8 +67,11 @@ public class GameloopController {
                                     i = 0;
                                 }
                             }
-                            if(Schachbrettmirror.Patt(getCurrentColor() == Figure.Color.White ? Figure.Color.Black : Figure.Color.White, Piece.getXcord(), Piece.getYcord())){// Patt wenn der gegnerische Spieler keinen legalen zug mehr hat aber nicht im Schach ist
+                            Schachbrettmirror.clearMirror();
+                            Schachbrettmirror.initializeMirror();
+                            if(Schachbrettmirror.Patt(getCurrentColor() == Figure.Color.White ? Figure.Color.Black : Figure.Color.White, Piece.getXcord(), Piece.getYcord()) && i != 0){// Patt wenn der gegnerische Spieler keinen legalen zug mehr hat aber nicht im Schach ist
                                 System.out.println("Patt, kein legaler Zug möglich!");
+                                printSchachbrett();
                                 i = 0;
                             }
                         }

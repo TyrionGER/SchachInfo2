@@ -156,19 +156,25 @@ public class Schachbrettmirror extends Schachbrett {
 
     public static boolean Patt(Figure.Color color, int x, int y){
 
-            for (Figure Piece : (color == Figure.Color.White ? Schachbrett.whitePieces : Schachbrett.blackPieces)){ // test ob eine Figur der eingegebenen Farbe irgendeinen legalen Zug hat
+
+            for(int i = 0 ;  ; i++){ // test ob eine Figur der eingegebenen Farbe irgendeinen legalen Zug hat
+                if(i >= (color == Figure.Color.White ? Schachbrettmirror.whitePieces.size() : Schachbrettmirror.blackPieces.size())){
+                    break;
+                }
+                Figure Piece = (color == Figure.Color.White ? Schachbrettmirror.whitePieces.get(i) : Schachbrettmirror.blackPieces.get(i));
+
                 for(int j = 0; j <= 7; j++){ //y wert
                     for(int k = 0; k <= 7; k++){ //x wert
                         clearMirror();
                         initializeMirror();
-                        if(Piece.movemirror(k, j)){
-                            return true;
+                        if(Piece.isValidMoveGetter(k, j)&& !isInCheckAfterMove(color, Piece.getXcord(), Piece.getYcord(), k, j)){
+                            return false;
                         }
 
                     }
                 }
             }
-            return false;
+            return true;
     }
 
     public static void clearMirror(){
@@ -180,5 +186,6 @@ public class Schachbrettmirror extends Schachbrett {
         whitePieces.clear();
         blackPieces.clear();
     }
+
 
 }
