@@ -61,6 +61,7 @@ public class GameloopController {
                                 System.out.println((getCurrentColor() == Figure.Color.White ? Figure.Color.Black : Figure.Color.White) + " König ist im Schach");
                                 if(Schachbrettmirror.isMatt(getCurrentColor(),Piece.getXcord(), Piece.getYcord() )) {
                                     System.out.println((getCurrentColor() == Figure.Color.White ? Figure.Color.Black : Figure.Color.White) + " König ist Matt, " + getCurrentColor() + " hat gewonnen!");
+                                    printSchachbrett();
                                     i = 0;
                                 }
                             }

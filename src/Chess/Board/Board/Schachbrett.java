@@ -19,7 +19,39 @@ public class Schachbrett {
     public static void initializeBoard(){
         board = new Figure[8][8];
 
+//Teste Schach/Matt + Promote (pawn)
 
+        board[0][7] = new King(Figure.Color.White,7,0);
+        whitePieces.add(board[0][7]);
+        board[0][6] = new Rook(Figure.Color.White,6,0);
+        whitePieces.add(board[0][6]);
+        board[5][5] = new Knight(Figure.Color.White,4,3);
+        whitePieces.add(board[5][5]);
+        board[7][7] = new King(Figure.Color.Black,7,7);
+        blackPieces.add(board[7][7]);
+        board[1][5] = new Pawn(Figure.Color.Black,5,1);
+        blackPieces.add(board[1][5]);
+/*
+        //En Passant mate
+        board[0][7] = new Rook(Figure.Color.White,7,0);
+        whitePieces.add(board[0][7]);
+        board[0][5] = new Rook(Figure.Color.White,5,0);
+        whitePieces.add(board[0][5]);
+        board[1][7] = new King(Figure.Color.White,7,1);
+        whitePieces.add(board[1][7]);
+        board[1][5] = new Pawn(Figure.Color.White,5,1);
+        whitePieces.add(board[1][5]);
+
+        board[7][4] = new King(Figure.Color.Black,4,7);
+        blackPieces.add(board[7][4]);
+        board[3][6] = new Queen(Figure.Color.Black,6,3);
+        blackPieces.add(board[3][6]);
+        board[4][4] = new Bishop(Figure.Color.Black,4,4);
+        blackPieces.add(board[4][4]);
+        board[3][4] = new Pawn(Figure.Color.Black,4,3);
+        blackPieces.add(board[3][4]);
+*/
+   /*
         for(int i=0; i<8; i++) {
             board[1][i] = new Pawn(Figure.Color.White, i, 1);
 
@@ -51,6 +83,7 @@ public class Schachbrett {
             blackPieces.add(board[6][i]);
             blackPieces.add(board[7][i]);
         }
+        */
     }
 
     public static void resetEnPassant(Figure.Color color){

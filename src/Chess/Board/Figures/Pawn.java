@@ -61,7 +61,7 @@ public class Pawn extends Figure{
 
 
     @Override
-    public boolean Promote(int newY, int newX) {
+    public boolean Promote(int newX, int newY) {
         if (Schachbrett.board[newY][newX] == Schachbrett.board[7][newX] || Schachbrett.board[newY][newX] == Schachbrett.board[0][newX]) {
             Figure obj = null;
             while (obj == null){
@@ -169,7 +169,7 @@ public class Pawn extends Figure{
         }
 
         @Override
-        public boolean Promote(int newY, int newX) {
+        public boolean Promote(int newX, int newY) {
             if (Schachbrettmirror.board[newY][newX] == Schachbrettmirror.board[7][newX] || Schachbrettmirror.board[newY][newX] == Schachbrettmirror.board[0][newX]) {
                 Figure obj = null;
                 while (obj == null){
