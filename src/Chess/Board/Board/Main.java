@@ -4,16 +4,17 @@ import java.util.Scanner;
 
 import Chess.Board.Figures.*;
 
-public class Main extends GameloopController{
+public class Main extends GameloopController {
     public static void main(String[] args) {
 
+        Scanner scan = new Scanner(System.in);
         int eingabe = 0;
-        System.out.println("Glueckwunsch " + getCurrentColor() + " hat die Partie Gewonnen!");
         System.out.println("Menue:");
-        System.out.println("1). Revanche");
+        System.out.println("1). Neues Schachspiel");
         System.out.println("2). Applikation Beenden");
         System.out.println("3). Achievements");
-        switch (eingabe){
+        eingabe = scan.nextInt();
+        switch (eingabe) {
             case 1:
                 //Schachfeld neu initialisieren
                 //die folgenden 2 zeilen sorgen dafür das die Konsole gecleared wird
@@ -22,7 +23,7 @@ public class Main extends GameloopController{
                 GameloopController gameloop = new GameloopController();
                 gameloop.Startchess();
             case 2:
-
+                break;
             case 3:
                 int reset = 0;
                 System.out.println("Hier sind Alle Achievements:");
@@ -38,8 +39,7 @@ public class Main extends GameloopController{
                 System.out.println("Unguelige Eingabe");
 
 
-
-
+        }
     }
 }
 

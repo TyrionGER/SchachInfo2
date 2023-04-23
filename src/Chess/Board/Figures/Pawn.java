@@ -108,6 +108,14 @@ public class Pawn extends Figure{
         }
         return false;
     }
+    @Override
+    public boolean wasEnPassantgetter(){
+        return wasEnpassant;
+    }
+    @Override
+    public boolean isPresentablegetter(){
+        return isPresentable;
+    }
 
     public static class PawnMirror extends Pawn{
         public PawnMirror(Color color, int x, int y) {
@@ -204,6 +212,10 @@ public class Pawn extends Figure{
                 return true;
             }
             return false;
+        }
+        @Override
+        public void isPresentablesetter(boolean passantable){
+            this.isPresentable = passantable;
         }
 
     }

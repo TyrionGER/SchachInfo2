@@ -3,8 +3,6 @@ package Chess.Board.Figures;
 import Chess.Board.Board.*;
 
 public abstract class Figure {  //Basisklasse Aller Figuren
-    Figure mirrorPiece; //erzeuge objekt Figure mit dem Namen MirrorPiece
-
     public enum Called{ //Enum Called ist dafür zuständig um zu Unterscheiden von welchem Brett aus eine Figur gerufen wird
         FromBoard,
         FromMirror
@@ -55,10 +53,17 @@ public abstract class Figure {  //Basisklasse Aller Figuren
 
     public boolean movemirror(int newX, int newY) { //Genau gleiche wie oben nur da es hier Simuliert wird
         if (isValidMove(newX, newY)) {
+            int xHelper;
+            int yHelper;
+            if(Schachbrettmirror.board[newY][newX] != null){
+                Schachbrettmirror.board[newY][newX].capturemirror();
+            }
+            xHelper = Xcord;
+            yHelper = Ycord;
             Schachbrettmirror.board[Ycord][Xcord] = null;
             Xcord = newX;
             Ycord = newY;
-            if (this instanceof Pawn tp && tp.wasEnpassant) {
+            if (this instanceof Pawn tp && Schachbrett.board[yHelper][xHelper].wasEnPassantgetter()) {
                 if (Schachbrettmirror.board[Ycord - (color == Color.White ? 1 : -1)][Xcord] != null) {
                     Schachbrettmirror.board[Ycord - (color == Color.White ? 1 : -1)][Xcord].capturemirror();
                     Schachbrettmirror.board[Ycord - (color == Color.White ? 1 : -1)][Xcord] = null;
@@ -92,7 +97,9 @@ public abstract class Figure {  //Basisklasse Aller Figuren
     }
 
     //region Getter
-
+    public boolean wasEnPassantgetter(){
+        return false;
+    }
     public Color getColor() {
         return this.color;
     } //Gebe die farbe zurück
@@ -115,6 +122,13 @@ public abstract class Figure {  //Basisklasse Aller Figuren
         return Ycord;
     }
 
+    public boolean isPresentablegetter(){
+        return false;
+    }
+
+    public void isPresentablesetter(boolean passantable){
+        return;
+    }
     //endregion
 
 

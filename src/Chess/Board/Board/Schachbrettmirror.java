@@ -59,9 +59,11 @@ public class Schachbrettmirror extends Schachbrett {
         enPassantForWhite = Schachbrett.enPassantForWhite;
         if(Schachbrett.whitePassantPawn instanceof Pawn){
             whitePassantPawn = (Pawn) board[Schachbrett.whitePassantPawn.getYcord()][Schachbrett.whitePassantPawn.getXcord()];
+            Schachbrettmirror.board[Schachbrett.whitePassantPawn.getYcord()][Schachbrett.whitePassantPawn.getXcord()].isPresentablesetter(Schachbrett.whitePassantPawn.isPresentablegetter());
         }
         if(Schachbrett.blackPassantPawn instanceof Pawn){
             blackPassantPawn = (Pawn) board[Schachbrett.blackPassantPawn.getYcord()][Schachbrett.blackPassantPawn.getXcord()];
+            Schachbrettmirror.board[Schachbrett.blackPassantPawn.getYcord()][Schachbrett.blackPassantPawn.getXcord()].isPresentablesetter(Schachbrett.blackPassantPawn.isPresentablegetter());
         }
 
 
@@ -99,56 +101,65 @@ public class Schachbrettmirror extends Schachbrett {
             }
             return isAttacked(color, kingX, kingY); //true when King is in Check.
         }
-        return false;
+        return true;
     }
 
 
-    public static boolean isMatt(Figure.Color color, int x, int y){
-
-        for(int dx=-1; dx<=1; dx++) {
-            for(int dy=-1; dy<=1; dy++) {
-                if(dx == 0 && dy == 0) {
+    public static boolean isMatt(Figure.Color color, int x, int y) {
+        clearMirror();
+        initializeMirror();
+        //Check if there is a move for King where King isnt in Check
+        for (int dx = -1; dx <= 1; dx++) {
+            for (int dy = -1; dy <= 1; dy++) {
+                clearMirror();
+                initializeMirror();
+                if (dx == 0 && dy == 0) {
                     continue; // King didnt move
                 }
                 int newX = x + dx;
                 int newY = y + dy;
-                if(isInCheckAfterMove(color, x, y, newX, newY)) {
-                    resetMirror();
+                if (newX < 0 || newX > 7 || newY < 0 || newY > 7) {
+                    continue; // Out of bounds --> next iteration
+                }
+                if (isInCheckAfterMove(color == Figure.Color.White ? Figure.Color.Black : Figure.Color.White, x, y, newX, newY)) {
                     continue; // King is in check --> next iteration
                 }
-                resetMirror();
                 // there is a valid move where your king isnt in check
-                return true;
+                return false;
             }
 
         }
         //go through all pieces and check all squares if they could Protect the King
         //todo evtl Logik finden um nur diagonalen, geraden oder felder auf denen ein Springer stehen könnte der den König angreift zu testen
-        for (Figure Piece : (color == Figure.Color.White ? Schachbrettmirror.whitePieces : Schachbrettmirror.blackPieces)){
-            for(int j = 0; j < 8; j++){
-                for(int k = 0; k < 8; k++){
-                    if(!isInCheckAfterMove(Piece.getColor(), Piece.getXcord(), Piece.getYcord(), j, k)){
-                        resetMirror();
+        clearMirror();
+        initializeMirror();
+
+        for (Figure Piece : (color == Figure.Color.Black ? Schachbrett.whitePieces : Schachbrett.blackPieces)) {
+            for (int j = 0; j < 8; j++) {
+                for (int k = 0; k < 8; k++) {
+                    clearMirror();
+                    initializeMirror();
+
+                    if (!isInCheckAfterMove(Piece.getColor(), Piece.getXcord(), Piece.getYcord(), k, j)) {
                         // there is a valid move to protect your King
-                        return true;
+                        return false;
                     }
-                    resetMirror();
                 }
             }
         }
         //there is no valid move to protect your King
 
-        return false;
+        return true; //returns true when mate
     }
 
     //Entwurf Patt und Matt
-    public static boolean Patt(){
+    public static boolean Patt(Figure.Color color, int x, int y){
 
-        if(!isInCheckAfterMove()){
+
             for (Figure Piece : (color == Figure.Color.White ? Schachbrettmirror.whitePieces : Schachbrettmirror.blackPieces)){
                 for(int j = 0; j <= 7; j++){ //y wert
                     for(int k = 0; k <= 7; k++){ //x wert
-                        if(!isValidMove(j,k)){
+                        if(!Piece.isValidMoveGetter(k, j)){
                         }
                         else{
                             return false;
@@ -157,8 +168,6 @@ public class Schachbrettmirror extends Schachbrett {
                 }
             }
             return true;
-        }
-        return false;
     }
 
     public static void clearMirror(){
