@@ -18,6 +18,9 @@ public class Pawn extends Figure{
     @Override
     protected boolean isValidMove(int targetX, int targetY) {
         wasEnpassant = false;
+        if(targetX == Xcord && Schachbrett.board[targetY][targetX] != null){
+            return false;
+        }
         //Check for backwards movement
         if (color == Color.White && targetY <= Ycord) {
             return false;
@@ -125,6 +128,9 @@ public class Pawn extends Figure{
         @Override
         protected boolean isValidMove(int targetX, int targetY) {
             wasEnpassant = false;
+            if(targetX == Xcord && Schachbrettmirror.board[targetY][targetX] != null){
+                return false;
+            }
             //Check for backwards movement
             if (color == Color.White && targetY <= Ycord) {
                 return false;

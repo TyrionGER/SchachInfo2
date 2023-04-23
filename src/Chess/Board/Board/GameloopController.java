@@ -57,7 +57,7 @@ public class GameloopController {
                     //Check if King is in Check
                     for (Figure Piece : (getCurrentColor() == Figure.Color.White ? Schachbrett.blackPieces : Schachbrett.whitePieces)) {
                         if (Piece instanceof King) {
-                            if (Schachbrett.isAttacked((getCurrentColor() == Figure.Color.White ? Figure.Color.White : Figure.Color.Black), Piece.getXcord(), Piece.getYcord())) {
+                            if (Schachbrett.isAttacked((getCurrentColor() == Figure.Color.White ? Figure.Color.Black : Figure.Color.White), Piece.getXcord(), Piece.getYcord())) {
                                 System.out.println((getCurrentColor() == Figure.Color.White ? Figure.Color.Black : Figure.Color.White) + " König ist im Schach");
                                 if(Schachbrettmirror.isMatt(getCurrentColor(),Piece.getXcord(), Piece.getYcord() )) {
                                     System.out.println((getCurrentColor() == Figure.Color.White ? Figure.Color.Black : Figure.Color.White) + " König ist Matt, " + getCurrentColor() + " hat gewonnen!");
