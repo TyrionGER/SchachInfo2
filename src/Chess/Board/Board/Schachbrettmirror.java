@@ -158,15 +158,16 @@ public class Schachbrettmirror extends Schachbrett {
             for (Figure Piece : (color == Figure.Color.White ? Schachbrett.whitePieces : Schachbrett.blackPieces)){
                 for(int j = 0; j <= 7; j++){ //y wert
                     for(int k = 0; k <= 7; k++){ //x wert
-                        if(!Piece.isValidMoveGetter(k, j)){
+                        clearMirror();
+                        initializeMirror();
+                        if(Piece.movemirror(k, j)){
+                            return true;
                         }
-                        else{
-                            return false;
-                        }
+
                     }
                 }
             }
-            return true;
+            return false;
     }
 
     public static void clearMirror(){

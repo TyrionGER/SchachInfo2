@@ -155,7 +155,7 @@ public class Schachbrett {
     public static boolean isAttacked(Figure.Color color, int checkX, int checkY){
 
         for(Figure Piece : (color == Figure.Color.White ? blackPieces : whitePieces)){
-            if(Piece.isValidMoveGetter(checkX, checkY)){
+            if(Piece != null && Piece.isValidMoveGetter(checkX, checkY)){
                 return true;
             }
         }

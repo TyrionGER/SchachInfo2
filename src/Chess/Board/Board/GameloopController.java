@@ -43,6 +43,7 @@ public class GameloopController {
                 continue;
             }
             var currentPiece = Schachbrett.board[y][x];
+
             Schachbrettmirror.initializeMirror();
 
             if (Schachbrettmirror.isInCheckAfterMove(getCurrentColor(), x, y, newX, newY)) {
@@ -64,6 +65,10 @@ public class GameloopController {
                                     printSchachbrett();
                                     i = 0;
                                 }
+                            }
+                            if(Schachbrettmirror.Patt(getCurrentColor() == Figure.Color.White ? Figure.Color.Black : Figure.Color.White, Piece.getXcord(), Piece.getYcord())){
+                                System.out.println("Patt, kein legaler Zug möglich!");
+                                i = 0;
                             }
                         }
                     }
