@@ -155,8 +155,7 @@ public class Schachbrettmirror extends Schachbrett {
     //Entwurf Patt und Matt
     public static boolean Patt(Figure.Color color, int x, int y){
 
-
-            for (Figure Piece : (color == Figure.Color.White ? Schachbrettmirror.whitePieces : Schachbrettmirror.blackPieces)){
+            for (Figure Piece : (color == Figure.Color.White ? Schachbrett.whitePieces : Schachbrett.blackPieces)){
                 for(int j = 0; j <= 7; j++){ //y wert
                     for(int k = 0; k <= 7; k++){ //x wert
                         if(!Piece.isValidMoveGetter(k, j)){

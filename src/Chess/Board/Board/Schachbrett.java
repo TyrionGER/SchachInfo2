@@ -51,7 +51,23 @@ public class Schachbrett {
         board[3][4] = new Pawn(Figure.Color.Black,4,3);
         blackPieces.add(board[3][4]);
 */
-   /*
+        /*
+        //Patt
+        board[5][4] = new King(Figure.Color.Black,4,5);
+        blackPieces.add(board[5][3]);
+        board[1][7] = new Rook(Figure.Color.Black,7,1);
+        blackPieces.add(board[1][7]);
+        board[4][4] = new Pawn(Figure.Color.Black,4,4);
+        blackPieces.add(board[4][4]);
+        board[1][1] = new Pawn(Figure.Color.Black,1,1);
+        blackPieces.add(board[1][1]);
+
+        board[3][4] = new King(Figure.Color.White,4,3);
+        whitePieces.add(board[3][4]);
+        board[7][1] = new Rook(Figure.Color.White,1,7);
+        whitePieces.add(board[7][1]);
+
+
         for(int i=0; i<8; i++) {
             board[1][i] = new Pawn(Figure.Color.White, i, 1);
 
