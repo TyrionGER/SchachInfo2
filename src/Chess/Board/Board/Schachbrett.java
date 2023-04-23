@@ -19,6 +19,31 @@ public class Schachbrett {
     public static void initializeBoard(){
         board = new Figure[8][8];
 
+        //Teste Schach/Matt + Promote (pawn)
+      /* board[0][7] = new King(Figure.Color.White,7,0);
+        board[0][6] = new Rook(Figure.Color.White,6,0);
+        board[3][4] = new Knight(Figure.Color.White,4,3);
+        board[7][7] = new King(Figure.Color.Black,7,7);
+        board[1][5] = new Pawn(Figure.Color.Black,5,1);
+        whitePieces.add(board[0][7]);
+        whitePieces.add(board[0][6]);
+        whitePieces.add(board[3][4]);
+        blackPieces.add(board[1][5]);
+        blackPieces.add(board[7][7]);
+     */
+        //Teste En passant
+        /*
+        board[0][4] = new King(Figure.Color.White,4,0);
+        whitePieces.add(board[0][4]);
+        board[1][4] = new Pawn(Figure.Color.White,4,1);
+        whitePieces.add(board[1][4]);
+        board[7][4] = new King(Figure.Color.Black,4,7);
+        blackPieces.add(board[7][4]);
+        board[3][3] = new Pawn(Figure.Color.Black,3,3);
+        blackPieces.add(board[3][3]);
+        */
+
+        //Main Spielfeld
 
         for(int i=0; i<8; i++) {
             board[1][i] = new Pawn(Figure.Color.White, i, 1);

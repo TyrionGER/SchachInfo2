@@ -68,10 +68,10 @@ public class Pawn extends Figure{
                 Scanner scan = new Scanner(System.in);
                 int zahl = scan.nextInt();
                 obj = switch (zahl) {
-                    case 1 -> Schachbrett.board[newY][newX] = new Rook(getColor(), newX, newY);
-                    case 2 -> Schachbrett.board[newY][newX] = new Queen(getColor(), newX, newY);
-                    case 3 -> Schachbrett.board[newY][newX] = new Bishop(getColor(), newX, newY);
-                    case 4 -> Schachbrett.board[newY][newX] = new Knight(getColor(), newX, newY);
+                    case 1 -> Schachbrett.board[newX][newY] = new Rook(getColor(), newY, newX);
+                    case 2 -> Schachbrett.board[newX][newY] = new Queen(getColor(), newY, newX);
+                    case 3 -> Schachbrett.board[newX][newY] = new Bishop(getColor(), newY, newX);
+                    case 4 -> Schachbrett.board[newX][newY] = new Knight(getColor(), newY, newX);
                     default -> {
                         System.out.println("Ungueltige Eingabe.");
                         yield null;
