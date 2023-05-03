@@ -9,7 +9,7 @@ public class GameloopController {
     private static int i = 1;
     private static int x, y, newX, newY;
 
-    public static void Startchess() {
+    public void Startchess() {
         Schachbrett.initializeBoard();
         Scanner scan = new Scanner(System.in);
 
@@ -87,12 +87,12 @@ public class GameloopController {
         }
 
     //todo implement/optimize isMatt(),  Wincond, Castle
-    public static Figure.Color getCurrentColor() {
+    public Figure.Color getCurrentColor() {
         return (whatmove % 2 == 1 ? Figure.Color.White : Figure.Color.Black);
     }
 
 
-    public static void printSchachbrett() {
+    public void printSchachbrett() {
         System.out.println();
         System.out.print("  ");
         System.out.print("____________________________________________________________________________________________________________________________");

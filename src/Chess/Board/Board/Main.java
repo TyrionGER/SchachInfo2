@@ -1,12 +1,10 @@
 package Chess.Board.Board;
 
 import java.util.Scanner;
-
 import Chess.Board.Figures.*;
 
-public class Main extends GameloopController {
+public class Main{
     public static void main(String[] args) {
-
         Scanner scan = new Scanner(System.in);
         int eingabe = 0;
         System.out.println("Menue:");
@@ -14,6 +12,7 @@ public class Main extends GameloopController {
         System.out.println("2). Applikation Beenden");
         System.out.println("3). Achievements");
         eingabe = scan.nextInt();
+        
         switch (eingabe) {
             case 1:
                 //Schachfeld neu initialisieren
