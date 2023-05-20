@@ -20,7 +20,7 @@ public class Schachbrett {
         board = new Figure[8][8];
 
 //Teste Schach/Matt + Promote (pawn)
-
+        /*
         board[0][7] = new King(Figure.Color.White,7,0);
         whitePieces.add(board[0][7]);
         board[0][6] = new Rook(Figure.Color.White,6,0);
@@ -34,7 +34,7 @@ public class Schachbrett {
         board[1][5] = new Pawn(Figure.Color.Black,5,1);
         blackPieces.add(board[1][5]);
 
-        /*
+
         //En Passant mate
         board[0][7] = new Rook(Figure.Color.White,7,0);
         whitePieces.add(board[0][7]);
@@ -70,7 +70,6 @@ public class Schachbrett {
         board[7][1] = new Rook(Figure.Color.White,1,7);
         whitePieces.add(board[7][1]);
 */
-/*
         for(int i=0; i<8; i++) {
             board[1][i] = new Pawn(Figure.Color.White, i, 1);
 
@@ -102,7 +101,7 @@ public class Schachbrett {
             blackPieces.add(board[6][i]);
             blackPieces.add(board[7][i]);
         }
-       */
+
     }
 
     public static void resetEnPassant(Figure.Color color){
@@ -165,5 +164,8 @@ public class Schachbrett {
         }
         return false;
 
+    }
+    public static Figure[][] getBoard(){
+        return board;
     }
 }

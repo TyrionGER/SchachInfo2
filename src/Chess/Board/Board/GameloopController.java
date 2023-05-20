@@ -2,23 +2,38 @@ package Chess.Board.Board;
 
 import Chess.Board.Figures.*;
 
+import java.awt.event.ActionEvent;
 import java.util.Scanner;
 
-public class GameloopController {
-    private static int whatmove = 1;
-    private static int i = 1;
-    private static int x, y, newX, newY;
+public class GameloopController{
+    private int whatmove = 1;
+    private int i = 1;
+    private int x, y, newX, newY;
+    private boolean isFirstClick = true;
 
     public void Startchess() {
         Schachbrett.initializeBoard();
         Scanner scan = new Scanner(System.in);
+        UI_UX.startUI();
 
         while (i == 1) {
+            x = -1;
+            y = -1;
+            newX = -1;
+            newY = -1;
             printSchachbrett();
-            System.out.println("Bitte Start X Feld angeben: ");
-            x = scan.nextInt();
-            System.out.println("Bitte Start Y Feld angeben: ");
-            y = scan.nextInt();
+            while( x == -1 || y == -1 || newX == -1 || newY == -1){
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+
+
+
+
 
             if (x < 0 || x > 7 || y < 0 || y > 7) {
                 System.out.println("x oder y zu hoch oder zu niedrig");
@@ -33,10 +48,6 @@ public class GameloopController {
                 continue;
             }
 
-            System.out.println("Bitte Ziel X Feld angeben: ");
-            newX = scan.nextInt();
-            System.out.println("Bitte Ziel Y Feld angeben: ");
-            newY = scan.nextInt();
 
             if (newX < 0 || newX > 7 || newY < 0 || newY > 7) {
                 System.out.println("x oder y zu hoch oder zu niedrig");
@@ -82,11 +93,10 @@ public class GameloopController {
                 }
                 Schachbrettmirror.clearMirror();
 
-                }
             }
         }
+    }
 
-    //todo implement/optimize isMatt(),  Wincond, Castle
     public Figure.Color getCurrentColor() {
         return (whatmove % 2 == 1 ? Figure.Color.White : Figure.Color.Black);
     }
@@ -119,6 +129,44 @@ public class GameloopController {
         }
         System.out.println();
     }
-}
+    public void setCoordinates(int x, int y, int newX, int newY) {
+        this.x = x;
+        this.y = y;
+        this.newX = newX;
+        this.newY = newY;
+    }
 
+    /*
+    private void setFirstClick(boolean isFirstClick) {
+        this.isFirstClick = isFirstClick;
+    }
+    private boolean isFirstClick() {
+        return isFirstClick;
+    }
+    public void actionPerformed(ActionEvent e) {
+        String[] coordinates = e.getActionCommand().split(",");
+        y = Integer.parseInt(coordinates[0]);
+        x = Integer.parseInt(coordinates[1]);
+        Figure[][] board = Schachbrett.getBoard();
+        if (board[y][x].getColor() == getCurrentColor()) {
+            y = Integer.parseInt(coordinates[0]);
+            x = Integer.parseInt(coordinates[1]);
+
+        }
+
+        if (isFirstClick) {
+            if (board[y][x].getColor() == getCurrentColor()) {
+                y = Integer.parseInt(coordinates[0]);
+                x = Integer.parseInt(coordinates[1]);
+                isFirstClick = false;
+            }
+        } else {
+            if ((board[y][x] == null) || board[y][x].getColor() != getCurrentColor()) {
+                move(y, x);
+                isFirstClick = true;
+            }
+        }
+    }
+     */
+}
 

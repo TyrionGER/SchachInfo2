@@ -3,8 +3,10 @@ package Chess.Board.Board;
 import java.util.Scanner;
 import Chess.Board.Figures.*;
 
-public class Main{
+public class Main extends UI_UX{
+    static GameloopController gameloop = new GameloopController();
     public static void main(String[] args) {
+
         Scanner scan = new Scanner(System.in);
         int eingabe = 0;
         System.out.println("Menue:");
@@ -19,8 +21,8 @@ public class Main{
                 //die folgenden 2 zeilen sorgen dafür das die Konsole gecleared wird
                 System.out.print("\033[H\033[2J");
                 System.out.flush();
-                GameloopController gameloop = new GameloopController();
                 gameloop.Startchess();
+
             case 2:
                 break;
             case 3:

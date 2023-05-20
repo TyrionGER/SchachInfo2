@@ -1,60 +1,109 @@
 package Chess.Board.Board;
-import javax.imageio.ImageIO;
-import javax.swing.*;// Importiert alle Klassen und Pakete aus javax.swing
-import java.awt.*;// Importiert alle Klassen und Pakete aus java.awt
-import java.io.File;
-import java.io.IOException;
 
+import Chess.Board.Figures.*;
 
-public class UI_UX extends JPanel{
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
+public class UI_UX extends JFrame {
+    private JButton[][] schachbrett;
+    private int[] coordinates = new int[4];
+    private int click;
 
-    private static final int QUADRAT_GROESSE = 50; // Definition der Konstante für die Größe der Quadrate
-    private static final int BREITE = 8 * QUADRAT_GROESSE; // Definition der Konstante für die Breite des Schachbretts
-    private static final int HOEHE = BREITE; // Definition der Konstante für die Höhe des Schachbretts
-    private static final Color BRAUN = new Color(139, 69, 19); // Definition der Konstante für die Farbe Braun
-    private static final Color BEIGE = new Color(255, 228, 181); // Definition der Konstante für die Farbe BEIGE
+    public UI_UX() {
+        setTitle("Schach");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(800, 800);
+        JPanel panel = new JPanel(new GridLayout(8, 8));
+        schachbrett = new JButton[8][8];
 
-    public UI_UX(){
-        setPreferredSize(new Dimension(BREITE, HOEHE));// Setzt die bevorzugte Größe des Panels
+        Color creme = new Color(235, 236, 208);
+        Color gruen = new Color(119, 149, 86);
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                JButton button = new JButton();
+                button.setPreferredSize(new Dimension(50, 50));
+                if (Schachbrett.board != null) {
+                    Figure piece = Schachbrett.board[i][j];
+                    if (piece != null) {
+                        Figure.Color color = piece.getColor();
+                        if (piece instanceof Pawn) {
+                            ImageIcon PawnIcon = (color == Figure.Color.Black) ? new ImageIcon("Imgfiles/Figuren/whitePawn.png") : new ImageIcon("Imgfiles/Figuren/blackPawn.png");
+                            button.setIcon(PawnIcon);
+                        } else if (piece instanceof Rook) {
+                            ImageIcon RookIcon = (color == Figure.Color.Black) ? new ImageIcon("Imgfiles/Figuren/whiteRook.png") : new ImageIcon("Imgfiles/Figuren/blackRook.png");
+                            button.setIcon(RookIcon);
+                        } else if (piece instanceof Knight) {
+                            ImageIcon KnightIcon = (color == Figure.Color.Black) ? new ImageIcon("Imgfiles/Figuren/whiteKnight.png") : new ImageIcon("Imgfiles/Figuren/blackKnight.png");
+                            button.setIcon(KnightIcon);
+                        } else if (piece instanceof Bishop) {
+                            ImageIcon BishopIcon = (color == Figure.Color.Black) ? new ImageIcon("Imgfiles/Figuren/whiteBishop.png") : new ImageIcon("Imgfiles/Figuren/blackBishop.png");
+                            button.setIcon(BishopIcon);
+                        } else if (piece instanceof Queen) {
+                            ImageIcon QueenIcon = (color == Figure.Color.Black) ? new ImageIcon("Imgfiles/Figuren/whiteQueen.png") : new ImageIcon("Imgfiles/Figuren/blackQueen.png");
+                            button.setIcon(QueenIcon);
+                        } else if (piece instanceof King) {
+                            ImageIcon KingIcon = (color == Figure.Color.Black) ? new ImageIcon("Imgfiles/Figuren/whiteKing.png") : new ImageIcon("Imgfiles/Figuren/blackKing.png");
+                            button.setIcon(KingIcon);
+                        }
+                    }
+                }
+
+                if ((i + j) % 2 == 0) {
+                    button.setBackground(creme);
+                } else {
+                    button.setBackground(gruen);
+                }
+
+                button.setActionCommand((7 - i) + "," + j);
+                button.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        String[] coordinates = e.getActionCommand().split(",");
+                        int clickedY = Integer.parseInt(coordinates[0]);
+                        int clickedX = Integer.parseInt(coordinates[1]);
+                        handleClick(clickedY, clickedX);
+
+                    }
+                });
+
+                schachbrett[i][j] = button;
+                panel.add(button);
+            }
+        }
+
+        add(panel);
+        setVisible(true);
     }
 
-    public void paintComponent(Graphics g) { // Überschreiben der paintComponent-Methode
-        super.paintComponent(g); // Aufruf der paintComponent-Methode der Elternklasse (JPanel)
-        for (int i = 0; i < 8; i++) { // Schleife für die Anzahl der Zeilen
-            for (int j = 0; j < 8; j++) { // Schleife für die Anzahl der Spalten
-                Color color = (i + j) % 2 == 0 ? BRAUN : BEIGE;
-                g.setColor(color);
-                g.fillRect(i * QUADRAT_GROESSE, j * QUADRAT_GROESSE, QUADRAT_GROESSE, QUADRAT_GROESSE);
-
-                if (j == 1) {
-                    Image image = null;
-                    try {
-                        image = ImageIO.read(new File("Imgfiles/Figuren/whitePawn.png"));
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    g.drawImage(image, i * QUADRAT_GROESSE, j * QUADRAT_GROESSE, null);
-                } else if (j == 6) {
-                    Image image = null;
-                    try {
-                        image = ImageIO.read(new File("Imgfiles/Figuren/blackPawn.png"));
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    g.drawImage(image, i * QUADRAT_GROESSE, j * QUADRAT_GROESSE, null);
-                }
-            }
+    private void handleClick(int clickedY, int clickedX) {
+        click++;
+        if (click == 1) {
+            coordinates[0] = clickedX;
+            coordinates[1] = clickedY;
+        } else if (click == 2) {
+            coordinates[2] = clickedX;
+            coordinates[3] = clickedY;
+            Main.gameloop.setCoordinates(coordinates[0], coordinates[1], coordinates[2], coordinates[3]);
+            click = 0;
         }
     }
 
-    public static void main(String[] args) { // Hauptmethode des Programms
-        JFrame frame = new JFrame("UI.Schachbrett"); // Erstellen eines neuen JFrame mit dem Titel "UI. Schachbrett"
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);// Setzen der Schließen-Aktion des Fensters
-        Schachbrett board = new Schachbrett(); // Erstellen eines neuen Schachbretts
-        frame.add(board); // Hinzufügen des Schachbretts zum JFrame
-        frame.pack();// Setzt die Größe des Fensters basierend auf der bevorzugten Größe des Panels
-        frame.setResizable(false);// Deaktiviert das Ändern der Größe des Fensters
-        frame.setVisible(true); // Anzeigen des JFrame auf dem Bildschirm
+    private void handleMove(int[] coordinates) {
+
+        // Verarbeiten Sie den Zug basierend auf den Koordinaten
+        // coordinates[0] -> Startreihe
+        // coordinates[1] -> Startspalte
+        // coordinates[2] -> Zielreihe
+        // coordinates[3] -> Zielspalte
+    }
+
+    public static void startUI() {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new UI_UX();
+            }
+        });
     }
 }
