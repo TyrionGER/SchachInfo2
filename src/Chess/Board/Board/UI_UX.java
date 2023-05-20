@@ -5,6 +5,8 @@ import Chess.Board.Figures.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UI_UX extends JFrame {
     private JButton[][] schachbrett;
@@ -30,22 +32,22 @@ public class UI_UX extends JFrame {
                     if (piece != null) {
                         Figure.Color color = piece.getColor();
                         if (piece instanceof Pawn) {
-                            ImageIcon PawnIcon = (color == Figure.Color.Black) ? new ImageIcon("Imgfiles/Figuren/whitePawn.png") : new ImageIcon("Imgfiles/Figuren/blackPawn.png");
+                            ImageIcon PawnIcon = (color == Figure.Color.White) ? new ImageIcon("Imgfiles/Figuren/whitePawn.png") : new ImageIcon("Imgfiles/Figuren/blackPawn.png");
                             button.setIcon(PawnIcon);
                         } else if (piece instanceof Rook) {
-                            ImageIcon RookIcon = (color == Figure.Color.Black) ? new ImageIcon("Imgfiles/Figuren/whiteRook.png") : new ImageIcon("Imgfiles/Figuren/blackRook.png");
+                            ImageIcon RookIcon = (color == Figure.Color.White) ? new ImageIcon("Imgfiles/Figuren/whiteRook.png") : new ImageIcon("Imgfiles/Figuren/blackRook.png");
                             button.setIcon(RookIcon);
                         } else if (piece instanceof Knight) {
-                            ImageIcon KnightIcon = (color == Figure.Color.Black) ? new ImageIcon("Imgfiles/Figuren/whiteKnight.png") : new ImageIcon("Imgfiles/Figuren/blackKnight.png");
+                            ImageIcon KnightIcon = (color == Figure.Color.White) ? new ImageIcon("Imgfiles/Figuren/whiteKnight.png") : new ImageIcon("Imgfiles/Figuren/blackKnight.png");
                             button.setIcon(KnightIcon);
                         } else if (piece instanceof Bishop) {
-                            ImageIcon BishopIcon = (color == Figure.Color.Black) ? new ImageIcon("Imgfiles/Figuren/whiteBishop.png") : new ImageIcon("Imgfiles/Figuren/blackBishop.png");
+                            ImageIcon BishopIcon = (color == Figure.Color.White) ? new ImageIcon("Imgfiles/Figuren/whiteBishop.png") : new ImageIcon("Imgfiles/Figuren/blackBishop.png");
                             button.setIcon(BishopIcon);
                         } else if (piece instanceof Queen) {
-                            ImageIcon QueenIcon = (color == Figure.Color.Black) ? new ImageIcon("Imgfiles/Figuren/whiteQueen.png") : new ImageIcon("Imgfiles/Figuren/blackQueen.png");
+                            ImageIcon QueenIcon = (color == Figure.Color.White) ? new ImageIcon("Imgfiles/Figuren/whiteQueen.png") : new ImageIcon("Imgfiles/Figuren/blackQueen.png");
                             button.setIcon(QueenIcon);
                         } else if (piece instanceof King) {
-                            ImageIcon KingIcon = (color == Figure.Color.Black) ? new ImageIcon("Imgfiles/Figuren/whiteKing.png") : new ImageIcon("Imgfiles/Figuren/blackKing.png");
+                            ImageIcon KingIcon = (color == Figure.Color.White) ? new ImageIcon("Imgfiles/Figuren/whiteKing.png") : new ImageIcon("Imgfiles/Figuren/blackKing.png");
                             button.setIcon(KingIcon);
                         }
                     }
@@ -57,7 +59,7 @@ public class UI_UX extends JFrame {
                     button.setBackground(gruen);
                 }
 
-                button.setActionCommand((7 - i) + "," + j);
+                button.setActionCommand( i + "," + j);
                 button.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         String[] coordinates = e.getActionCommand().split(",");
@@ -76,9 +78,48 @@ public class UI_UX extends JFrame {
         add(panel);
         setVisible(true);
     }
+    private void updateChessboard() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                JButton button = schachbrett[i][j];
+                button.setPreferredSize(new Dimension(50, 50));
+                if (Schachbrett.board != null) {
+                    Figure piece = Schachbrett.board[i][j];
+                    if (piece != null) {
+                        Figure.Color color = piece.getColor();
+                        if (piece instanceof Pawn) {
+                            ImageIcon PawnIcon = (color == Figure.Color.White) ? new ImageIcon("Imgfiles/Figuren/whitePawn.png") : new ImageIcon("Imgfiles/Figuren/blackPawn.png");
+                            button.setIcon(PawnIcon);
+                        } else if (piece instanceof Rook) {
+                            ImageIcon RookIcon = (color == Figure.Color.White) ? new ImageIcon("Imgfiles/Figuren/whiteRook.png") : new ImageIcon("Imgfiles/Figuren/blackRook.png");
+                            button.setIcon(RookIcon);
+                        } else if (piece instanceof Knight) {
+                            ImageIcon KnightIcon = (color == Figure.Color.White) ? new ImageIcon("Imgfiles/Figuren/whiteKnight.png") : new ImageIcon("Imgfiles/Figuren/blackKnight.png");
+                            button.setIcon(KnightIcon);
+                        } else if (piece instanceof Bishop) {
+                            ImageIcon BishopIcon = (color == Figure.Color.White) ? new ImageIcon("Imgfiles/Figuren/whiteBishop.png") : new ImageIcon("Imgfiles/Figuren/blackBishop.png");
+                            button.setIcon(BishopIcon);
+                        } else if (piece instanceof Queen) {
+                            ImageIcon QueenIcon = (color == Figure.Color.White) ? new ImageIcon("Imgfiles/Figuren/whiteQueen.png") : new ImageIcon("Imgfiles/Figuren/blackQueen.png");
+                            button.setIcon(QueenIcon);
+                        } else if (piece instanceof King) {
+                            ImageIcon KingIcon = (color == Figure.Color.White) ? new ImageIcon("Imgfiles/Figuren/whiteKing.png") : new ImageIcon("Imgfiles/Figuren/blackKing.png");
+                            button.setIcon(KingIcon);
+                        }
+                    } else {
+                        button.setIcon(null);
+                    }
+                }
+            }
+        }
+    }
 
     private void handleClick(int clickedY, int clickedX) {
         click++;
+        // coordinates[0] -> Startreihe
+        // coordinates[1] -> Startspalte
+        // coordinates[2] -> Zielreihe
+        // coordinates[3] -> Zielspalte
         if (click == 1) {
             coordinates[0] = clickedX;
             coordinates[1] = clickedY;
@@ -87,17 +128,17 @@ public class UI_UX extends JFrame {
             coordinates[3] = clickedY;
             Main.gameloop.setCoordinates(coordinates[0], coordinates[1], coordinates[2], coordinates[3]);
             click = 0;
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            updateChessboard();
         }
     }
 
-    private void handleMove(int[] coordinates) {
 
-        // Verarbeiten Sie den Zug basierend auf den Koordinaten
-        // coordinates[0] -> Startreihe
-        // coordinates[1] -> Startspalte
-        // coordinates[2] -> Zielreihe
-        // coordinates[3] -> Zielspalte
-    }
+
 
     public static void startUI() {
         SwingUtilities.invokeLater(new Runnable() {
