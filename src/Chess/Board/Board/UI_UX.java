@@ -22,6 +22,7 @@ public class UI_UX extends JFrame {
     Color gelb = new Color(247, 247, 105);
     Color braun = new Color(104, 78, 57);
 
+
     public UI_UX() {
         setTitle("Schach");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -305,4 +306,36 @@ public class UI_UX extends JFrame {
 
         return promoteValue;
     }
+    public static void Endwindow(String endMessage) {
+        JFrame endWindow = new JFrame("Spielende");
+        endWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        endWindow.setSize(400, 200);
+        endWindow.setLayout(new GridLayout(2, 1));
+
+        JLabel messageLabel = new JLabel(endMessage, SwingConstants.CENTER);
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+
+        JButton mainMenuButton = new JButton("Hauptmenü");
+        mainMenuButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Hier die Aktion für Hauptmenü ausführen
+                // Zum Beispiel: Öffnen eines neuen Hauptmenü-Fensters
+            }
+        });
+        buttonPanel.add(mainMenuButton);
+
+        JButton quitButton = new JButton("Spiel beenden");
+        quitButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        buttonPanel.add(quitButton);
+
+        endWindow.add(messageLabel);
+        endWindow.add(buttonPanel);
+        endWindow.setVisible(true);
+    }
+
+
 }

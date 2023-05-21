@@ -72,7 +72,7 @@ public class GameloopController{
                             if (Schachbrett.isAttacked((getCurrentColor() == Figure.Color.White ? Figure.Color.Black : Figure.Color.White), Piece.getXcord(), Piece.getYcord())) { //test ob das Feld auf dem der gegnerische König steht angegriffen wird
                                 System.out.println((getCurrentColor() == Figure.Color.White ? Figure.Color.Black : Figure.Color.White) + " König ist im Schach");
                                 if(Schachbrettmirror.isMatt(getCurrentColor(),Piece.getXcord(), Piece.getYcord() )) { //Test ob es einen Legalen zug gibt nachdem der Gegnerische König nichtmehr im Schach ist
-                                    System.out.println((getCurrentColor() == Figure.Color.White ? Figure.Color.Black : Figure.Color.White) + " König ist Matt, " + getCurrentColor() + " hat gewonnen!");
+                                    UI.Endwindow(((getCurrentColor() == Figure.Color.White ? Figure.Color.Black : Figure.Color.White) + " König ist Matt, " + getCurrentColor() + " hat gewonnen!"));
                                     printSchachbrett();
                                     i = 0;
                                 }
@@ -80,7 +80,7 @@ public class GameloopController{
                             Schachbrettmirror.clearMirror();
                             Schachbrettmirror.initializeMirror();
                             if(Schachbrettmirror.Patt(getCurrentColor() == Figure.Color.White ? Figure.Color.Black : Figure.Color.White, Piece.getXcord(), Piece.getYcord()) && i != 0){// Patt wenn der gegnerische Spieler keinen legalen zug mehr hat aber nicht im Schach ist
-                                System.out.println("Patt, kein legaler Zug möglich!");
+                                UI.Endwindow(("Patt, kein legaler Zug möglich!"));
                                 printSchachbrett();
                                 i = 0;
                             }
