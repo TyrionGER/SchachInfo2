@@ -11,6 +11,8 @@ public class UI_UX extends JFrame {
     private JButton[][] schachbrett;
     private int[] coordinates = new int[4];
     private int click;
+    private static int promoteint = -1;
+    private static UI_UX instance;
 
     static JLabel player1Timer = new JLabel();
     static JLabel player2Timer = new JLabel();
@@ -109,7 +111,7 @@ public class UI_UX extends JFrame {
         setContentPane(borderPanel);
         setVisible(true);
     }
-    private void updateChessboard() {
+    public void updateChessboard() {
         for (int i = 7; i >= 0; i--) {
             for (int j = 0; j < 8; j++) {
                 JButton button = schachbrett[i][j];
@@ -149,6 +151,7 @@ public class UI_UX extends JFrame {
             }
         }
     }
+
 
     private void handleClick(int clickedY, int clickedX) {
         click++;
@@ -200,13 +203,13 @@ public class UI_UX extends JFrame {
                         player1TimeLeft--;
                         if(player1TimeLeft == 0){
                             timer.cancel();
-                            System.out.println("White Wins!");
+                            System.out.println("White Wins on time!");
                         }
                     }else{
                         player2TimeLeft--;
                         if(player2TimeLeft == 0){
                             timer.cancel();
-                            System.out.println("Black Wins!");
+                            System.out.println("Black Wins on time!");
                         }
                     }
                     player1Timer.setText(getPlayer1Time());
@@ -233,11 +236,73 @@ public class UI_UX extends JFrame {
         }
     }
 
-    public static void startUI() {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new UI_UX();
+
+    public static UI_UX getInstance() {
+        if (instance == null) {
+            instance = new UI_UX();
+        }
+        return instance;
+    }
+    public static int openPromotionWindow() {
+        JFrame promotionWindow = new JFrame("Promotion");
+        promotionWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        promotionWindow.setSize(400, 200);
+        promotionWindow.setLayout(new GridLayout(1, 4));
+
+        JButton queenButton = new JButton();
+        queenButton.setIcon(new ImageIcon("Imgfiles/Figuren/whiteQueen.png")); // oder blackQueen.png für schwarze Figuren
+        queenButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                promotionWindow.dispose();
+                promoteint = 2;
             }
         });
+        promotionWindow.add(queenButton);
+
+        JButton rookButton = new JButton();
+        rookButton.setIcon(new ImageIcon("Imgfiles/Figuren/whiteRook.png")); // oder blackRook.png für schwarze Figuren
+        rookButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                promotionWindow.dispose();
+                promoteint = 1; // Rook
+            }
+        });
+        promotionWindow.add(rookButton);
+
+        JButton knightButton = new JButton();
+        knightButton.setIcon(new ImageIcon("Imgfiles/Figuren/whiteKnight.png")); // oder blackKnight.png für schwarze Figuren
+        knightButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                promotionWindow.dispose();
+                promoteint = 4; // Knight
+            }
+        });
+        promotionWindow.add(knightButton);
+
+        JButton bishopButton = new JButton();
+        bishopButton.setIcon(new ImageIcon("Imgfiles/Figuren/whiteBishop.png")); // oder blackBishop.png für schwarze Figuren
+        bishopButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                promotionWindow.dispose();
+                promoteint = 3; // Bishop
+            }
+        });
+        promotionWindow.add(bishopButton);
+
+        promotionWindow.setVisible(true);
+
+        int promoteValue = -1; // Set initial value to -1
+
+        while (promoteValue == -1) {
+            // Wait until promoteValue changes from -1
+            try {
+                Thread.sleep(100); // Sleep for 100 milliseconds before checking again
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+            promoteValue = promoteint; // Update promoteValue
+        }
+
+        return promoteValue;
     }
 }

@@ -13,7 +13,7 @@ public class GameloopController{
     public void Startchess() {
         Schachbrett.initializeBoard();
         Scanner scan = new Scanner(System.in);
-        UI_UX.startUI();
+        UI_UX UI = UI_UX.getInstance(); // Statt UI_UX.startUI();
 
         while (i == 1) {
             x = -1;
@@ -87,6 +87,7 @@ public class GameloopController{
                         }
                     }
                     whatmove++;
+                    UI.updateChessboard();
                 } else {
                     System.out.println("______Zug nicht erlaubt_______");
                 }

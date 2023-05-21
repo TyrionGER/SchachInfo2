@@ -2,6 +2,7 @@ package Chess.Board.Figures;
 
 import Chess.Board.Board.Schachbrett;
 import Chess.Board.Board.Schachbrettmirror;
+import Chess.Board.Board.UI_UX;
 
 import java.util.Scanner;
 
@@ -65,11 +66,8 @@ public class Pawn extends Figure{
         if (Schachbrett.board[newY][newX] == Schachbrett.board[7][newX] || Schachbrett.board[newY][newX] == Schachbrett.board[0][newX]) {
             Figure obj = null;
             while (obj == null){
-                System.out.println("Welche Figur wollen sie ?");
-                System.out.println("Rook = 1, Queen = 2, Bishop = 3, Knight = 4");
 
-                Scanner scan = new Scanner(System.in);
-                int zahl = scan.nextInt();
+                int zahl = UI_UX.openPromotionWindow();
                 obj = switch (zahl) {
                     case 1 -> Schachbrett.board[newY][newX] = new Rook(getColor(), newX, newY);
                     case 2 -> Schachbrett.board[newY][newX] = new Queen(getColor(), newX, newY);
@@ -173,11 +171,8 @@ public class Pawn extends Figure{
             if (Schachbrettmirror.board[newY][newX] == Schachbrettmirror.board[7][newX] || Schachbrettmirror.board[newY][newX] == Schachbrettmirror.board[0][newX]) {
                 Figure obj = null;
                 while (obj == null){
-                    System.out.println("Welche Figur wollen sie ?");
-                    System.out.println("Rook = 1, Queen = 2, Bishop = 3, Knight = 4");
+                    int zahl = UI_UX.openPromotionWindow();
 
-                    Scanner scan = new Scanner(System.in);
-                    int zahl = scan.nextInt();
                     obj = switch (zahl) {
                         case 1 -> Schachbrettmirror.board[newY][newX] = new Rook(getColor(), newX, newY);
                         case 2 -> Schachbrettmirror.board[newY][newX] = new Queen(getColor(), newX, newY);
