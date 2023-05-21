@@ -1,7 +1,6 @@
 package Chess.Board.Board;
 
 import Chess.Board.Figures.*;
-
 import java.awt.event.ActionEvent;
 import java.util.Scanner;
 

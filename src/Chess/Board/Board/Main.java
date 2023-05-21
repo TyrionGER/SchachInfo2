@@ -1,10 +1,13 @@
 package Chess.Board.Board;
 
 import java.util.Scanner;
+import java.util.TimerTask;
+
 import Chess.Board.Figures.*;
 
 public class Main extends UI_UX{
     static GameloopController gameloop = new GameloopController();
+
     public static void main(String[] args) {
 
         Scanner scan = new Scanner(System.in);
@@ -21,6 +24,8 @@ public class Main extends UI_UX{
                 //die folgenden 2 zeilen sorgen dafür das die Konsole gecleared wird
                 System.out.print("\033[H\033[2J");
                 System.out.flush();
+                chessTimer chessTimer = new chessTimer(900);
+                chessTimer.start();
                 gameloop.Startchess();
 
             case 2:

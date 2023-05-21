@@ -1,17 +1,24 @@
 package Chess.Board.Board;
 
 import Chess.Board.Figures.*;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.TimerTask;
+import java.util.Timer;
 
 public class UI_UX extends JFrame {
     private JButton[][] schachbrett;
     private int[] coordinates = new int[4];
     private int click;
+
+    static JLabel player1Timer = new JLabel();
+    static JLabel player2Timer = new JLabel();
+
+    Color creme = new Color(240, 217, 181);
+    Color hellbraun = new Color(181, 136, 99);
+    Color gelb = new Color(247, 247, 105);
+    Color braun = new Color(104, 78, 57);
 
     public UI_UX() {
         setTitle("Schach");
@@ -20,10 +27,24 @@ public class UI_UX extends JFrame {
         JPanel panel = new JPanel(new GridLayout(8, 8));
         schachbrett = new JButton[8][8];
 
-        Color creme = new Color(235, 236, 208);
-        Color gruen = new Color(119, 149, 86);
+        JPanel borderPanel = new JPanel(new BorderLayout());
 
-        for (int i = 0; i < 8; i++) {
+        JPanel topPanel = new JPanel(new FlowLayout());
+        JPanel bottomPanel = new JPanel(new FlowLayout());
+
+        JLabel player1 = new JLabel("Player 1: ");
+        JLabel player2 = new JLabel("Player 2: ");
+
+        topPanel.add(player2);
+        topPanel.add(player2Timer);
+
+        bottomPanel.add(player1);
+        bottomPanel.add(player1Timer);
+
+        borderPanel.add(topPanel, BorderLayout.NORTH);
+        borderPanel.add(bottomPanel, BorderLayout.SOUTH);
+
+        for (int i = 7; i >= 0; i--) {
             for (int j = 0; j < 8; j++) {
                 JButton button = new JButton();
                 button.setPreferredSize(new Dimension(50, 50));
@@ -56,7 +77,7 @@ public class UI_UX extends JFrame {
                 if ((i + j) % 2 == 0) {
                     button.setBackground(creme);
                 } else {
-                    button.setBackground(gruen);
+                    button.setBackground(hellbraun);
                 }
 
                 button.setActionCommand( i + "," + j);
@@ -65,8 +86,17 @@ public class UI_UX extends JFrame {
                         String[] coordinates = e.getActionCommand().split(",");
                         int clickedY = Integer.parseInt(coordinates[0]);
                         int clickedX = Integer.parseInt(coordinates[1]);
-                        handleClick(clickedY, clickedX);
 
+                        Figure clickedPiece = Schachbrett.board[clickedY][clickedX];
+
+                        if(clickedPiece != null){
+                            Figure.Color clickedPieceColor = clickedPiece.getColor();
+
+                            if(clickedPieceColor == Main.gameloop.getCurrentColor()) {
+                                schachbrett[clickedY][clickedX].setBackground(gelb);
+                            }
+                        }
+                        handleClick(clickedY, clickedX);
                     }
                 });
 
@@ -74,12 +104,13 @@ public class UI_UX extends JFrame {
                 panel.add(button);
             }
         }
-
-        add(panel);
+        borderPanel.setBorder(BorderFactory.createLineBorder(braun, 50));
+        borderPanel.add(panel, BorderLayout.CENTER);
+        setContentPane(borderPanel);
         setVisible(true);
     }
     private void updateChessboard() {
-        for (int i = 0; i < 8; i++) {
+        for (int i = 7; i >= 0; i--) {
             for (int j = 0; j < 8; j++) {
                 JButton button = schachbrett[i][j];
                 button.setPreferredSize(new Dimension(50, 50));
@@ -110,6 +141,11 @@ public class UI_UX extends JFrame {
                         button.setIcon(null);
                     }
                 }
+                if ((i + j) % 2 == 0) {
+                    button.setBackground(creme);
+                } else {
+                    button.setBackground(hellbraun);
+                }
             }
         }
     }
@@ -137,8 +173,65 @@ public class UI_UX extends JFrame {
         }
     }
 
+    public static class chessTimer {
+        Timer timer;
+        int player1TimeLeft;
+        int player2TimeLeft;
 
+        public chessTimer(int seconds){
+            player1TimeLeft = seconds;
+            player2TimeLeft = seconds;
 
+        }
+
+        public void start(){
+            timer = new Timer();
+
+            String player1Time = getPlayer1Time();
+            String player2Time = getPlayer2Time();
+
+            System.out.print("\rPlayer 1: " + player1Time);
+            System.out.print("    Player 2: " + player2Time);
+
+            timer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    if (Main.gameloop.getCurrentColor() == Figure.Color.White) {
+                        player1TimeLeft--;
+                        if(player1TimeLeft == 0){
+                            timer.cancel();
+                            System.out.println("White Wins!");
+                        }
+                    }else{
+                        player2TimeLeft--;
+                        if(player2TimeLeft == 0){
+                            timer.cancel();
+                            System.out.println("Black Wins!");
+                        }
+                    }
+                    player1Timer.setText(getPlayer1Time());
+                    player2Timer.setText(getPlayer2Time());
+                    String updatedPlayer1Time = getPlayer1Time();
+                    String updatedPlayer2Time = getPlayer2Time();
+
+                    System.out.print("\rPlayer 1: " + updatedPlayer1Time);
+                    System.out.print("    Player 2: " + updatedPlayer2Time);
+                }
+            },0,1000);
+        }
+
+        public String getPlayer1Time() {
+            int minutes = player1TimeLeft / 60;
+            int seconds = player1TimeLeft % 60;
+            return String.format("%02d:%02d", minutes, seconds);
+        }
+
+        public String getPlayer2Time() {
+            int minutes = player2TimeLeft / 60;
+            int seconds = player2TimeLeft % 60;
+            return String.format("%02d:%02d", minutes, seconds);
+        }
+    }
 
     public static void startUI() {
         SwingUtilities.invokeLater(new Runnable() {

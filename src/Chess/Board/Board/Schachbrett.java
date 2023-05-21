@@ -80,8 +80,8 @@ public class Schachbrett {
         board[0][0] = new Rook(Figure.Color.White,0,0);
         board[0][1] = new Knight(Figure.Color.White,1,0);
         board[0][2] = new Bishop( Figure.Color.White,2,0);
-        board[0][3] = new King( Figure.Color.White,4,0);
-        board[0][4] = new Queen( Figure.Color.White,3,0);
+        board[0][3] = new King( Figure.Color.White,3,0);
+        board[0][4] = new Queen( Figure.Color.White,4,0);
         board[0][5] = new Bishop(Figure.Color.White,5,0);
         board[0][6] = new Knight(Figure.Color.White,6,0);
         board[0][7] = new Rook(Figure.Color.White,7,0);
@@ -90,8 +90,8 @@ public class Schachbrett {
         board[7][0] = new Rook(Figure.Color.Black,0,7);
         board[7][1] = new Knight(Figure.Color.Black,1,7);
         board[7][2] = new Bishop(Figure.Color.Black,2,7);
-        board[7][3] = new King(Figure.Color.Black,4,7);
-        board[7][4] = new Queen(Figure.Color.Black,3, 7);
+        board[7][3] = new King(Figure.Color.Black,3,7);
+        board[7][4] = new Queen(Figure.Color.Black,4, 7);
         board[7][5] = new Bishop(Figure.Color.Black,5,7);
         board[7][6] = new Knight(Figure.Color.Black,6,7);
         board[7][7] = new Rook(Figure.Color.Black,7,7);
