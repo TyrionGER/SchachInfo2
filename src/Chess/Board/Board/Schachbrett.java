@@ -168,4 +168,9 @@ public class Schachbrett {
     public static Figure[][] getBoard(){
         return board;
     }
+
+    public static void resetBoard(){
+        board = null;
+        initializeBoard();
+    }
 }

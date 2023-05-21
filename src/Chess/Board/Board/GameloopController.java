@@ -19,6 +19,7 @@ public class GameloopController{
             y = -1;
             newX = -1;
             newY = -1;
+            UI.updateChessboard();
             printSchachbrett();
             while( x == -1 || y == -1 || newX == -1 || newY == -1){
                 try {
@@ -134,38 +135,15 @@ public class GameloopController{
         this.newX = newX;
         this.newY = newY;
     }
-
-    /*
-    private void setFirstClick(boolean isFirstClick) {
-        this.isFirstClick = isFirstClick;
+    public void resetBoard(){
+        Schachbrett.resetBoard();
     }
-    private boolean isFirstClick() {
-        return isFirstClick;
-    }
-    public void actionPerformed(ActionEvent e) {
-        String[] coordinates = e.getActionCommand().split(",");
-        y = Integer.parseInt(coordinates[0]);
-        x = Integer.parseInt(coordinates[1]);
-        Figure[][] board = Schachbrett.getBoard();
-        if (board[y][x].getColor() == getCurrentColor()) {
-            y = Integer.parseInt(coordinates[0]);
-            x = Integer.parseInt(coordinates[1]);
+    public void resetUI() {
+        UI_UX UI = UI_UX.getInstance();
+        UI.dispose(); // Schließt das aktuelle UI
 
-        }
-
-        if (isFirstClick) {
-            if (board[y][x].getColor() == getCurrentColor()) {
-                y = Integer.parseInt(coordinates[0]);
-                x = Integer.parseInt(coordinates[1]);
-                isFirstClick = false;
-            }
-        } else {
-            if ((board[y][x] == null) || board[y][x].getColor() != getCurrentColor()) {
-                move(y, x);
-                isFirstClick = true;
-            }
-        }
+        // Löscht die Instanz von UI_UX
+        UI_UX.instance = null;
     }
-     */
 }
 

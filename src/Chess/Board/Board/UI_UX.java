@@ -12,10 +12,10 @@ public class UI_UX extends JFrame {
     private int[] coordinates = new int[4];
     private int click;
     private static int promoteint = -1;
-    private static UI_UX instance;
+    public static UI_UX instance;
 
-    static JLabel player1Timer = new JLabel();
-    static JLabel player2Timer = new JLabel();
+    JLabel player1Timer = new JLabel();
+    JLabel player2Timer = new JLabel();
 
     Color creme = new Color(240, 217, 181);
     Color hellbraun = new Color(181, 136, 99);
@@ -26,7 +26,8 @@ public class UI_UX extends JFrame {
     public UI_UX() {
         setTitle("Schach");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 800);
+        setSize(1000, 1000);
+        setResizable(false);
         JPanel panel = new JPanel(new GridLayout(8, 8));
         schachbrett = new JButton[8][8];
 
@@ -113,6 +114,8 @@ public class UI_UX extends JFrame {
         borderPanel.add(panel, BorderLayout.CENTER);
         setContentPane(borderPanel);
         setVisible(true);
+
+        centerWindow(this);
     }
     public void updateChessboard() {
         for (int i = 7; i >= 0; i--) {
@@ -179,7 +182,7 @@ public class UI_UX extends JFrame {
         }
     }
 
-    public static class chessTimer {
+    public class chessTimer {
         Timer timer;
         int player1TimeLeft;
         int player2TimeLeft;
@@ -339,6 +342,17 @@ public class UI_UX extends JFrame {
         endWindow.add(messageLabel);
         endWindow.add(buttonPanel);
         endWindow.setVisible(true);
+        centerWindow(endWindow); // Zentriere das Fenster
+    }
+    private static void centerWindow(JFrame frame) {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenWidth = screenSize.width;
+        int screenHeight = screenSize.height;
+        int windowWidth = frame.getWidth();
+        int windowHeight = frame.getHeight();
+        int posX = (screenWidth - windowWidth) / 2;
+        int posY = (screenHeight - windowHeight) / 2;
+        frame.setLocation(posX, posY);
     }
 
 

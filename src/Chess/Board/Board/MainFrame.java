@@ -8,15 +8,19 @@ import java.awt.event.ActionListener;
 public class MainFrame extends JFrame {
 
     public static GameloopController gameloop;
+    int windowWidth = 1000;
+    int windowHeight = 1000;
 
     public MainFrame() {
+
         setTitle("Schachspiel");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         initComponents();
-        pack();
+        setSize(windowWidth, windowHeight); // Setze die Größe des Fensters
         setLocationRelativeTo(null);
     }
+
 
     private void initComponents() {
         JPanel mainPanel = new JPanel();
@@ -102,8 +106,10 @@ public class MainFrame extends JFrame {
     public static void restart() {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                MainFrame mainFrame = new MainFrame();
-                mainFrame.setVisible(true);
+                gameloop.resetBoard();
+                gameloop.resetUI();
+                new MainFrame().setVisible(true);
+
             }
         });
     }
