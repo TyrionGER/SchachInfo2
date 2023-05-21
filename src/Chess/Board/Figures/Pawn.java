@@ -66,8 +66,8 @@ public class Pawn extends Figure{
         if (Schachbrett.board[newY][newX] == Schachbrett.board[7][newX] || Schachbrett.board[newY][newX] == Schachbrett.board[0][newX]) {
             Figure obj = null;
             while (obj == null){
-
-                int zahl = UI_UX.openPromotionWindow();
+                UI_UX UI = UI_UX.getInstance();
+                int zahl = UI.openPromotionWindow();
                 obj = switch (zahl) {
                     case 1 -> Schachbrett.board[newY][newX] = new Rook(getColor(), newX, newY);
                     case 2 -> Schachbrett.board[newY][newX] = new Queen(getColor(), newX, newY);
@@ -171,7 +171,8 @@ public class Pawn extends Figure{
             if (Schachbrettmirror.board[newY][newX] == Schachbrettmirror.board[7][newX] || Schachbrettmirror.board[newY][newX] == Schachbrettmirror.board[0][newX]) {
                 Figure obj = null;
                 while (obj == null){
-                    int zahl = UI_UX.openPromotionWindow();
+                    UI_UX UI = UI_UX.getInstance();
+                    int zahl = UI.openPromotionWindow();
 
                     obj = switch (zahl) {
                         case 1 -> Schachbrettmirror.board[newY][newX] = new Rook(getColor(), newX, newY);

@@ -11,7 +11,7 @@ public class UI_UX extends JFrame {
     private JButton[][] schachbrett;
     private int[] coordinates = new int[4];
     private int click;
-    private static int promoteint = -1;
+    private int promoteint = -1;
     public static UI_UX instance;
 
     JLabel player1Timer = new JLabel();
@@ -209,13 +209,13 @@ public class UI_UX extends JFrame {
                         player1TimeLeft--;
                         if(player1TimeLeft == 0){
                             timer.cancel();
-                            System.out.println("White Wins on time!");
+                            UI_UX.Endwindow("White Wins on time!");
                         }
                     }else{
                         player2TimeLeft--;
                         if(player2TimeLeft == 0){
                             timer.cancel();
-                            System.out.println("Black Wins on time!");
+                            UI_UX.Endwindow("Black Wins on time!");
                         }
                     }
                     player1Timer.setText(getPlayer1Time());
@@ -249,7 +249,8 @@ public class UI_UX extends JFrame {
         }
         return instance;
     }
-    public static int openPromotionWindow() {
+    public int openPromotionWindow() {
+        promoteint = -1;
         JFrame promotionWindow = new JFrame("Promotion");
         promotionWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         promotionWindow.setSize(400, 200);
