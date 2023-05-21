@@ -50,7 +50,7 @@ public class UI_UX extends JFrame {
         for (int i = 7; i >= 0; i--) {
             for (int j = 0; j < 8; j++) {
                 JButton button = new JButton();
-                button.setPreferredSize(new Dimension(50, 50));
+                button.setPreferredSize(new Dimension(800, 800));
                 if (Schachbrett.board != null) {
                     Figure piece = Schachbrett.board[i][j];
                     if (piece != null) {
@@ -82,6 +82,8 @@ public class UI_UX extends JFrame {
                 } else {
                     button.setBackground(hellbraun);
                 }
+                chessTimer chessTimer = new chessTimer(900);
+                chessTimer.start();
 
                 button.setActionCommand( i + "," + j);
                 button.addActionListener(new ActionListener() {
@@ -95,7 +97,7 @@ public class UI_UX extends JFrame {
                         if(clickedPiece != null){
                             Figure.Color clickedPieceColor = clickedPiece.getColor();
 
-                            if(clickedPieceColor == Main.gameloop.getCurrentColor()) {
+                            if(clickedPieceColor == MainFrame.gameloop.getCurrentColor()) {
                                 schachbrett[clickedY][clickedX].setBackground(gelb);
                             }
                         }
@@ -166,7 +168,7 @@ public class UI_UX extends JFrame {
         } else if (click == 2) {
             coordinates[2] = clickedX;
             coordinates[3] = clickedY;
-            Main.gameloop.setCoordinates(coordinates[0], coordinates[1], coordinates[2], coordinates[3]);
+            MainFrame.gameloop.setCoordinates(coordinates[0], coordinates[1], coordinates[2], coordinates[3]);
             click = 0;
             try {
                 Thread.sleep(200);
@@ -200,7 +202,7 @@ public class UI_UX extends JFrame {
             timer.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-                    if (Main.gameloop.getCurrentColor() == Figure.Color.White) {
+                    if (MainFrame.gameloop.getCurrentColor() == Figure.Color.White) {
                         player1TimeLeft--;
                         if(player1TimeLeft == 0){
                             timer.cancel();
@@ -318,8 +320,10 @@ public class UI_UX extends JFrame {
         JButton mainMenuButton = new JButton("Hauptmenü");
         mainMenuButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Hier die Aktion für Hauptmenü ausführen
-                // Zum Beispiel: Öffnen eines neuen Hauptmenü-Fensters
+                Schachbrett.board = null;
+                endWindow.setVisible(false);
+                MainFrame.restart();
+
             }
         });
         buttonPanel.add(mainMenuButton);

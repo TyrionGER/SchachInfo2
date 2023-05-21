@@ -12,7 +12,6 @@ public class GameloopController{
 
     public void Startchess() {
         Schachbrett.initializeBoard();
-        Scanner scan = new Scanner(System.in);
         UI_UX UI = UI_UX.getInstance(); // Statt UI_UX.startUI();
 
         while (i == 1) {
