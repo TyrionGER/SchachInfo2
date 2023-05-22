@@ -16,6 +16,8 @@ public class UI_UX extends JFrame {
 
     JLabel player1Timer = new JLabel();
     JLabel player2Timer = new JLabel();
+    JLabel player1;
+    JLabel player2;
 
     Color creme = new Color(240, 217, 181);
     Color hellbraun = new Color(181, 136, 99);
@@ -36,14 +38,16 @@ public class UI_UX extends JFrame {
         JPanel topPanel = new JPanel(new FlowLayout());
         JPanel bottomPanel = new JPanel(new FlowLayout());
 
-        JLabel player1 = new JLabel("Player 1: ");
-        JLabel player2 = new JLabel("Player 2: ");
+        player1 = new JLabel("Player 1: ");
+        player2 = new JLabel("Player 2: ");
 
         topPanel.add(player2);
         topPanel.add(player2Timer);
 
         bottomPanel.add(player1);
         bottomPanel.add(player1Timer);
+
+        player1.setForeground(Color.red);
 
         borderPanel.add(topPanel, BorderLayout.NORTH);
         borderPanel.add(bottomPanel, BorderLayout.SOUTH);
@@ -207,12 +211,17 @@ public class UI_UX extends JFrame {
                 public void run() {
                     if (MainFrame.gameloop.getCurrentColor() == Figure.Color.White) {
                         player1TimeLeft--;
+                        // Ändere die Farbe des Textes für den aktuellen Spieler
+                        player1.setForeground(Color.RED);
+                        player2.setForeground(Color.BLACK);
                         if(player1TimeLeft == 0){
                             timer.cancel();
                             UI_UX.Endwindow("White Wins on time!");
                         }
                     }else{
                         player2TimeLeft--;
+                        player1.setForeground(Color.BLACK);
+                        player2.setForeground(Color.RED);
                         if(player2TimeLeft == 0){
                             timer.cancel();
                             UI_UX.Endwindow("Black Wins on time!");
