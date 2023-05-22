@@ -92,7 +92,7 @@ public class Schachbrettmirror extends Schachbrett {
     public static boolean isInCheckAfterMove(Figure.Color color, int x, int y, int newX, int newY){
         //Test ob der König der durchgegebenen Farbe im Schach steht nachdem der Zug gemacht wurde
 
-        if(board[y][x] != null && board[y][x].movemirror(newX, newY)){
+        if(board[y][x] != null && color == board[y][x].getColor() && board[y][x].movemirror(newX, newY)){
             int kingX = -1, kingY = -1;
             for (Figure Piece : (color == Figure.Color.White ? Schachbrettmirror.whitePieces : Schachbrettmirror.blackPieces)) {
                 if (Piece instanceof King) {
@@ -135,7 +135,7 @@ public class Schachbrettmirror extends Schachbrett {
         clearMirror();
         initializeMirror();
 
-        for (Figure Piece : (color == Figure.Color.Black ? Schachbrett.whitePieces : Schachbrett.blackPieces)) { //Test ob die eine Figur der angegriffenen Farbe ein Feld auf dem Schachbrett hat auf das es Springen kann sodass der eigene König nicht mehr im Schach steht
+        for (Figure Piece : (color == Figure.Color.Black ? Schachbrett.whitePieces : Schachbrett.blackPieces)) {//Test ob die eine Figur der angegriffenen Farbe ein Feld auf dem Schachbrett hat auf das es Springen kann sodass der eigene König nicht mehr im Schach steht
             for (int j = 0; j < 8; j++) {
                 for (int k = 0; k < 8; k++) {
                     clearMirror();
