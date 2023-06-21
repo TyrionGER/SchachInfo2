@@ -131,7 +131,7 @@ public class Schachbrettmirror extends Schachbrett {
 
         }
         //go through all pieces and check all squares if they could Protect the King
-        //todo evtl Logik finden um nur diagonalen, geraden oder felder auf denen ein Springer stehen könnte der den König angreift zu testen
+
         clearMirror();
         initializeMirror();
 
