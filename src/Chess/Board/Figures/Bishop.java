@@ -20,7 +20,10 @@ public class Bishop extends Figure{ //Bishop erbt von der Basisklasse Figure
             int y = Ycord + yDir;
 
             while (x != newX && y != newY) {
-                if (Schachbrett.board[y][x] != null) {
+                if (x < 0 || x > 7 || y < 0 || y > 7) {
+                    break; // Out of bounds --> break while loop
+                }
+                if (Schachbrettmirror.board[y][x] != null) {
                     return false;
                 }
 

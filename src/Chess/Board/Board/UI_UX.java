@@ -3,6 +3,8 @@ package Chess.Board.Board;
 import Chess.Board.Figures.*;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.datatransfer.*;
+import java.awt.dnd.*;
 import java.awt.event.*;
 import java.util.TimerTask;
 import java.util.Timer;
@@ -12,6 +14,8 @@ public class UI_UX extends JFrame {
     private int[] coordinates = new int[4];
     private int click;
     private int promoteint = -1;
+    private Figure selectedPiece; // Aktuell ausgewählte Figur für Drag-and-Drop
+    private int dragStartX, dragStartY; // Startkoordinaten für Drag-and-Drop
     public static UI_UX instance;
 
     JLabel player1Timer = new JLabel();
@@ -22,7 +26,10 @@ public class UI_UX extends JFrame {
     Color creme = new Color(240, 217, 181);
     Color hellbraun = new Color(181, 136, 99);
     Color gelb = new Color(247, 247, 105);
-    Color braun = new Color(104, 78, 57);
+    Color dunkelgrau = new Color(43, 43, 43);
+
+    Color gruen = new Color(0,238,0);
+    Color rot = new Color(255,0,0);
 
 
     public UI_UX() {
@@ -43,11 +50,11 @@ public class UI_UX extends JFrame {
 
         topPanel.add(player2);
         topPanel.add(player2Timer);
+        topPanel.setBackground(dunkelgrau);
 
         bottomPanel.add(player1);
         bottomPanel.add(player1Timer);
-
-        player1.setForeground(Color.red);
+        bottomPanel.setBackground(dunkelgrau);
 
         borderPanel.add(topPanel, BorderLayout.NORTH);
         borderPanel.add(bottomPanel, BorderLayout.SOUTH);
@@ -87,6 +94,7 @@ public class UI_UX extends JFrame {
                 } else {
                     button.setBackground(hellbraun);
                 }
+
                 chessTimer chessTimer = new chessTimer(900);
                 chessTimer.start();
 
@@ -99,11 +107,28 @@ public class UI_UX extends JFrame {
 
                         Figure clickedPiece = Schachbrett.board[clickedY][clickedX];
 
+
                         if(clickedPiece != null){
                             Figure.Color clickedPieceColor = clickedPiece.getColor();
 
                             if(clickedPieceColor == MainFrame.gameloop.getCurrentColor()) {
                                 schachbrett[clickedY][clickedX].setBackground(gelb);
+                                for (int a = 0; a < 8; a++) {
+                                    for (int b = 0; b < 8; b++) {
+                                        if (clickedPiece.isValidMoveGetter(a, b)){
+                                            schachbrett[b][a].setBackground(gruen);
+                                            /*
+                                                Figure.Color enemyColor = (clickedPieceColor == Figure.Color.White) ? Figure.Color.Black : Figure.Color.White;
+                                                    if(clickedPieceColor != enemyColor){
+                                                    //public void class Lennart{};
+                                                         schachbrett[b][a].setBackground(rot);
+                                            }
+
+                                             */
+
+                                        }
+                                    }
+                                }
                             }
                         }
                         handleClick(clickedY, clickedX);
@@ -114,7 +139,7 @@ public class UI_UX extends JFrame {
                 panel.add(button);
             }
         }
-        borderPanel.setBorder(BorderFactory.createLineBorder(braun, 50));
+        borderPanel.setBorder(BorderFactory.createLineBorder(dunkelgrau, 50));
         borderPanel.add(panel, BorderLayout.CENTER);
         setContentPane(borderPanel);
         setVisible(true);
@@ -153,6 +178,32 @@ public class UI_UX extends JFrame {
                         button.setIcon(null);
                     }
                 }
+                button.setTransferHandler(new TransferHandler("icon"));
+                button.addMouseListener(new MouseAdapter() {
+                    public void mousePressed(MouseEvent e) {
+                        JButton button = (JButton) e.getSource();
+                        selectedPiece = (Figure) button.getClientProperty("figure");
+                        if (selectedPiece != null) {
+                            dragStartX = button.getX();
+                            dragStartY = button.getY();
+                            button.getTransferHandler().exportAsDrag(button, e, TransferHandler.COPY);
+                        }
+                    }
+                });
+                button.addMouseMotionListener(new MouseMotionAdapter() {
+                    public void mouseDragged(MouseEvent e) {
+                        JButton button = (JButton) e.getSource();
+                        TransferHandler handler = button.getTransferHandler();
+                        if (handler != null) {
+                       /*     if(selectedPiece.isValidMoveGetter(endX,endY)){
+                                MainFrame.gameloop.setCoordinates(dragStartX,dragStartY,endX,endY);
+                                handler.exportAsDrag(button, e, TransferHandler.COPY);
+                                updateChessboard();
+                            }*/
+                            //public void class Lennart2{};
+                        }
+                    }
+                });
                 if ((i + j) % 2 == 0) {
                     button.setBackground(creme);
                 } else {
@@ -175,6 +226,7 @@ public class UI_UX extends JFrame {
         } else if (click == 2) {
             coordinates[2] = clickedX;
             coordinates[3] = clickedY;
+            updateChessboard(); //Board MUSS hier geaupdated werden sonst kommt es zu komplikationen mit dem anzeigen von möglichen zügen
             MainFrame.gameloop.setCoordinates(coordinates[0], coordinates[1], coordinates[2], coordinates[3]);
             click = 0;
             try {
@@ -185,6 +237,7 @@ public class UI_UX extends JFrame {
             updateChessboard();
         }
     }
+
 
     public class chessTimer {
         Timer timer;
@@ -213,14 +266,14 @@ public class UI_UX extends JFrame {
                         player1TimeLeft--;
                         // Ändere die Farbe des Textes für den aktuellen Spieler
                         player1.setForeground(Color.RED);
-                        player2.setForeground(Color.BLACK);
+                        player2.setForeground(Color.WHITE);
                         if(player1TimeLeft == 0){
                             timer.cancel();
                             UI_UX.Endwindow("White Wins on time!");
                         }
                     }else{
                         player2TimeLeft--;
-                        player1.setForeground(Color.BLACK);
+                        player1.setForeground(Color.WHITE);
                         player2.setForeground(Color.RED);
                         if(player2TimeLeft == 0){
                             timer.cancel();
@@ -229,11 +282,12 @@ public class UI_UX extends JFrame {
                     }
                     player1Timer.setText(getPlayer1Time());
                     player2Timer.setText(getPlayer2Time());
-                    String updatedPlayer1Time = getPlayer1Time();
-                    String updatedPlayer2Time = getPlayer2Time();
 
-                    System.out.print("\rPlayer 1: " + updatedPlayer1Time);
-                    System.out.print("    Player 2: " + updatedPlayer2Time);
+                    player1Timer.setForeground(Color.WHITE);
+                    player2Timer.setForeground(Color.WHITE);
+
+                    System.out.print("\rPlayer 1: " + player1Time);
+                    System.out.print("    Player 2: " + player2Time);
                 }
             },0,1000);
         }
@@ -364,6 +418,4 @@ public class UI_UX extends JFrame {
         int posY = (screenHeight - windowHeight) / 2;
         frame.setLocation(posX, posY);
     }
-
-
 }

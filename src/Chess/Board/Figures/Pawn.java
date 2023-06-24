@@ -30,7 +30,9 @@ public class Pawn extends Figure{
             return false;
         }
         //Allow move from baseline
-        if (Math.abs(Ycord - targetY) == 2 && Ycord == (color == Color.White ? 1 : 6) && Xcord == targetX) {
+        if ((Math.abs(Ycord - targetY) == 2 && Ycord == (color == Color.White ? 1 : 6) && Xcord == targetX) //Schaut ob die figur 2 felder vertikal gehen darf
+                && Schachbrett.board[Ycord + (color == Color.White ? 1 : -1)][Xcord] == null //schaut das keine andere figur im weg steht Z.b er darf 2 felder gehen jedoch kann es nicht da er blockiert wird
+                && Schachbrett.board[targetY][Xcord] == null) { //schaut ob das feld leer ist
             isPresentable = true;
             return true;
         }

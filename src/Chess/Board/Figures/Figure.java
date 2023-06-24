@@ -93,6 +93,7 @@ public abstract class Figure {  //Basisklasse Aller Figuren
         }
     }
 
+
     //region Getter
     public boolean wasEnPassantgetter(){
         return false;

@@ -21,18 +21,13 @@ public class GameloopController{
             newY = -1;
             UI.updateChessboard();
             printSchachbrett();
-            while( x == -1 || y == -1 || newX == -1 || newY == -1){
+            while( x == -1 || y == -1 || newX == -1 || newY == -1) {
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             }
-
-
-
-
-
 
             if (x < 0 || x > 7 || y < 0 || y > 7) {
                 System.out.println("x oder y zu hoch oder zu niedrig");
