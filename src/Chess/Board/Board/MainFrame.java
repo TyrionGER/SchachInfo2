@@ -11,9 +11,9 @@ public class MainFrame extends JFrame {
     private JButton player1ColorButton;
     private JButton player2ColorButton;
     private JButton lightsquareColorButton;
-
     private JButton canGoColorButton;
     private JButton darksquareColorButton;
+    private JButton whatPieceColorButton;
     private JComboBox<String> chessPieceDesignComboBox;
     private Color dunkelgrau = new Color(43, 43, 43);
     private Color white = new Color(255,255,255);
@@ -24,6 +24,7 @@ public class MainFrame extends JFrame {
     private String chessPieceDesign = "Default";
     private Color lightsquareColor = new Color(240, 217, 181);
     private Color darksquareColor = new Color(181, 136, 99);
+    private Color whatPieceColor = new Color(247, 247, 105);
     public static GameloopController gameloop;
     int windowWidth = 1000;
     int windowHeight = 1000;
@@ -333,7 +334,7 @@ public class MainFrame extends JFrame {
 
         JLabel chessPieceDesignLabel = new JLabel("Designs und Prefixes [= Überschreibt alles]:");
         chessPieceDesignLabel.setForeground(white);
-        String[] chessPieceDesigns = {"Default", "Default Prefix", "Wood", "Wood Prefix", "Modern", "Modern Prefix"};
+        String[] chessPieceDesigns = {"Default", "Default Prefix", "Old", "Old Prefix", "Modern", "Modern Prefix"};
         chessPieceDesignComboBox = new JComboBox<>(chessPieceDesigns);
         chessPieceDesignComboBox.setPreferredSize(new Dimension(200, 30));
 
@@ -367,6 +368,17 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 chooseColor(innerFrame, "CanGoColor", canGoColorButton);
+            }
+        });
+
+        JLabel whatPieceColorLabel = new JLabel("Welche Figur Farbe:");
+        whatPieceColorLabel.setForeground(white);
+        whatPieceColorButton = new JButton("Choose");
+        whatPieceColorButton.setBackground(whatPieceColor);
+        whatPieceColorButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                chooseColor(innerFrame, "What piece Color", whatPieceColorButton);
             }
         });
 
@@ -436,6 +448,15 @@ public class MainFrame extends JFrame {
         gbc.anchor = GridBagConstraints.LINE_START;
         cardPanel.add(canGoColorButton, gbc);
 
+        gbc.gridx = 0;
+        gbc.gridy = 9;
+        gbc.anchor = GridBagConstraints.LINE_END;
+        cardPanel.add(whatPieceColorLabel, gbc);
+
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        cardPanel.add(whatPieceColorButton, gbc);
+
         innerFrame.add(cardPanel, BorderLayout.NORTH);
 
         JButton saveButton = new JButton("Save");
@@ -478,6 +499,7 @@ public class MainFrame extends JFrame {
          lightsquareColor = lightsquareColorButton.getBackground();
          darksquareColor = darksquareColorButton.getBackground();
          canGoColor = canGoColorButton.getBackground();
+         whatPieceColor = whatPieceColorButton.getBackground();
 
         // Print the obtained settings for demonstration
         System.out.println("Player 1 Name: " + player1Name);
@@ -486,6 +508,7 @@ public class MainFrame extends JFrame {
         System.out.println("Lightsquare Color: " + lightsquareColor);
         System.out.println("Darksquare Color: " + darksquareColor);
         System.out.println("canGoColor Color: " + canGoColor);
+        System.out.println("what Piece Color: " + getWhatPieceColor());
     }
 
 
@@ -496,6 +519,7 @@ public class MainFrame extends JFrame {
         lightsquareColorButton.setBackground(new Color(240, 217, 181));
         darksquareColorButton.setBackground(new Color(181, 136, 99));
         canGoColorButton.setBackground(new Color(51,204,0));
+        whatPieceColorButton.setBackground(new Color(247, 247, 105));
     }
 
     public String getPlayer1Name(){
@@ -513,9 +537,12 @@ public class MainFrame extends JFrame {
     public Color getLightsquareColor(){
         return lightsquareColor;
     }
-
     public Color getDarksquareColor(){
         return darksquareColor;
+    }
+
+    public Color getWhatPieceColor(){
+        return whatPieceColor;
     }
 
 

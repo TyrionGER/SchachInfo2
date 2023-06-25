@@ -17,11 +17,12 @@ public class UI_UX extends JFrame {
     public static UI_UX instance;
     private static String player1Name,player2Name,chessPieceDesign;
     private static Color lightSquareColor,darkSquareColor, canGoColor;
+
+    private static Color whatPieceColor = new Color(247, 247, 105);
     JLabel player1Timer = new JLabel();
     JLabel player2Timer = new JLabel();
     JLabel player1;
     JLabel player2;
-    Color whatPeaceColor = new Color(247, 247, 105);
     Color dunkelgrau = new Color(43, 43, 43);
 
     private int designX;
@@ -129,7 +130,7 @@ public class UI_UX extends JFrame {
                 lightSquareColor = new Color(240, 217, 181);
                 darkSquareColor = new Color(181, 136, 99);
                 canGoColor = new Color(0,238,0);;
-                whatPeaceColor = new Color(247, 247, 105);
+                whatPieceColor = new Color(247, 247, 105);
             }
             if (chessPieceDesign.equals("Old")) {
                 designX = 2;
@@ -139,7 +140,7 @@ public class UI_UX extends JFrame {
                 lightSquareColor = new Color(238, 203, 163);
                 darkSquareColor = new Color(189, 103, 54);
                 canGoColor = new Color(0, 128, 0);
-                whatPeaceColor = new Color(169, 133, 87);
+                whatPieceColor = new Color(169, 133, 87);
 
              }
             if (chessPieceDesign.equals("Modern")) {
@@ -150,7 +151,7 @@ public class UI_UX extends JFrame {
                 lightSquareColor = new Color(224,255,255);
                 darkSquareColor = new Color(56, 55, 60);
                 canGoColor = new Color(255, 235, 180);
-                whatPeaceColor = new Color(114, 194, 255);
+                whatPieceColor = new Color(114, 194, 255);
             }
 
 
@@ -207,7 +208,7 @@ public class UI_UX extends JFrame {
                             Figure.Color clickedPieceColor = clickedPiece.getColor();
 
                             if(clickedPieceColor == MainFrame.gameloop.getCurrentColor()) {
-                                schachbrett[clickedY][clickedX].setBackground(whatPeaceColor);
+                                schachbrett[clickedY][clickedX].setBackground(whatPieceColor);
                                 for (int a = 0; a < 8; a++) {
                                     for (int b = 0; b < 8; b++) {
                                         if (clickedPiece.isValidMoveGetter(a, b)){
@@ -479,6 +480,7 @@ public class UI_UX extends JFrame {
         instance.lightSquareColor = frame.getLightsquareColor();
         instance.darkSquareColor = frame.getDarksquareColor();
         instance.canGoColor = frame.getCanGoColor();
+        instance.whatPieceColor = frame.getWhatPieceColor();
     }
     public static void Endwindow(String endMessage) {
         JFrame endWindow = new JFrame("Spielende");
