@@ -2,14 +2,34 @@ package Chess.Board.Board;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MainFrame extends JFrame {
+    private JTextField player1NameTextField;
+    private JTextField player2NameTextField;
+    private JButton player1ColorButton;
+    private JButton player2ColorButton;
+    private JButton lightsquareColorButton;
+    private JButton darksquareColorButton;
+    private JComboBox<String> chessPieceDesignComboBox;
+    private Color dunkelgrau = new Color(43, 43, 43);
+    private Color white = new Color(255,255,255);
 
+    private String player1Name = "Player 10";
+    private String player2Name = "Player 2";
+    private String chessPieceDesign = "Default";
+    private Color lightsquareColor = new Color(240, 217, 181);
+    private Color darksquareColor = new Color(181, 136, 99);
     public static GameloopController gameloop;
     int windowWidth = 1000;
     int windowHeight = 1000;
 
+    static MainFrame instance;
+
     public MainFrame() {
+
+        instance = this;
 
         setTitle("Schachspiel");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,22 +51,28 @@ public class MainFrame extends JFrame {
         mainPanel.setOpaque(false);
 
         JLabel titleLabel = new JLabel("Menü");
+        titleLabel.setForeground(Color.white);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(titleLabel);
         mainPanel.add(Box.createVerticalStrut(20));
 
-        JButton newGameButton = new JButton("Neues Schachspiel");
+        JButton newGameButton = new JButton(" Neues Schachspiel  ");
         newGameButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(newGameButton);
         mainPanel.add(Box.createVerticalStrut(10));
 
-        JButton achievementsButton = new JButton("Achievements");
+        JButton designButton = new JButton(" Design auswaehlen ");
+        designButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.add(designButton);
+        mainPanel.add(Box.createVerticalStrut(10));
+
+        JButton achievementsButton = new JButton("      Achievements      ");
         achievementsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(achievementsButton);
         mainPanel.add(Box.createVerticalStrut(10));
 
-        JButton lexikonButton = new JButton("Lexikon");
+        JButton lexikonButton = new JButton("            Lexikon            "); //damit die buttons alle die selbe größe haben spart code
         lexikonButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(lexikonButton);
         mainPanel.add(Box.createVerticalStrut(10));
@@ -55,14 +81,16 @@ public class MainFrame extends JFrame {
         exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(exitButton);
 
-
         newGameButton.addActionListener(e -> startChessGame());
+
+        designButton.addActionListener(e -> design());
 
         exitButton.addActionListener(e -> System.exit(0));
 
         achievementsButton.addActionListener(e -> showAchievements());
 
         lexikonButton.addActionListener(e -> showLexikon());
+
     }
 
     private void startChessGame() {
@@ -80,16 +108,6 @@ public class MainFrame extends JFrame {
 
         gameThread.start();
     }
-/*
-    private void showAchievements() {
-        // Zeige Achievements-Fenster
-        JOptionPane.showMessageDialog(this, "Hier sind alle Achievements:\n\n" +
-                "1) Achievement XY [ ]\n" +
-                "2) Achievement XY [ ]\n" +
-                "3) Achievement XY [ ]");
-    }
-
- */
     private void showLexikon() {
         JFrame innerFrame = new JFrame("Schach-Lexikon");
         innerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -277,6 +295,204 @@ public class MainFrame extends JFrame {
                 "10) Better-King-wins!");
     }
 
+
+    public void design() {
+
+        JFrame innerFrame = new JFrame("Design");
+        innerFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        innerFrame.setSize(500, 500);
+        innerFrame.setLayout(new BorderLayout());
+        innerFrame.getContentPane().setBackground(dunkelgrau);
+
+        JPanel cardPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        cardPanel.setBackground(dunkelgrau);
+
+        JLabel titleLabel = new JLabel("Brett und Figuren");
+        titleLabel.setForeground(white);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        cardPanel.add(titleLabel, gbc);
+
+        JLabel player1NameLabel = new JLabel("Player 1 Name:");
+        player1NameLabel.setForeground(white);
+        player1NameTextField = new JTextField();
+        player1NameTextField.setPreferredSize(new Dimension(200, 30));
+
+        JLabel player2NameLabel = new JLabel("Player 2 Name:");
+        player2NameLabel.setForeground(white);
+        player2NameTextField = new JTextField();
+        player2NameTextField.setPreferredSize(new Dimension(200, 30));
+
+        JLabel chessPieceDesignLabel = new JLabel("Chess Piece Designs:");
+        chessPieceDesignLabel.setForeground(white);
+        String[] chessPieceDesigns = {"Default", "Wood", "Old", "Modern"};
+        chessPieceDesignComboBox = new JComboBox<>(chessPieceDesigns);
+        chessPieceDesignComboBox.setPreferredSize(new Dimension(200, 30));
+
+        JLabel lightsquareLabel = new JLabel("Lightsquare:");
+        lightsquareLabel.setForeground(white);
+        lightsquareColorButton = new JButton("Choose");
+        lightsquareColorButton.setBackground(lightsquareColor);
+        lightsquareColorButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                chooseColor(innerFrame, "Lightsquare Color", lightsquareColorButton);
+            }
+        });
+
+        JLabel darksquareLabel = new JLabel("Darksquare:");
+        darksquareLabel.setForeground(white);
+        darksquareColorButton = new JButton("Choose");
+        darksquareColorButton.setBackground(darksquareColor);
+        darksquareColorButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                chooseColor(innerFrame, "Darksquare Color", darksquareColorButton);
+            }
+        });
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
+        gbc.anchor = GridBagConstraints.LINE_END;
+        cardPanel.add(player1NameLabel, gbc);
+
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        cardPanel.add(player1NameTextField, gbc);
+
+        player1ColorButton = new JButton("Choose");
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        cardPanel.add(player1ColorButton, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.anchor = GridBagConstraints.LINE_END;
+        cardPanel.add(player2NameLabel, gbc);
+
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        cardPanel.add(player2NameTextField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.anchor = GridBagConstraints.LINE_END;
+        cardPanel.add(chessPieceDesignLabel, gbc);
+
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        cardPanel.add(chessPieceDesignComboBox, gbc);
+
+        player2ColorButton = new JButton("Choose");
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        cardPanel.add(player2ColorButton, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        gbc.anchor = GridBagConstraints.LINE_END;
+        cardPanel.add(lightsquareLabel, gbc);
+
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        cardPanel.add(lightsquareColorButton, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        gbc.anchor = GridBagConstraints.LINE_END;
+        cardPanel.add(darksquareLabel, gbc);
+
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        cardPanel.add(darksquareColorButton, gbc);
+
+        innerFrame.add(cardPanel, BorderLayout.NORTH);
+
+        JButton saveButton = new JButton("Save");
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                saveSettings();
+            }
+        });
+
+        JButton resetButton = new JButton("Reset");
+        resetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                resetSettings();
+            }
+        });
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(dunkelgrau);
+        buttonPanel.add(saveButton);
+        buttonPanel.add(resetButton);
+
+        innerFrame.add(buttonPanel, BorderLayout.SOUTH);
+
+        innerFrame.setVisible(true);
+    }
+
+    private void chooseColor(JFrame frame, String title, JButton colorButton) {
+        Color initialColor = JColorChooser.showDialog(frame, title, colorButton.getBackground());
+        if (initialColor != null) {
+            colorButton.setBackground(initialColor);
+        }
+    }
+
+    private void saveSettings() {
+         player1Name = player1NameTextField.getText();
+         player2Name = player2NameTextField.getText();
+         chessPieceDesign = (String) chessPieceDesignComboBox.getSelectedItem();
+         lightsquareColor = lightsquareColorButton.getBackground();
+         darksquareColor = darksquareColorButton.getBackground();
+
+        // Print the obtained settings for demonstration
+        System.out.println("Player 1 Name: " + player1Name);
+        System.out.println("Player 2 Name: " + player2Name);
+        System.out.println("Chess Piece Design: " + chessPieceDesign);
+        System.out.println("Lightsquare Color: " + lightsquareColor);
+        System.out.println("Darksquare Color: " + darksquareColor);
+    }
+
+
+    private void resetSettings() {
+        player1NameTextField.setText("Player 1");
+        player2NameTextField.setText("Player 2");
+        chessPieceDesignComboBox.setSelectedItem("Default");
+        lightsquareColorButton.setBackground(new Color(240, 217, 181));
+        darksquareColorButton.setBackground(new Color(181, 136, 99));
+    }
+
+    public String getPlayer1Name(){
+        return player1Name;
+    }
+    public String getPlayer2Name(){
+        return player2Name;
+    }
+    public String getChessPieceDesign(){
+        return chessPieceDesign;
+    }
+
+    public Color getLightsquareColor(){
+        return lightsquareColor;
+    }
+
+    public Color getDarksquareColor(){
+        return darksquareColor;
+    }
+
+    public static MainFrame getInstance() {
+
+        return instance;
+    }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new MainFrame().setVisible(true));
     }

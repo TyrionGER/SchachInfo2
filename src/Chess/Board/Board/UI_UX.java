@@ -3,8 +3,6 @@ package Chess.Board.Board;
 import Chess.Board.Figures.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.datatransfer.*;
-import java.awt.dnd.*;
 import java.awt.event.*;
 import java.util.TimerTask;
 import java.util.Timer;
@@ -17,20 +15,79 @@ public class UI_UX extends JFrame {
     private Figure selectedPiece; // Aktuell ausgewählte Figur für Drag-and-Drop
     private int dragStartX, dragStartY; // Startkoordinaten für Drag-and-Drop
     public static UI_UX instance;
-
+    private static String player1Name,player2Name,chessPieceDesign;
+    private static Color lightSquareColor,darkSquareColor;
     JLabel player1Timer = new JLabel();
     JLabel player2Timer = new JLabel();
     JLabel player1;
     JLabel player2;
-
-    Color creme = new Color(240, 217, 181);
-    Color hellbraun = new Color(181, 136, 99);
     Color gelb = new Color(247, 247, 105);
     Color dunkelgrau = new Color(43, 43, 43);
 
     Color gruen = new Color(0,238,0);
     Color rot = new Color(255,0,0);
 
+    public int designX;
+
+     // X == 4, Y == 12
+    String[][] chessboardDesign = {
+            { //DEFAULT
+                    "Imgfiles/Figuren/whitePawn.png",   //0
+                    "Imgfiles/Figuren/whiteRook.png",   //1
+                    "Imgfiles/Figuren/whiteKnight.png", //2
+                    "Imgfiles/Figuren/whiteBishop.png", //3
+                    "Imgfiles/Figuren/whiteQueen.png",  //4
+                    "Imgfiles/Figuren/whiteKing.png",   //5
+                    "Imgfiles/Figuren/blackPawn.png",   //6
+                    "Imgfiles/Figuren/blackRook.png",   //7
+                    "Imgfiles/Figuren/blackKnight.png", //8
+                    "Imgfiles/Figuren/blackBishop.png", //9
+                    "Imgfiles/Figuren/blackQueen.png",  //10
+                    "Imgfiles/Figuren/blackKing.png"    //11
+            },
+            { //WOOD
+                    "Imgfiles/Figuren/woodWhitePawn.png",
+                    "Imgfiles/Figuren/woodWhiteRook.png",
+                    "Imgfiles/Figuren/woodWhiteKnight.png",
+                    "Imgfiles/Figuren/woodWhiteBishop.png",
+                    "Imgfiles/Figuren/woodWhiteQueen.png",
+                    "Imgfiles/Figuren/woodWhiteKing.png",
+                    "Imgfiles/Figuren/woodBlackPawn.png",
+                    "Imgfiles/Figuren/woodBlackRook.png",
+                    "Imgfiles/Figuren/woodBlackKnight.png",
+                    "Imgfiles/Figuren/woodBlackBishop.png",
+                    "Imgfiles/Figuren/woodBlackQueen.png",
+                    "Imgfiles/Figuren/woodBlackKing.png"
+            },
+            { //OLD
+                    "Imgfiles/Figuren/oldWhitePawn.png",
+                    "Imgfiles/Figuren/oldWhiteRook.png",
+                    "Imgfiles/Figuren/oldWhiteKnight.png",
+                    "Imgfiles/Figuren/oldWhiteBishop.png",
+                    "Imgfiles/Figuren/oldWhiteQueen.png",
+                    "Imgfiles/Figuren/oldWhiteKing.png",
+                    "Imgfiles/Figuren/oldBlackPawn.png",
+                    "Imgfiles/Figuren/oldBlackRook.png",
+                    "Imgfiles/Figuren/oldBlackKnight.png",
+                    "Imgfiles/Figuren/oldBlackBishop.png",
+                    "Imgfiles/Figuren/oldBlackQueen.png",
+                    "Imgfiles/Figuren/oldBlackKing.png"
+            },
+            { //MODERN
+                    "Imgfiles/Figuren/modernWhitePawn.png",
+                    "Imgfiles/Figuren/modernWhiteRook.png",
+                    "Imgfiles/Figuren/modernWhiteKnight.png",
+                    "Imgfiles/Figuren/modernWhiteBishop.png",
+                    "Imgfiles/Figuren/modernWhiteQueen.png",
+                    "Imgfiles/Figuren/modernWhiteKing.png",
+                    "Imgfiles/Figuren/modernBlackPawn.png",
+                    "Imgfiles/Figuren/modernBlackRook.png",
+                    "Imgfiles/Figuren/modernBlackKnight.png",
+                    "Imgfiles/Figuren/modernBlackBishop.png",
+                    "Imgfiles/Figuren/modernBlackQueen.png",
+                    "Imgfiles/Figuren/modernBlackKing.png"
+            }
+};
 
     public UI_UX() {
         setTitle("Schach");
@@ -44,9 +101,8 @@ public class UI_UX extends JFrame {
 
         JPanel topPanel = new JPanel(new FlowLayout());
         JPanel bottomPanel = new JPanel(new FlowLayout());
-
-        player1 = new JLabel("Player 1: ");
-        player2 = new JLabel("Player 2: ");
+        player1 = new JLabel(player1Name);
+        player2 = new JLabel(player2Name);
 
         topPanel.add(player2);
         topPanel.add(player2Timer);
@@ -59,6 +115,25 @@ public class UI_UX extends JFrame {
         borderPanel.add(topPanel, BorderLayout.NORTH);
         borderPanel.add(bottomPanel, BorderLayout.SOUTH);
 
+        getSettings();
+
+
+        switch(chessPieceDesign){
+            case "Default":
+                designX = 0;
+                break;
+            case "Wood":
+                designX = 1;
+                break;
+            case "Old":
+                designX = 2;
+                break;
+            case "Modern":
+                designX = 3;
+                break;
+
+        }
+
         for (int i = 7; i >= 0; i--) {
             for (int j = 0; j < 8; j++) {
                 JButton button = new JButton();
@@ -68,31 +143,31 @@ public class UI_UX extends JFrame {
                     if (piece != null) {
                         Figure.Color color = piece.getColor();
                         if (piece instanceof Pawn) {
-                            ImageIcon PawnIcon = (color == Figure.Color.White) ? new ImageIcon("Imgfiles/Figuren/whitePawn.png") : new ImageIcon("Imgfiles/Figuren/blackPawn.png");
+                            ImageIcon PawnIcon = (color == Figure.Color.White) ? new ImageIcon(chessboardDesign[designX][0]) : new ImageIcon(chessboardDesign[designX][6]);
                             button.setIcon(PawnIcon);
                         } else if (piece instanceof Rook) {
-                            ImageIcon RookIcon = (color == Figure.Color.White) ? new ImageIcon("Imgfiles/Figuren/whiteRook.png") : new ImageIcon("Imgfiles/Figuren/blackRook.png");
+                            ImageIcon RookIcon = (color == Figure.Color.White) ? new ImageIcon(chessboardDesign[designX][1]) : new ImageIcon(chessboardDesign[designX][7]);
                             button.setIcon(RookIcon);
                         } else if (piece instanceof Knight) {
-                            ImageIcon KnightIcon = (color == Figure.Color.White) ? new ImageIcon("Imgfiles/Figuren/whiteKnight.png") : new ImageIcon("Imgfiles/Figuren/blackKnight.png");
+                            ImageIcon KnightIcon = (color == Figure.Color.White) ? new ImageIcon(chessboardDesign[designX][2]) : new ImageIcon(chessboardDesign[designX][8]);
                             button.setIcon(KnightIcon);
                         } else if (piece instanceof Bishop) {
-                            ImageIcon BishopIcon = (color == Figure.Color.White) ? new ImageIcon("Imgfiles/Figuren/whiteBishop.png") : new ImageIcon("Imgfiles/Figuren/blackBishop.png");
+                            ImageIcon BishopIcon = (color == Figure.Color.White) ? new ImageIcon(chessboardDesign[designX][3]) : new ImageIcon(chessboardDesign[designX][9]);
                             button.setIcon(BishopIcon);
                         } else if (piece instanceof Queen) {
-                            ImageIcon QueenIcon = (color == Figure.Color.White) ? new ImageIcon("Imgfiles/Figuren/whiteQueen.png") : new ImageIcon("Imgfiles/Figuren/blackQueen.png");
+                            ImageIcon QueenIcon = (color == Figure.Color.White) ? new ImageIcon(chessboardDesign[designX][4]) : new ImageIcon(chessboardDesign[designX][10]);
                             button.setIcon(QueenIcon);
                         } else if (piece instanceof King) {
-                            ImageIcon KingIcon = (color == Figure.Color.White) ? new ImageIcon("Imgfiles/Figuren/whiteKing.png") : new ImageIcon("Imgfiles/Figuren/blackKing.png");
+                            ImageIcon KingIcon = (color == Figure.Color.White) ? new ImageIcon(chessboardDesign[designX][5]) : new ImageIcon(chessboardDesign[designX][11]);
                             button.setIcon(KingIcon);
                         }
                     }
                 }
 
                 if ((i + j) % 2 == 0) {
-                    button.setBackground(creme);
+                    button.setBackground(lightSquareColor);
                 } else {
-                    button.setBackground(hellbraun);
+                    button.setBackground(darkSquareColor);
                 }
 
                 chessTimer chessTimer = new chessTimer(900);
@@ -205,9 +280,9 @@ public class UI_UX extends JFrame {
                     }
                 });
                 if ((i + j) % 2 == 0) {
-                    button.setBackground(creme);
+                    button.setBackground(lightSquareColor);
                 } else {
-                    button.setBackground(hellbraun);
+                    button.setBackground(darkSquareColor);
                 }
             }
         }
@@ -374,6 +449,15 @@ public class UI_UX extends JFrame {
         }
 
         return promoteValue;
+    }
+
+    public static void getSettings(){
+       MainFrame frame = MainFrame.getInstance();
+        instance.player1Name = frame.getPlayer1Name();
+        instance.player2Name = frame.getPlayer2Name();
+        instance.chessPieceDesign = frame.getChessPieceDesign();
+        instance.lightSquareColor = frame.getLightsquareColor();
+        instance.darkSquareColor = frame.getDarksquareColor();
     }
     public static void Endwindow(String endMessage) {
         JFrame endWindow = new JFrame("Spielende");
