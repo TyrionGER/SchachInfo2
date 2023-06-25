@@ -15,17 +15,14 @@ public class UI_UX extends JFrame {
     private Figure selectedPiece; // Aktuell ausgewählte Figur für Drag-and-Drop
     private int dragStartX, dragStartY; // Startkoordinaten für Drag-and-Drop
     public static UI_UX instance;
-    private static String player1Name,player2Name,chessPieceDesign, prefixDesign;
-    private static Color lightSquareColor,darkSquareColor;
+    private static String player1Name,player2Name,chessPieceDesign;
+    private static Color lightSquareColor,darkSquareColor, canGoColor;
     JLabel player1Timer = new JLabel();
     JLabel player2Timer = new JLabel();
     JLabel player1;
     JLabel player2;
-    Color gelb = new Color(247, 247, 105);
+    Color whatPeaceColor = new Color(247, 247, 105);
     Color dunkelgrau = new Color(43, 43, 43);
-
-    Color gruen = new Color(0,238,0);
-    Color rot = new Color(255,0,0);
 
     private int designX;
 
@@ -124,33 +121,38 @@ public class UI_UX extends JFrame {
         borderPanel.add(topPanel, BorderLayout.NORTH);
         borderPanel.add(bottomPanel, BorderLayout.SOUTH);
 
-        if(prefixDesign.isEmpty()) {
             if (chessPieceDesign.equals("Default")) {
                 designX = 0;
             }
-            if (chessPieceDesign.equals("Wood")) {
-                designX = 1;
+            if (chessPieceDesign.equals("Default Prefix")) {
+                designX = 0;
+                lightSquareColor = new Color(240, 217, 181);
+                darkSquareColor = new Color(181, 136, 99);
+                canGoColor = new Color(0,238,0);;
+                whatPeaceColor = new Color(247, 247, 105);
             }
             if (chessPieceDesign.equals("Old")) {
                 designX = 2;
             }
+            if (chessPieceDesign.equals("Old Prefix")) {
+                designX = 2;
+                lightSquareColor = new Color(238, 203, 163);
+                darkSquareColor = new Color(189, 103, 54);
+                canGoColor = new Color(0, 128, 0);
+                whatPeaceColor = new Color(169, 133, 87);
+
+             }
             if (chessPieceDesign.equals("Modern")) {
                 designX = 3;
             }
-        }else {
-            if(prefixDesign.equals("Default Prefix")){
-
+            if (chessPieceDesign.equals("Modern Prefix")) {
+                designX = 3;
+                lightSquareColor = new Color(224,255,255);
+                darkSquareColor = new Color(56, 55, 60);
+                canGoColor = new Color(255, 235, 180);
+                whatPeaceColor = new Color(114, 194, 255);
             }
-            if(prefixDesign.equals("Wood Prefix")){
 
-            }
-            if(prefixDesign.equals("Old Prefix")){
-
-            }
-            if(prefixDesign.equals("Modern Prefix")){
-
-            }
-        }
 
         for (int i = 7; i >= 0; i--) {
             for (int j = 0; j < 8; j++) {
@@ -205,11 +207,11 @@ public class UI_UX extends JFrame {
                             Figure.Color clickedPieceColor = clickedPiece.getColor();
 
                             if(clickedPieceColor == MainFrame.gameloop.getCurrentColor()) {
-                                schachbrett[clickedY][clickedX].setBackground(gelb);
+                                schachbrett[clickedY][clickedX].setBackground(whatPeaceColor);
                                 for (int a = 0; a < 8; a++) {
                                     for (int b = 0; b < 8; b++) {
                                         if (clickedPiece.isValidMoveGetter(a, b)){
-                                            schachbrett[b][a].setBackground(gruen);
+                                            schachbrett[b][a].setBackground(canGoColor);
                                             /*
                                                 Figure.Color enemyColor = (clickedPieceColor == Figure.Color.White) ? Figure.Color.Black : Figure.Color.White;
                                                     if(clickedPieceColor != enemyColor){
@@ -476,7 +478,7 @@ public class UI_UX extends JFrame {
         instance.chessPieceDesign = frame.getChessPieceDesign();
         instance.lightSquareColor = frame.getLightsquareColor();
         instance.darkSquareColor = frame.getDarksquareColor();
-        instance.prefixDesign = frame.getPrefix();
+        instance.canGoColor = frame.getCanGoColor();
     }
     public static void Endwindow(String endMessage) {
         JFrame endWindow = new JFrame("Spielende");
