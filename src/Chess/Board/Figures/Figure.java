@@ -40,6 +40,8 @@ public abstract class Figure {  //Basisklasse Aller Figuren
                 if (Schachbrett.board[Ycord - (color == Color.White ? 1 : -1)][Xcord] != null){
                     Schachbrett.board[Ycord - (color == Color.White ? 1 : -1)][Xcord].capture(); //Schlage den Bauern
                     Schachbrett.board[Ycord - (color == Color.White ? 1 : -1)][Xcord] = null;
+                    MainFrame frame = MainFrame.getInstance();
+                    frame.setAchievement(9);
                 }
             }
             Schachbrett.board[Ycord][Xcord] = this; //Übergebe die neue Position der Figur

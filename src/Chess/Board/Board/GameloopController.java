@@ -13,6 +13,7 @@ public class GameloopController{
     public void Startchess() {
         Schachbrett.initializeBoard();
         UI_UX UI = UI_UX.getInstance(); // Statt UI_UX.startUI();
+        MainFrame frame = MainFrame.getInstance();
 
         while (i == 1) {
             x = -1;
@@ -67,6 +68,9 @@ public class GameloopController{
                             if (Schachbrett.isAttacked((getCurrentColor() == Figure.Color.White ? Figure.Color.Black : Figure.Color.White), Piece.getXcord(), Piece.getYcord())) { //test ob das Feld auf dem der gegnerische König steht angegriffen wird
                                 System.out.println((getCurrentColor() == Figure.Color.White ? Figure.Color.Black : Figure.Color.White) + " König ist im Schach");
                                 if(Schachbrettmirror.isMatt(getCurrentColor(),Piece.getXcord(), Piece.getYcord() )) { //Test ob es einen Legalen zug gibt nachdem der Gegnerische König nichtmehr im Schach ist
+                                    if(Schachbrett.whitePieces.size() == 16 || Schachbrett.blackPieces.size() == 16){
+                                        frame.setAchievement(7);
+                                    }
                                     UI.Endwindow(((getCurrentColor() == Figure.Color.White ? Figure.Color.Black : Figure.Color.White) + " König ist Matt, " + getCurrentColor() + " hat gewonnen!"));
                                     printSchachbrett();
                                     i = 0;
@@ -80,6 +84,9 @@ public class GameloopController{
                                 i = 0;
                             }
                         }
+                    }
+                    if(whatmove < 6 && Schachbrett.getBongcloud()){
+                        frame.setAchievement(1);
                     }
                     whatmove++;
                     UI.updateChessboard();

@@ -29,6 +29,7 @@ public class MainFrame extends JFrame {
     public static GameloopController gameloop;
     int windowWidth = 1000;
     int windowHeight = 1000;
+    private static boolean achievement1 = false, achievement2 = false, achievement3 = false, achievement4= false, achievement5 = false, achievement6 = false, achievement7 = false;
 
     static MainFrame instance;
 
@@ -39,11 +40,11 @@ public class MainFrame extends JFrame {
         setTitle("Schachspiel");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
-        setContentPane(new JLabel(new ImageIcon("Imgfiles/Background/ChessBG.png"))); // Passe den Pfad zum Bild an
+        setContentPane(new JLabel(new ImageIcon("Imgfiles/Background/ChessBG.png")));
         setLayout(new FlowLayout());
 
         initComponents();
-        setSize(windowWidth, windowHeight); // Setze die Größe des Fensters
+        setSize(windowWidth, windowHeight);
         setLocationRelativeTo(null);
     }
 
@@ -287,56 +288,63 @@ public class MainFrame extends JFrame {
 
     private void showAchievements() {
         // Zeige Achievements-Fenster
-        JOptionPane.showMessageDialog(this, "Hier sind alle Achievements:\n\n" +
-                "1) Bong-Cloud\n" +
-                "2) Botez-Gambit\n" +
-                "3) Oh-no-my-queen\n" +
-                "4) Bauer-findet-Frau\n" +
-                "5) Pawn-to-Win\n" +
-                "6) Too-Easy\n" +
-                "7) Full-House\n" +
-                "8) How-long-does-it-take?\n" +
-                "9) Not-even-close\n" +
-                "10) Better-King-wins!");
+        JOptionPane.showMessageDialog(this, ("Hier sind alle Achievements:\n\n" +
+                "1) Bong-Cloud " + (achievement1 == true ? "Freigeschalten" : "Gesperrt") + "\n" + //Lennart
+                "2) Pawn-to-Win " + (achievement2 == true ? "Freigeschalten" : "Gesperrt") + "\n" +//Samir
+                "3) Bauer-findet-Frau " + (achievement3 == true ? "Freigeschalten" : "Gesperrt") + "\n" +//Samir
+                "4) Full-House " + (achievement4 == true ? "Freigeschalten" : "Gesperrt") + "\n" +//Olawale
+                "5) How-long-does-it-take? " + (achievement5 == true ? "Freigeschalten" : "Gesperrt") + "\n" +//Olawale
+                "6) Cocky-much?? " + (achievement6 == true ? "Freigeschalten" : "Gesperrt") + "\n" +//Lennart
+                "7) The-French-Move ") + (achievement7 == true ? "Freigeschalten" : "Gesperrt") + "\n" ) ;//Lennart
     }
     public void setAchievement(int index) {
-        achievement = true;
         switch(index){
             case 0:
                 return;
             case 1:
+                achievement1 = true;
                 JOptionPane.showMessageDialog(null, "Achievement Bong-Cloud freigeschalten!");
                 return;
             case 2:
+                //achievement1 = true;
                 JOptionPane.showMessageDialog(null, "Achievement Botez-Gambit freigeschalten!");
                 return;
             case 3:
+                //achievement1 = true;
                 JOptionPane.showMessageDialog(null, "Achievement Oh-no-my-Queen freigeschalten!");
                 return;
             case 4:
+                achievement3 = true;
                 JOptionPane.showMessageDialog(null, "Achievement Bauer-findet-Frau freigeschalten!");
                 return;
             case 5:
+                achievement2 = true;
                 JOptionPane.showMessageDialog(null, "Achievement Pawn-to-Win freigeschalten!");
                 return;
             case 6:
-                JOptionPane.showMessageDialog(null, "Achievement Too-Easy freigeschalten!");
+                achievement6 = true;
+                JOptionPane.showMessageDialog(null, "Achievement Cocky-Much?? freigeschalten!");
                 return;
             case 7:
+                achievement4 = true;
                 JOptionPane.showMessageDialog(null, "Achievement Full-House freigeschalten!");
                 return;
             case 8:
+                achievement5 = true;
                 JOptionPane.showMessageDialog(null, "Achievement How-long-does-it-take? freigeschalten!");
                 return;
             case 9:
-                JOptionPane.showMessageDialog(null, "Achievement Not-even-close freigeschalten!");
+                achievement7 = true;
+                JOptionPane.showMessageDialog(null, "Achievement The-French-Move freigeschalten!");
                 return;
             case 10:
+                //achievement1 = true;
                 JOptionPane.showMessageDialog(null, "Achievement Better-King-wins! freigeschalten!");
                 return;
         }
         JOptionPane.showMessageDialog(null, "Achievement freigeschalten!");
     }
+
 
 
     public void design() {

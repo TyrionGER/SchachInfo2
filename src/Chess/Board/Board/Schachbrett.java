@@ -173,4 +173,11 @@ public class Schachbrett {
         board = null;
         initializeBoard();
     }
+
+    public static boolean getBongcloud() {
+        if(Schachbrett.board[1][3] instanceof King){
+            return true;
+        }
+        return false;
+    }
 }

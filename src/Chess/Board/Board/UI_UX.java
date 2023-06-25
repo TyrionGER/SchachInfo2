@@ -1,6 +1,8 @@
 package Chess.Board.Board;
 
 import Chess.Board.Figures.*;
+import com.sun.tools.javac.Main;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -17,6 +19,7 @@ public class UI_UX extends JFrame {
     public static UI_UX instance;
     private static String player1Name,player2Name,chessPieceDesign;
     private static Color lightSquareColor,darkSquareColor, canGoColor;
+    MainFrame frame = MainFrame.getInstance();
 
     private static Color whatPieceColor = new Color(247, 247, 105);
     JLabel player1Timer = new JLabel();
@@ -365,7 +368,8 @@ public class UI_UX extends JFrame {
                         player2.setForeground(Color.WHITE);
                         if(player1TimeLeft == 0){
                             timer.cancel();
-                            UI_UX.Endwindow("White Wins on time!");
+                            frame.setAchievement(8);
+                            Endwindow("White wins on time!");
                         }
                     }else{
                         player2TimeLeft--;
@@ -373,7 +377,8 @@ public class UI_UX extends JFrame {
                         player2.setForeground(Color.RED);
                         if(player2TimeLeft == 0){
                             timer.cancel();
-                            UI_UX.Endwindow("Black Wins on time!");
+                            frame.setAchievement(8);
+                            Endwindow("Black wins on time!");
                         }
                     }
                     player1Timer.setText(getPlayer1Time());
@@ -409,6 +414,7 @@ public class UI_UX extends JFrame {
         return instance;
     }
     public int openPromotionWindow() {
+        MainFrame frame = MainFrame.getInstance();
         promoteint = -1;
         JFrame promotionWindow = new JFrame("Promotion");
         promotionWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -420,7 +426,7 @@ public class UI_UX extends JFrame {
         queenButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 promotionWindow.dispose();
-                promoteint = 2;
+                promoteint = 2;//Queen
             }
         });
         promotionWindow.add(queenButton);
@@ -441,6 +447,7 @@ public class UI_UX extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 promotionWindow.dispose();
                 promoteint = 4; // Knight
+                frame.setAchievement(6);
             }
         });
         promotionWindow.add(knightButton);
@@ -451,6 +458,7 @@ public class UI_UX extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 promotionWindow.dispose();
                 promoteint = 3; // Bishop
+                frame.setAchievement(6);
             }
         });
         promotionWindow.add(bishopButton);
@@ -482,11 +490,21 @@ public class UI_UX extends JFrame {
         instance.canGoColor = frame.getCanGoColor();
         instance.whatPieceColor = frame.getWhatPieceColor();
     }
-    public static void Endwindow(String endMessage) {
+    public void Endwindow(String endMessage) {
         JFrame endWindow = new JFrame("Spielende");
         endWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        endWindow.setSize(400, 200);
-        endWindow.setLayout(new GridLayout(2, 1));
+        endWindow.setSize(800, 400);
+        endWindow.setResizable(false);
+        endWindow.setLayout(new BorderLayout());
+
+        JPanel backgroundPanel = new JPanel(new BorderLayout());
+        if (endMessage.equals("White wins on Time!") || endMessage.equals("Black König ist Matt, White hat gewonnen!")) {
+            backgroundPanel.add(new JLabel(new ImageIcon("Imgfiles/Background/WhiteWins.jpg")));
+        } else if (endMessage.equals("Black wins on Time!") || endMessage.equals("White König ist Matt, Black hat gewonnen!")) {
+            backgroundPanel.add(new JLabel(new ImageIcon("Imgfiles/Background/BlackWins.jpg")));
+        }else {
+            backgroundPanel.add(new JLabel(new ImageIcon("Imgfiles/Background/Draw.png")));
+        }
 
         JLabel messageLabel = new JLabel(endMessage, SwingConstants.CENTER);
         JPanel buttonPanel = new JPanel(new FlowLayout());
@@ -497,7 +515,6 @@ public class UI_UX extends JFrame {
                 Schachbrett.board = null;
                 endWindow.setVisible(false);
                 MainFrame.restart();
-
             }
         });
         buttonPanel.add(mainMenuButton);
@@ -510,8 +527,9 @@ public class UI_UX extends JFrame {
         });
         buttonPanel.add(quitButton);
 
-        endWindow.add(messageLabel);
-        endWindow.add(buttonPanel);
+        endWindow.add(backgroundPanel, BorderLayout.CENTER);
+        endWindow.add(messageLabel, BorderLayout.NORTH);
+        endWindow.add(buttonPanel, BorderLayout.SOUTH);
         endWindow.setVisible(true);
         centerWindow(endWindow); // Zentriere das Fenster
     }
