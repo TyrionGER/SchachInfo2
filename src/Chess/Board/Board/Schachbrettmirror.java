@@ -16,6 +16,8 @@ public class Schachbrettmirror extends Schachbrett {
     public static List<Figure> whitePieces = new ArrayList<>();
     public static List<Figure> blackPieces = new ArrayList<>();
 
+    public static boolean isCheckMate = false;
+
     public static void initializeMirror(){
 
         board = new Figure[8][8];
@@ -150,6 +152,7 @@ public class Schachbrettmirror extends Schachbrett {
         }
         //there is no valid move to protect your King
 
+        isCheckMate = true;
         return true; //returns true when mate
     }
 
@@ -157,24 +160,24 @@ public class Schachbrettmirror extends Schachbrett {
     public static boolean Patt(Figure.Color color, int x, int y){
 
 
-            for(int i = 0 ;  ; i++){ // test ob eine Figur der eingegebenen Farbe irgendeinen legalen Zug hat
-                if(i >= (color == Figure.Color.White ? Schachbrettmirror.whitePieces.size() : Schachbrettmirror.blackPieces.size())){
-                    break;
-                }
-                Figure Piece = (color == Figure.Color.White ? Schachbrettmirror.whitePieces.get(i) : Schachbrettmirror.blackPieces.get(i));
+        for(int i = 0 ;  ; i++){ // test ob eine Figur der eingegebenen Farbe irgendeinen legalen Zug hat
+            if(i >= (color == Figure.Color.White ? Schachbrettmirror.whitePieces.size() : Schachbrettmirror.blackPieces.size())){
+                break;
+            }
+            Figure Piece = (color == Figure.Color.White ? Schachbrettmirror.whitePieces.get(i) : Schachbrettmirror.blackPieces.get(i));
 
-                for(int j = 0; j <= 7; j++){ //y wert
-                    for(int k = 0; k <= 7; k++){ //x wert
-                        clearMirror();
-                        initializeMirror();
-                        if(Piece.isValidMoveGetter(k, j)&& !isInCheckAfterMove(color, Piece.getXcord(), Piece.getYcord(), k, j)){
-                            return false;
-                        }
-
+            for(int j = 0; j <= 7; j++){ //y wert
+                for(int k = 0; k <= 7; k++){ //x wert
+                    clearMirror();
+                    initializeMirror();
+                    if(Piece.isValidMoveGetter(k, j)&& !isInCheckAfterMove(color, Piece.getXcord(), Piece.getYcord(), k, j)){
+                        return false;
                     }
+
                 }
             }
-            return true;
+        }
+        return true;
     }
 
     public static void clearMirror(){

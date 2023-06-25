@@ -1,5 +1,6 @@
 package Chess.Board.Figures;
 
+import Chess.Board.Board.MainFrame;
 import Chess.Board.Board.Schachbrett;
 import Chess.Board.Board.Schachbrettmirror;
 import Chess.Board.Board.UI_UX;
@@ -29,6 +30,7 @@ public class Pawn extends Figure{
         if (color == Color.Black && targetY >= Ycord) {
             return false;
         }
+
         //Allow move from baseline
         if ((Math.abs(Ycord - targetY) == 2 && Ycord == (color == Color.White ? 1 : 6) && Xcord == targetX) //Schaut ob die figur 2 felder vertikal gehen darf
                 && Schachbrett.board[Ycord + (color == Color.White ? 1 : -1)][Xcord] == null //schaut das keine andere figur im weg steht Z.b er darf 2 felder gehen jedoch kann es nicht da er blockiert wird
@@ -47,6 +49,15 @@ public class Pawn extends Figure{
 
         //Allow enemy capture
         if (Math.abs(Xcord - targetX) == 1 && Schachbrett.board[targetY][targetX] != null && Schachbrett.board[targetY][targetX].color != color) {
+            if (Schachbrett.board[targetY][targetX] instanceof Queen){ // Bauer findet Frau
+                MainFrame frame = MainFrame.getInstance();
+                frame.setAchievement(4);
+            }
+
+            if (Schachbrett.board[targetY][targetX] instanceof King && Schachbrettmirror.isCheckMate){  //Achievement Pawn to Win
+                MainFrame frame = MainFrame.getInstance();
+                frame.setAchievement(5);
+            }
             return true;
         }
 

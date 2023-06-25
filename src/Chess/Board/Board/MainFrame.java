@@ -14,6 +14,7 @@ public class MainFrame extends JFrame {
     private JButton canGoColorButton;
     private JButton darksquareColorButton;
     private JButton whatPieceColorButton;
+    private boolean achievement = false;
     private JComboBox<String> chessPieceDesignComboBox;
     private Color dunkelgrau = new Color(43, 43, 43);
     private Color white = new Color(255,255,255);
@@ -297,6 +298,44 @@ public class MainFrame extends JFrame {
                 "8) How-long-does-it-take?\n" +
                 "9) Not-even-close\n" +
                 "10) Better-King-wins!");
+    }
+    public void setAchievement(int index) {
+        achievement = true;
+        switch(index){
+            case 0:
+                return;
+            case 1:
+                JOptionPane.showMessageDialog(null, "Achievement Bong-Cloud freigeschalten!");
+                return;
+            case 2:
+                JOptionPane.showMessageDialog(null, "Achievement Botez-Gambit freigeschalten!");
+                return;
+            case 3:
+                JOptionPane.showMessageDialog(null, "Achievement Oh-no-my-Queen freigeschalten!");
+                return;
+            case 4:
+                JOptionPane.showMessageDialog(null, "Achievement Bauer-findet-Frau freigeschalten!");
+                return;
+            case 5:
+                JOptionPane.showMessageDialog(null, "Achievement Pawn-to-Win freigeschalten!");
+                return;
+            case 6:
+                JOptionPane.showMessageDialog(null, "Achievement Too-Easy freigeschalten!");
+                return;
+            case 7:
+                JOptionPane.showMessageDialog(null, "Achievement Full-House freigeschalten!");
+                return;
+            case 8:
+                JOptionPane.showMessageDialog(null, "Achievement How-long-does-it-take? freigeschalten!");
+                return;
+            case 9:
+                JOptionPane.showMessageDialog(null, "Achievement Not-even-close freigeschalten!");
+                return;
+            case 10:
+                JOptionPane.showMessageDialog(null, "Achievement Better-King-wins! freigeschalten!");
+                return;
+        }
+        JOptionPane.showMessageDialog(null, "Achievement freigeschalten!");
     }
 
 
