@@ -13,10 +13,12 @@ public class MainFrame extends JFrame {
     private JButton lightsquareColorButton;
     private JButton darksquareColorButton;
     private JComboBox<String> chessPieceDesignComboBox;
+    private JComboBox<String> prefixDesignComboBox;
     private Color dunkelgrau = new Color(43, 43, 43);
     private Color white = new Color(255,255,255);
 
     private String player1Name = "Player 10";
+    private String prefixDesign = "";
     private String player2Name = "Player 2";
     private String chessPieceDesign = "Default";
     private Color lightsquareColor = new Color(240, 217, 181);
@@ -67,7 +69,7 @@ public class MainFrame extends JFrame {
         mainPanel.add(designButton);
         mainPanel.add(Box.createVerticalStrut(10));
 
-        JButton achievementsButton = new JButton("      Achievements      ");
+        JButton achievementsButton = new JButton("      Achievements      "); //damit die buttons alle die selbe größe haben spart code
         achievementsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(achievementsButton);
         mainPanel.add(Box.createVerticalStrut(10));
@@ -334,6 +336,12 @@ public class MainFrame extends JFrame {
         chessPieceDesignComboBox = new JComboBox<>(chessPieceDesigns);
         chessPieceDesignComboBox.setPreferredSize(new Dimension(200, 30));
 
+        JLabel prefixDesignLabel = new JLabel("Prefixes:");
+        prefixDesignLabel.setForeground(white);
+        String[] prefixDesign = {"","Default Prefix", "Wood Prefix", "Old Prefix", "Modern Prefix"};
+        prefixDesignComboBox = new JComboBox<>(prefixDesign);
+        prefixDesignComboBox.setPreferredSize(new Dimension(200, 30));
+
         JLabel lightsquareLabel = new JLabel("Lightsquare:");
         lightsquareLabel.setForeground(white);
         lightsquareColorButton = new JButton("Choose");
@@ -388,6 +396,15 @@ public class MainFrame extends JFrame {
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.LINE_START;
         cardPanel.add(chessPieceDesignComboBox, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        gbc.anchor = GridBagConstraints.LINE_END;
+        cardPanel.add(prefixDesignLabel, gbc);
+
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        cardPanel.add(prefixDesignComboBox, gbc);
 
         player2ColorButton = new JButton("Choose");
         gbc.gridx = 1;
@@ -453,6 +470,7 @@ public class MainFrame extends JFrame {
          chessPieceDesign = (String) chessPieceDesignComboBox.getSelectedItem();
          lightsquareColor = lightsquareColorButton.getBackground();
          darksquareColor = darksquareColorButton.getBackground();
+         prefixDesign = (String) chessPieceDesignComboBox.getSelectedItem();
 
         // Print the obtained settings for demonstration
         System.out.println("Player 1 Name: " + player1Name);
@@ -467,6 +485,7 @@ public class MainFrame extends JFrame {
         player1NameTextField.setText("Player 1");
         player2NameTextField.setText("Player 2");
         chessPieceDesignComboBox.setSelectedItem("Default");
+        prefixDesignComboBox.setSelectedItem("");
         lightsquareColorButton.setBackground(new Color(240, 217, 181));
         darksquareColorButton.setBackground(new Color(181, 136, 99));
     }
@@ -480,6 +499,9 @@ public class MainFrame extends JFrame {
     public String getChessPieceDesign(){
         return chessPieceDesign;
     }
+    public String getPrefix(){
+        return prefixDesign;
+    }
 
     public Color getLightsquareColor(){
         return lightsquareColor;
@@ -488,6 +510,7 @@ public class MainFrame extends JFrame {
     public Color getDarksquareColor(){
         return darksquareColor;
     }
+
 
     public static MainFrame getInstance() {
 

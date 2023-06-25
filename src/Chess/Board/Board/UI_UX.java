@@ -15,7 +15,7 @@ public class UI_UX extends JFrame {
     private Figure selectedPiece; // Aktuell ausgewählte Figur für Drag-and-Drop
     private int dragStartX, dragStartY; // Startkoordinaten für Drag-and-Drop
     public static UI_UX instance;
-    private static String player1Name,player2Name,chessPieceDesign;
+    private static String player1Name,player2Name,chessPieceDesign, prefixDesign;
     private static Color lightSquareColor,darkSquareColor;
     JLabel player1Timer = new JLabel();
     JLabel player2Timer = new JLabel();
@@ -27,7 +27,7 @@ public class UI_UX extends JFrame {
     Color gruen = new Color(0,238,0);
     Color rot = new Color(255,0,0);
 
-    public int designX;
+    private int designX;
 
      // X == 4, Y == 12
     String[][] chessboardDesign = {
@@ -97,10 +97,19 @@ public class UI_UX extends JFrame {
         JPanel panel = new JPanel(new GridLayout(8, 8));
         schachbrett = new JButton[8][8];
         getSettings();
+        System.out.println(chessPieceDesign);
         JPanel borderPanel = new JPanel(new BorderLayout());
 
         JPanel topPanel = new JPanel(new FlowLayout());
         JPanel bottomPanel = new JPanel(new FlowLayout());
+
+
+        if(player1Name.isEmpty()){
+            player1Name = "Player 1";
+        }
+        if(player2Name.isEmpty()){
+            player2Name = "Player 2";
+        }
         player1 = new JLabel(player1Name);
         player2 = new JLabel(player2Name);
 
@@ -115,23 +124,32 @@ public class UI_UX extends JFrame {
         borderPanel.add(topPanel, BorderLayout.NORTH);
         borderPanel.add(bottomPanel, BorderLayout.SOUTH);
 
-
-
-
-        switch(chessPieceDesign){
-            case "Default":
+        if(prefixDesign.isEmpty()) {
+            if (chessPieceDesign.equals("Default")) {
                 designX = 0;
-                break;
-            case "Wood":
+            }
+            if (chessPieceDesign.equals("Wood")) {
                 designX = 1;
-                break;
-            case "Old":
+            }
+            if (chessPieceDesign.equals("Old")) {
                 designX = 2;
-                break;
-            case "Modern":
+            }
+            if (chessPieceDesign.equals("Modern")) {
                 designX = 3;
-                break;
+            }
+        }else {
+            if(prefixDesign.equals("Default Prefix")){
 
+            }
+            if(prefixDesign.equals("Wood Prefix")){
+
+            }
+            if(prefixDesign.equals("Old Prefix")){
+
+            }
+            if(prefixDesign.equals("Modern Prefix")){
+
+            }
         }
 
         for (int i = 7; i >= 0; i--) {
@@ -231,22 +249,22 @@ public class UI_UX extends JFrame {
                     if (piece != null) {
                         Figure.Color color = piece.getColor();
                         if (piece instanceof Pawn) {
-                            ImageIcon PawnIcon = (color == Figure.Color.White) ? new ImageIcon("Imgfiles/Figuren/whitePawn.png") : new ImageIcon("Imgfiles/Figuren/blackPawn.png");
+                            ImageIcon PawnIcon = (color == Figure.Color.White) ? new ImageIcon(chessboardDesign[designX][0]) : new ImageIcon(chessboardDesign[designX][6]);
                             button.setIcon(PawnIcon);
                         } else if (piece instanceof Rook) {
-                            ImageIcon RookIcon = (color == Figure.Color.White) ? new ImageIcon("Imgfiles/Figuren/whiteRook.png") : new ImageIcon("Imgfiles/Figuren/blackRook.png");
+                            ImageIcon RookIcon = (color == Figure.Color.White) ? new ImageIcon(chessboardDesign[designX][1]) : new ImageIcon(chessboardDesign[designX][7]);
                             button.setIcon(RookIcon);
                         } else if (piece instanceof Knight) {
-                            ImageIcon KnightIcon = (color == Figure.Color.White) ? new ImageIcon("Imgfiles/Figuren/whiteKnight.png") : new ImageIcon("Imgfiles/Figuren/blackKnight.png");
+                            ImageIcon KnightIcon = (color == Figure.Color.White) ? new ImageIcon(chessboardDesign[designX][2]) : new ImageIcon(chessboardDesign[designX][8]);
                             button.setIcon(KnightIcon);
                         } else if (piece instanceof Bishop) {
-                            ImageIcon BishopIcon = (color == Figure.Color.White) ? new ImageIcon("Imgfiles/Figuren/whiteBishop.png") : new ImageIcon("Imgfiles/Figuren/blackBishop.png");
+                            ImageIcon BishopIcon = (color == Figure.Color.White) ? new ImageIcon(chessboardDesign[designX][3]) : new ImageIcon(chessboardDesign[designX][9]);
                             button.setIcon(BishopIcon);
                         } else if (piece instanceof Queen) {
-                            ImageIcon QueenIcon = (color == Figure.Color.White) ? new ImageIcon("Imgfiles/Figuren/whiteQueen.png") : new ImageIcon("Imgfiles/Figuren/blackQueen.png");
+                            ImageIcon QueenIcon = (color == Figure.Color.White) ? new ImageIcon(chessboardDesign[designX][4]) : new ImageIcon(chessboardDesign[designX][10]);
                             button.setIcon(QueenIcon);
                         } else if (piece instanceof King) {
-                            ImageIcon KingIcon = (color == Figure.Color.White) ? new ImageIcon("Imgfiles/Figuren/whiteKing.png") : new ImageIcon("Imgfiles/Figuren/blackKing.png");
+                            ImageIcon KingIcon = (color == Figure.Color.White) ? new ImageIcon(chessboardDesign[designX][5]) : new ImageIcon(chessboardDesign[designX][11]);
                             button.setIcon(KingIcon);
                         }
                     } else {
@@ -458,6 +476,7 @@ public class UI_UX extends JFrame {
         instance.chessPieceDesign = frame.getChessPieceDesign();
         instance.lightSquareColor = frame.getLightsquareColor();
         instance.darkSquareColor = frame.getDarksquareColor();
+        instance.prefixDesign = frame.getPrefix();
     }
     public static void Endwindow(String endMessage) {
         JFrame endWindow = new JFrame("Spielende");
