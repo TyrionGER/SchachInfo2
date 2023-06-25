@@ -96,7 +96,7 @@ public class UI_UX extends JFrame {
         setResizable(false);
         JPanel panel = new JPanel(new GridLayout(8, 8));
         schachbrett = new JButton[8][8];
-
+        getSettings();
         JPanel borderPanel = new JPanel(new BorderLayout());
 
         JPanel topPanel = new JPanel(new FlowLayout());
@@ -115,7 +115,7 @@ public class UI_UX extends JFrame {
         borderPanel.add(topPanel, BorderLayout.NORTH);
         borderPanel.add(bottomPanel, BorderLayout.SOUTH);
 
-        getSettings();
+
 
 
         switch(chessPieceDesign){
