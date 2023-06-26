@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 public class MainFrame extends JFrame {
     private JTextField player1NameTextField;
@@ -20,7 +21,9 @@ public class MainFrame extends JFrame {
     private Color white = new Color(255,255,255);
 
     private Color canGoColor = new Color(51,204,0);
-    private String player1Name = "Player 10";
+    private ImageIcon image1, image2, image3, image4, image5, image6;
+    private String player1Avatar, player2Avatar;
+    private String player1Name = "Player 1";
     private String player2Name = "Player 2";
     private String chessPieceDesign = "Default";
     private Color lightsquareColor = new Color(240, 217, 181);
@@ -73,12 +76,17 @@ public class MainFrame extends JFrame {
         mainPanel.add(designButton);
         mainPanel.add(Box.createVerticalStrut(10));
 
-        JButton achievementsButton = new JButton("      Achievements      "); //damit die buttons alle die selbe größe haben spart code
+        JButton avatarButton = new JButton("              Avatar             ");
+        avatarButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.add(avatarButton);
+        mainPanel.add(Box.createVerticalStrut(10));
+
+        JButton achievementsButton = new JButton("      Achievements      ");
         achievementsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(achievementsButton);
         mainPanel.add(Box.createVerticalStrut(10));
 
-        JButton lexikonButton = new JButton("            Lexikon            "); //damit die buttons alle die selbe größe haben spart code
+        JButton lexikonButton = new JButton("            Lexikon            ");
         lexikonButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(lexikonButton);
         mainPanel.add(Box.createVerticalStrut(10));
@@ -90,6 +98,7 @@ public class MainFrame extends JFrame {
         newGameButton.addActionListener(e -> startChessGame());
 
         designButton.addActionListener(e -> design());
+        avatarButton.addActionListener(e -> createAvatar());
 
         exitButton.addActionListener(e -> System.exit(0));
 
@@ -283,6 +292,230 @@ public class MainFrame extends JFrame {
         // Zeige den Frame an
         innerFrame.setVisible(true);
         innerFrame.setLocationRelativeTo(null); // Zentriert den Frame auf dem Bildschirm
+    }
+
+    private void createAvatar() {
+        // Erstelle das Hauptfenster
+        JFrame avatarFrame = new JFrame("Avatar erstellen");
+        avatarFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        avatarFrame.setSize(400, 200);
+        avatarFrame.setLayout(new FlowLayout());
+        avatarFrame.getContentPane().setBackground(dunkelgrau);
+
+
+        JButton selectButton = new JButton("Spieler 1");
+        JButton selectButton2 = new JButton("Spieler 2");
+
+
+        avatarFrame.add(selectButton);
+        avatarFrame.add(selectButton2);
+
+        // Handler für den "Avatar auswählen"-Button
+        selectButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Erstelle das Fenster für die vorgeschlagenen Avatare
+                JFrame selectFrame = new JFrame("Vorgeschlagene Avatare");
+                selectFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                selectFrame.setSize(400, 200);
+                selectFrame.setLayout(new FlowLayout());
+                selectFrame.getContentPane().setBackground(dunkelgrau);
+
+                JLabel imageLabel1 = new JLabel();
+                JLabel imageLabel2 = new JLabel();
+                JLabel imageLabel3 = new JLabel();
+                JLabel imageLabel4 = new JLabel();
+                JLabel imageLabel5 = new JLabel();
+                JLabel imageLabel6 = new JLabel();
+
+                image1 = new ImageIcon("Imgfiles/Avatare/AngryMonkey.JPG");
+                image2 = new ImageIcon("Imgfiles/Avatare/Dude.JPG");
+                image3 = new ImageIcon("Imgfiles/Avatare/Frau.JPG");
+                image4 = new ImageIcon("Imgfiles/Avatare/Ghost.JPG");
+                image5 = new ImageIcon("Imgfiles/Avatare/Katze.JPG");
+                image6 = new ImageIcon("Imgfiles/Avatare/smoke.JPG");
+
+                imageLabel1.setIcon(image1);
+                imageLabel2.setIcon(image2);
+                imageLabel3.setIcon(image3);
+                imageLabel4.setIcon(image4);
+                imageLabel5.setIcon(image5);
+                imageLabel6.setIcon(image6);
+
+                // Füge den MouseListener zu jedem JLabel hinzu
+                imageLabel1.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        player1Avatar = "Imgfiles/Avatare/AngryMonkey.JPG";
+                        System.out.println("Avatar 1 ausgewählt");
+
+
+                    }
+                });
+
+                imageLabel2.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        player1Avatar = "Imgfiles/Avatare/Dude.JPG";
+                        System.out.println("Avatar 2 ausgewählt");
+
+
+                    }
+                });
+
+                imageLabel3.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        player1Avatar = "Imgfiles/Avatare/Frau.JPG";
+                        System.out.println("Avatar 3 ausgewählt");
+
+                    }
+                });
+
+                imageLabel4.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        player1Avatar = "Imgfiles/Avatare/Ghost.JPG";
+                        System.out.println("Avatar 4 ausgewählt");
+                    }
+                });
+
+                imageLabel5.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        player1Avatar = "Imgfiles/Avatare/Katze_Fisch.JPG";
+                        System.out.println("Avatar 5 ausgewählt");
+                    }
+                });
+
+                imageLabel6.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        player1Avatar = "Imgfiles/Avatare/smoke.JPG";
+                        System.out.println("Avatar 6 ausgewählt");
+                    }
+                });
+
+
+
+                selectFrame.add(imageLabel1);
+                selectFrame.add(imageLabel2);
+                selectFrame.add(imageLabel3);
+                selectFrame.add(imageLabel4);
+                selectFrame.add(imageLabel5);
+                selectFrame.add(imageLabel6);
+
+                selectFrame.pack();
+
+                selectFrame.setVisible(true);
+                selectFrame.setLocationRelativeTo(null);
+
+            }
+        });
+
+        selectButton2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Erstelle das Fenster für die vorgeschlagenen Avatare
+                JFrame selectFrame = new JFrame("Vorgeschlagene Avatare");
+                selectFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                selectFrame.setSize(400, 200);
+                selectFrame.setLayout(new FlowLayout());
+                selectFrame.getContentPane().setBackground(dunkelgrau);
+
+                JLabel imageLabel1 = new JLabel();
+                JLabel imageLabel2 = new JLabel();
+                JLabel imageLabel3 = new JLabel();
+                JLabel imageLabel4 = new JLabel();
+                JLabel imageLabel5 = new JLabel();
+                JLabel imageLabel6 = new JLabel();
+
+                image1 = new ImageIcon("Imgfiles/Avatare/AngryMonkey.JPG");
+                image2 = new ImageIcon("Imgfiles/Avatare/Dude.JPG");
+                image3 = new ImageIcon("Imgfiles/Avatare/Frau.JPG");
+                image4 = new ImageIcon("Imgfiles/Avatare/Ghost.JPG");
+                image5 = new ImageIcon("Imgfiles/Avatare/Katze.JPG");
+                image6 = new ImageIcon("Imgfiles/Avatare/smoke.JPG");
+
+                imageLabel1.setIcon(image1);
+                imageLabel2.setIcon(image2);
+                imageLabel3.setIcon(image3);
+                imageLabel4.setIcon(image4);
+                imageLabel5.setIcon(image5);
+                imageLabel6.setIcon(image6);
+
+                // Füge den MouseListener zu jedem JLabel hinzu
+                imageLabel1.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        player2Avatar = "Imgfiles/Avatare/AngryMonkey.JPG";
+                        System.out.println("Avatar 1 ausgewählt");
+
+                    }
+                });
+
+                imageLabel2.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        player2Avatar = "Imgfiles/Avatare/Dude.JPG";
+                        System.out.println("Avatar 2 ausgewählt");
+
+                    }
+                });
+
+                imageLabel3.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        player2Avatar = "Imgfiles/Avatare/Frau.JPG";
+                        System.out.println("Avatar 3 ausgewählt");
+                    }
+                });
+
+                imageLabel4.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        player2Avatar = "Imgfiles/Avatare/Ghost.JPG";
+                        System.out.println("Avatar 4 ausgewählt");
+                    }
+                });
+
+                imageLabel5.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        player2Avatar = "Imgfiles/Avatare/Katze_Fisch.JPG";
+                        System.out.println("Avatar 5 ausgewählt");
+                    }
+                });
+
+                imageLabel6.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        player2Avatar = "Imgfiles/Avatare/smoke.JPG";
+                        System.out.println("Avatar 6 ausgewählt");
+                    }
+                });
+
+
+
+                selectFrame.add(imageLabel1);
+                selectFrame.add(imageLabel2);
+                selectFrame.add(imageLabel3);
+                selectFrame.add(imageLabel4);
+                selectFrame.add(imageLabel5);
+                selectFrame.add(imageLabel6);
+
+                selectFrame.pack();
+
+                selectFrame.setVisible(true);
+                selectFrame.setLocationRelativeTo(null);
+
+            }
+        });
+
+        // Zeige das Hauptfenster an
+        avatarFrame.setVisible(true);
+        avatarFrame.setLocationRelativeTo(null);
+
     }
 
 
@@ -608,5 +841,13 @@ public class MainFrame extends JFrame {
             new MainFrame().setVisible(true);
 
         });
+    }
+
+    public String getPlayer1Avatar() {
+        return player1Avatar;
+    }
+
+    public String getPlayer2Avatar() {
+        return player2Avatar;
     }
 }

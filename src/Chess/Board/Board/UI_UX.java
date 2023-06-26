@@ -19,6 +19,8 @@ public class UI_UX extends JFrame {
     public static UI_UX instance;
     private static String player1Name,player2Name,chessPieceDesign;
     private static Color lightSquareColor,darkSquareColor, canGoColor;
+    private static String Player1Avatar;
+    private static String Player2Avatar;
     MainFrame frame = MainFrame.getInstance();
 
     private static Color whatPieceColor = new Color(247, 247, 105);
@@ -113,6 +115,18 @@ public class UI_UX extends JFrame {
         }
         player1 = new JLabel(player1Name);
         player2 = new JLabel(player2Name);
+
+        // Nachdem Sie den JLabel für den Spieler erstellt haben
+        JLabel player1Avatar = new JLabel(new ImageIcon(Player1Avatar));
+        JLabel player2Avatar = new JLabel(new ImageIcon(Player2Avatar));
+        // Setzen Sie die gewünschte Größe für das Avatar-Bild
+        player1Avatar.setPreferredSize(new Dimension(50, 50)); // Passen Sie die Größe entsprechend an
+        bottomPanel.add(player1Avatar);
+        player2Avatar.setPreferredSize(new Dimension(50, 50)); // Passen Sie die Größe entsprechend an
+        topPanel.add(player2Avatar);
+
+        setContentPane(borderPanel);//?????
+        setVisible(true);
 
         topPanel.add(player2);
         topPanel.add(player2Timer);
@@ -489,6 +503,8 @@ public class UI_UX extends JFrame {
         instance.darkSquareColor = frame.getDarksquareColor();
         instance.canGoColor = frame.getCanGoColor();
         instance.whatPieceColor = frame.getWhatPieceColor();
+        instance.Player1Avatar = frame.getPlayer1Avatar();
+        instance.Player2Avatar = frame.getPlayer2Avatar();
     }
     public void Endwindow(String endMessage) {
         JFrame endWindow = new JFrame("Spielende");
